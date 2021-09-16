@@ -1,12 +1,27 @@
 import styled, { css } from 'styled-components';
+import { NavLink as Link } from 'react-router-dom';
 
 const Header = styled.header`
   width: 100%;
-  align-items: center;
+  text-align: -webkit-center;
 `;
 
-const Logo = styled.div`
+const ToLink = styled(Link)`
   text-align: center;
+  width: fit-content;
+`;
+
+const ToSignUp = styled(ToLink)`
+  color: #1264a3;
+  margin-top: 10px;
+  font-size: 17px;
+  font-weight: 700;
+  text-decoration: none;
+  margin-left: 20px;
+
+  &:hover {
+    box-shadow: 1px 1px 3px #ddd;
+  }
 `;
 
 const Body = styled.div`
@@ -19,7 +34,7 @@ const Body = styled.div`
 
 const H1Text = styled.h1`
   font-weight: 700;
-  font-size: 48px;
+  font-size: 40px;
   line-height: 46px;
   max-width: 700px;
   text-align: center;
@@ -28,9 +43,9 @@ const H1Text = styled.h1`
 `;
 
 const H2Text = styled.div`
-  font-size: 18px;
+  font-size: 17px;
   line-height: 27px;
-  margin-bottom: 32px;
+  margin-bottom: 20px;
   color: #454245;
   max-width: 700px;
   text-align: center;
@@ -75,14 +90,13 @@ const Hr = styled.hr`
 
 const Input = styled.input`
   height: 44px;
-  font-size: 18px;
   line-height: 1.33333333;
   width: 100%;
   max-width: 100%;
   border-radius: 4px;
   border: 1px solid rgba(29, 28, 29, 0.3);
   margin: 0 0 20px;
-  padding-left: 20px;
+  padding: 20px;
   box-sizing: border-box;
 `;
 
@@ -93,13 +107,13 @@ const IdInput = styled(Input).attrs({
 })``;
 
 const PwInput = styled(Input).attrs({
-  type: 'text',
-  placeholder: 'password',
+  type: 'password',
+  placeholder: '비밀번호',
   autoComplete: 'off',
 })``;
 
 const SignUp = styled.div`
-  font-size: 13px;
+  font-size: 14px;
   margin-top: 20px;
   text-align: center;
 `;
@@ -112,9 +126,9 @@ const Or = styled.div`
   padding: 0 20px;
 `;
 
-export const style = {
+export const styleSignIn = {
   Header,
-  Logo,
+  ToLink,
   Body,
   H1Text,
   H2Text,
@@ -122,9 +136,11 @@ export const style = {
   Form,
   Horizontal,
   Hr,
+  Input,
   IdInput,
   PwInput,
   SignUp,
   Strong,
   Or,
+  ToSignUp,
 };

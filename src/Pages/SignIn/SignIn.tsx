@@ -1,17 +1,17 @@
 import React from 'react';
 
-import { style } from './SignInStyle';
+import { styleSignIn } from './SignInStyle';
 import logo from 'Assets/Chatpong_logo_trans.png';
-const Login = () => {
+const SignIn = () => {
   return (
     <>
       <Header>
-        <Logo>
+        <ToLink to="/">
           <img src={logo} alt="logo" />
-        </Logo>
+        </ToLink>
       </Header>
       <Body>
-        <H1Text>ChatPong에 로그인</H1Text>
+        <H1Text>SignIn</H1Text>
         <H2Text>
           <Strong>직장에서 사용하는 이메일 주소</Strong>를 사용하는
           것이좋습니다.
@@ -36,21 +36,8 @@ const Login = () => {
             로그인
           </Button>
           <SignUp>
-            ChatPong을 처음 사용하시나요?
-            <br />
-            <br />
-            {/* 임시로 <a> 태그 사용  */}
-            <a
-              style={{
-                color: '#1264a3',
-                cursor: 'pointer',
-                marginTop: '10px',
-                fontSize: '15px',
-                fontWeight: '700',
-              }}
-            >
-              계정 생성
-            </a>
+            처음 사용하시나요?
+            <ToSignUp to="/signup">계정 생성</ToSignUp>
           </SignUp>
         </Form>
       </Body>
@@ -58,11 +45,11 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default SignIn;
 
 const {
   Header,
-  Logo,
+  ToLink,
   Body,
   H1Text,
   H2Text,
@@ -75,4 +62,5 @@ const {
   SignUp,
   Strong,
   Or,
-} = style;
+  ToSignUp,
+} = styleSignIn;
