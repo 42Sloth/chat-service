@@ -13,10 +13,8 @@ const Login = () => {
       <Body>
         <H1Text>ChatPong에 로그인</H1Text>
         <H2Text>
-          <strong style={{ fontWeight: 800 }}>
-            직장에서 사용하는 이메일 주소
-          </strong>
-          를 사용하는 것이 좋습니다.
+          <Strong>직장에서 사용하는 이메일 주소</Strong>를 사용하는
+          것이좋습니다.
         </H2Text>
         <Form>
           <Button color="#4285f4" marginTop="0px" background="white">
@@ -27,7 +25,7 @@ const Login = () => {
           </Button>
           <Horizontal>
             <Hr />
-            <div style={{ padding: '0 20px' }}>또는</div>
+            <Or>또는</Or>
             <Hr />
           </Horizontal>
 
@@ -38,7 +36,8 @@ const Login = () => {
             로그인
           </Button>
           <SignUp>
-            ChatPong을 처음 사용하시나요? <br />
+            ChatPong을 처음 사용하시나요?
+            <br />
             <br />
             {/* 임시로 <a> 태그 사용  */}
             <a
@@ -74,4 +73,6 @@ const {
   IdInput,
   PwInput,
   SignUp,
+  Strong,
+  Or,
 } = style;

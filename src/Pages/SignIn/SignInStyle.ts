@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 const Header = styled.header`
   width: 100%;
@@ -42,16 +42,6 @@ const Form = styled.div`
 
 const Button = styled.button`
   width: 100%;
-  background-color: ${(props: {
-    color: string;
-    marginTop: string;
-    background: string;
-  }) => props.background};
-  border: 2px solid
-    ${(props: { color: string; marginTop: string; background: string }) =>
-      props.color};
-  color: ${(props: { color: string; marginTop: string; background: string }) =>
-    props.color};
   font-size: 18px;
   font-weight: 700;
   height: 44px;
@@ -59,12 +49,13 @@ const Button = styled.button`
   align-items: center;
   justify-content: center;
   text-align: center;
-  font-family: NotoSansKR, Slack-Lato, appleLogo, sans-serif;
-  margin-top: ${(props: {
-    color: string;
-    marginTop: string;
-    background: string;
-  }) => props.marginTop};
+
+  ${(props: { color: string; marginTop: string; background: string }) => css`
+    color: ${props.color};
+    background-color: ${props.background};
+    margin-top: ${props.marginTop};
+    border: 2px solid ${props.color};
+  `}
 `;
 
 const Horizontal = styled.div`
@@ -113,6 +104,14 @@ const SignUp = styled.div`
   text-align: center;
 `;
 
+const Strong = styled.span`
+  font-weight: 800;
+`;
+
+const Or = styled.div`
+  padding: 0 20px;
+`;
+
 export const style = {
   Header,
   Logo,
@@ -126,4 +125,6 @@ export const style = {
   IdInput,
   PwInput,
   SignUp,
+  Strong,
+  Or,
 };
