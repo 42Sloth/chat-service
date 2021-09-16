@@ -7,7 +7,7 @@ const GlobalStyle = createGlobalStyle`
         box-sizing: border-box;
         padding: 0;
         margin: 0;
-        font-family: 'Noto Sans KR', sans-serif;
+        font-family: 'Noto Sans KR', sans-serif,Slack-Lato,appleLogo;
         width: 100%;
         min-width: 1024px;
         background-color: #fff;
