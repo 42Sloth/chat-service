@@ -48,7 +48,7 @@ const NavBtn = styled.div`
   padding: 20px 0;
 `;
 
-const NavBtnLink = styled.div`
+const NavBtnLink = styled(Link)`
   border: 1px solid #611f66;
   border-radius: 4px;
   padding: 10px 22px;
