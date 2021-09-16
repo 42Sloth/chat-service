@@ -46,7 +46,7 @@ const Login = () => {
                 cursor: 'pointer',
                 marginTop: '10px',
                 fontSize: '15px',
-                fontWeight: '700',
+                fontWeight: 700,
               }}
             >
               계정 생성
