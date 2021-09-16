@@ -15,10 +15,10 @@ const Navbar: React.FC = () => {
           <NavLink to="/">Game</NavLink>
         </NavMenu>
         <NavBtn>
-          <NavBtnLink to="/login" background="transparent" color="#611f66">
+          <NavBtnLink to="/signin" background="transparent" color="#611f66">
             로그인
           </NavBtnLink>
-          <NavBtnLink to="/login" background="#611f66" color="#fff">
+          <NavBtnLink to="/signup" background="#611f66" color="#fff">
             회원가입
           </NavBtnLink>
         </NavBtn>
