@@ -1,13 +1,13 @@
-import { Navbar, Section} from "Components";
-import React from 'react'
+import { Navbar, Section } from 'Components';
+import React from 'react';
 
 const Home = () => {
-    return (
-        <>
-            <Navbar />
-            <Section />
-        </>
-    )
-}
+  return (
+    <>
+      <Navbar />
+      <Section />
+    </>
+  );
+};
 
-export default Home
+export default Home;
