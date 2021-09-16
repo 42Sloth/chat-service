@@ -1,4 +1,4 @@
-import { Navbar, Section } from 'Components';
+import { AnotherPage, Navbar, Section } from 'Components';
 import React from 'react';
 
 const Home = () => {
@@ -6,6 +6,7 @@ const Home = () => {
     <>
       <Navbar />
       <Section />
+      <AnotherPage />
     </>
   );
 };
