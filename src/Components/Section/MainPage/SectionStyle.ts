@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const Container = styled.div`
+const Container = styled.section`
   padding-top: 120px;
   height: 100%;
   background-color: #f4ede3;

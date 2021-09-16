@@ -1,4 +1,5 @@
-import { Navbar, Section } from 'Components';
+import { Navbar, Section, WelcomeContainer } from 'Components';
+import Footer from 'Components/Footer/Footer';
 import React from 'react';
 
 const Home = () => {
@@ -6,6 +7,8 @@ const Home = () => {
     <>
       <Navbar />
       <Section />
+      <WelcomeContainer />
+      <Footer />
     </>
   );
 };
