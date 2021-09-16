@@ -5,7 +5,7 @@ const BrandContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 150px 0 100px;
+  padding: 50px 0 50px;
 `;
 const BrandImg = styled.div``;
 

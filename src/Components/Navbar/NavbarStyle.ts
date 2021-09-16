@@ -25,6 +25,7 @@ const NavLink = styled(Link)`
   padding-left: 0;
   font-size: 20px;
   font-weight: 700;
+  color: #000;
 
   img {
     width: 200px;
@@ -58,6 +59,16 @@ const NavBtnLink = styled.div`
   background: ${(props: { background: string; color: string }) =>
     props.background};
   color: ${(props: { background: string; color: string }) => props.color};
+
+  &:first-child:hover {
+    font-weight: 600;
+    transition: all ease-in-out 0.5s;
+  }
+
+  &:last-child:hover {
+    background-color: #4e1954;
+    transition: all ease-in-out 0.5s;
+  }
 `;
 
 export const style = {
