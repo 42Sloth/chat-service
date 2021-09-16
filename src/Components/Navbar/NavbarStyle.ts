@@ -8,7 +8,7 @@ const Header = styled.header`
 
 const Nav = styled.nav`
   position: relative;
-  width: 1024px;
+  width: 1230px;
   height: 80px;
   display: flex;
   justify-content: flex-start;

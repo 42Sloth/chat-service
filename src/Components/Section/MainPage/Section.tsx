@@ -1,6 +1,7 @@
 import React from 'react';
 import { style } from 'Components/Section/MainPage/SectionStyle';
 import campaign from 'Assets/img-campaign.jpg';
+import BrandLogo from './BrandLogo';
 
 const Section: React.FC = () => {
   return (
@@ -18,6 +19,7 @@ const Section: React.FC = () => {
           <img src={campaign} alt="campaign" />
         </IntroImg>
       </InnerContainer>
+      <BrandLogo />
     </Container>
   );
 };

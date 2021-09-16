@@ -1,15 +1,17 @@
 import styled from 'styled-components';
 
 const Container = styled.div`
-  padding-top: 128px;
+  padding-top: 120px;
   height: 100%;
-  background-color: #f6efe9;
+  background-color: #f4ede3;
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
 `;
 
 const InnerContainer = styled.div`
-  width: 1024px;
+  width: 1230px;
   display: flex;
   justify-content: center;
 `;
@@ -17,7 +19,6 @@ const InnerContainer = styled.div`
 const Content = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 0 auto;
 `;
 
 const Title = styled.h1`
@@ -30,6 +31,7 @@ const Title = styled.h1`
 const SubTitle = styled.p`
   font-size: 16px;
   margin-bottom: 20px;
+  line-height: 1.25;
 `;
 
 const GameBtn = styled.div`
@@ -52,7 +54,7 @@ const IntroImg = styled.div`
   width: 100%;
 
   img {
-    width: 600px;
+    width: 800px;
   }
 `;
 
