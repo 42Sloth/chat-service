@@ -18,7 +18,7 @@ const MenuTitle = styled.span`
   height: 40px;
 `;
 
-const InnterMenuItems = styled.ul``;
+const InnerMenuItems = styled.ul``;
 
 const Item = styled.li`
   height: 40px;
@@ -26,4 +26,4 @@ const Item = styled.li`
   color: #454545;
 `;
 
-export const style = { MenuList, MenuItems, MenuTitle, InnterMenuItems, Item };
+export const style = { MenuList, MenuItems, MenuTitle, InnerMenuItems, Item };
