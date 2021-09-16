@@ -8,7 +8,7 @@ const Header = styled.header`
 
 const Nav = styled.nav`
   position: relative;
-  width: 1024px;
+  width: 1230px;
   height: 80px;
   display: flex;
   justify-content: flex-start;
@@ -25,6 +25,7 @@ const NavLink = styled(Link)`
   padding-left: 0;
   font-size: 20px;
   font-weight: 700;
+  color: #000;
 
   img {
     width: 200px;
@@ -47,7 +48,7 @@ const NavBtn = styled.div`
   padding: 20px 0;
 `;
 
-const NavBtnLink = styled.div`
+const NavBtnLink = styled(Link)`
   border: 1px solid #611f66;
   border-radius: 4px;
   padding: 10px 22px;
@@ -58,6 +59,16 @@ const NavBtnLink = styled.div`
   background: ${(props: { background: string; color: string }) =>
     props.background};
   color: ${(props: { background: string; color: string }) => props.color};
+
+  &:first-child:hover {
+    font-weight: 600;
+    transition: all ease-in-out 0.5s;
+  }
+
+  &:last-child:hover {
+    background-color: #4e1954;
+    transition: all ease-in-out 0.5s;
+  }
 `;
 
 export const style = {
