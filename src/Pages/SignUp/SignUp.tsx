@@ -28,9 +28,6 @@ const SignUp: React.FC = () => {
             </IdCheckBtn>
           </Wrap>
 
-          <PwInput />
-          <PwCheckInput />
-
           <Wrap>
             <NickNameInput />
             <NickNameCheckBtn
@@ -41,6 +38,9 @@ const SignUp: React.FC = () => {
               중복 확인
             </NickNameCheckBtn>
           </Wrap>
+
+          <PwInput />
+          <PwCheckInput />
 
           <Button color="#fff" marginTop="25px" background="#611f69">
             회원 가입
