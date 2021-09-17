@@ -9,13 +9,13 @@ const AnotherPage: React.FC = () => {
     {
       name: 'wecode_wanted_preonboarding',
       url: '/wecode_wanted_preonboarding',
-      numbers: 459811,
+      memberNum: 45,
       img: 'https://a.slack-edge.com/80588/img/avatars-teams/ava_0001-88.png',
     },
     {
       name: '42born2code',
       url: '/42born2code',
-      numbers: 123123,
+      memberNum: 123,
       img: 'https://a.slack-edge.com/80588/img/avatars-teams/ava_0001-88.png',
     },
   ]);

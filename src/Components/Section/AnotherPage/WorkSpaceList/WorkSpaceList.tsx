@@ -12,7 +12,7 @@ const WorkSpaceList: React.FC<IWorkSpaceList> = ({ workSpaceList }) => {
               <ItemImg src={item.img} alt="workSpaceLogo" />
               <ItemInfo>
                 <ItemName>{item.name}</ItemName>
-                <ItemNumbers>{item.numbers}명의 멤버</ItemNumbers>
+                <ItemNumbers>{item.memberNum}명의 멤버</ItemNumbers>
               </ItemInfo>
               <WorkSpaceLink href={item.url}>ChatPong 실행</WorkSpaceLink>
             </ItemDetail>

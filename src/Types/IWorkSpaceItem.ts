@@ -1,6 +1,6 @@
 export interface IWorkSpaceItem {
   name: string;
   url: string;
-  numbers: number;
+  memberNum: number;
   img: string;
 }
