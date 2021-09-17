@@ -8,9 +8,9 @@ const SignUp: React.FC = () => {
   return (
     <>
       <Header>
-        <ToLink to="/">
+        <Logo to="/">
           <img src={logo} alt="logo" />
-        </ToLink>
+        </Logo>
       </Header>
 
       <Body>
@@ -55,7 +55,7 @@ export default SignUp;
 
 const {
   Header,
-  ToLink,
+  Logo,
   Body,
   H1Text,
   H2Text,

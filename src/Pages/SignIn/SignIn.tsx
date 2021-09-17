@@ -6,9 +6,9 @@ const SignIn = () => {
   return (
     <>
       <Header>
-        <ToLink to="/">
+        <Logo to="/">
           <img src={logo} alt="logo" />
-        </ToLink>
+        </Logo>
       </Header>
       <Body>
         <H1Text>SignIn</H1Text>
@@ -49,7 +49,7 @@ export default SignIn;
 
 const {
   Header,
-  ToLink,
+  Logo,
   Body,
   H1Text,
   H2Text,

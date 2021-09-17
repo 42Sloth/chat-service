@@ -6,12 +6,12 @@ const Header = styled.header`
   text-align: -webkit-center;
 `;
 
-const ToLink = styled(Link)`
+const Logo = styled(Link)`
   text-align: center;
   width: fit-content;
 `;
 
-const ToSignUp = styled(ToLink)`
+const ToSignUp = styled(Logo)`
   color: #1264a3;
   margin-top: 10px;
   font-size: 17px;
@@ -128,7 +128,7 @@ const Or = styled.div`
 
 export const styleSignIn = {
   Header,
-  ToLink,
+  Logo,
   Body,
   H1Text,
   H2Text,
