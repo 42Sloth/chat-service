@@ -1,4 +1,4 @@
-import { Home, SignIn } from 'Pages';
+import { Home, SignIn, SignUp } from 'Pages';
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
@@ -7,7 +7,8 @@ const App = () => {
     <Router>
       <Switch>
         <Route path="/" exact component={Home} />
-        <Route path="/login" component={SignIn} />
+        <Route path="/signin" component={SignIn} />
+        <Route path="/signup" component={SignUp} />
       </Switch>
     </Router>
   );
