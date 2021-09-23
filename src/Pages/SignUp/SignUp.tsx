@@ -60,6 +60,7 @@ const SignUp: React.FC = () => {
             <IdInput
               {...register('email', { required: true, pattern: /^\S+@\S+$/i })}
             />
+            {errors.email && <p>This email field is required</p>}
             <IdCheckBtn color="#611f69" marginTop="0px" background="white">
               중복 확인
             </IdCheckBtn>
@@ -69,6 +70,12 @@ const SignUp: React.FC = () => {
             <NickNameInput
               {...register('nickname', { required: true, maxLength: 20 })}
             />
+            {errors.nickname && errors.nickname.type === 'required' && (
+              <p>This name field is required</p>
+            )}
+            {errors.nickname && errors.nickname.type === 'maxLength' && (
+              <p>Your input exceed maximum length</p>
+            )}
             <NickNameCheckBtn
               color="#1264a3"
               marginTop="0px"
@@ -81,13 +88,26 @@ const SignUp: React.FC = () => {
           <PwInput
             {...register('password', { required: true, minLength: 6 })}
           />
+          {errors.password && errors.password.type === 'required' && (
+            <p>This password field is required</p>
+          )}
+          {errors.password && errors.password.type === 'minLength' && (
+            <p>Password must have at least 6 characters</p>
+          )}
           <PwCheckInput
             {...register('validatedPassword', {
               required: true,
               validate: (value) => value === password.current,
             })}
           />
-
+          {errors.validatedPassword &&
+            errors.validatedPassword.type === 'required' && (
+              <p>This password confirm field is required</p>
+            )}
+          {errors.validatedPassword &&
+            errors.validatedPassword.type === 'validate' && (
+              <p>The passwords do not match</p>
+            )}
           <Button
             color="#fff"
             marginTop="25px"

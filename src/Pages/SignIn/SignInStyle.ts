@@ -53,6 +53,12 @@ const H2Text = styled.div`
 
 const Form = styled.form`
   width: 400px;
+
+  p {
+    font-size: 12px;
+    color: red;
+    margin: -15px 0 20px 0;
+  }
 `;
 
 const Button = styled.button`
@@ -92,11 +98,10 @@ const Input = styled.input`
   height: 44px;
   line-height: 1.33333333;
   width: 100%;
-  max-width: 100%;
   border-radius: 4px;
   border: 1px solid rgba(29, 28, 29, 0.3);
-  margin: 0 0 20px;
   padding: 20px;
+  margin-bottom: 20px;
   box-sizing: border-box;
 `;
 
