@@ -101,15 +101,13 @@ const Input = styled.input`
 `;
 
 const IdInput = styled(Input).attrs({
-  type: 'text',
-  name: 'email',
+  type: 'email',
   placeholder: 'name@work-email.com',
   autoComplete: 'off',
 })``;
 
 const PwInput = styled(Input).attrs({
   type: 'password',
-  name: 'password',
   placeholder: '비밀번호',
   autoComplete: 'off',
 })``;

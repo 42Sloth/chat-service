@@ -1,46 +1,48 @@
 import React, { useState } from 'react';
 import { styleSignIn } from 'Pages/SignIn/SignInStyle';
 import { styleSignUp } from './SignUpStyle';
-import { ISignUpForm } from 'Types';
+import { IFormInput } from 'Types';
 import logo from 'Assets/Chatpong_logo_trans.png';
 import { app, db } from '../../fBase';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { getFirestore, collection, addDoc } from 'firebase/firestore';
+import { useForm, SubmitHandler } from 'react-hook-form';
 
 const SignUp: React.FC = () => {
-  const [form, setForm] = useState<ISignUpForm>({
-    nickname: '',
-    email: '',
-    password: '',
-    validatedPassword: '',
-  });
+  const {
+    register,
+    watch,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<IFormInput>();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const text = e.target.value;
-    setForm((prevForm) => ({ ...prevForm, [e.target.name]: text }));
-  };
+  // const [form, setForm] = useState<ISignUpForm>({
+  //   nickname: '',
+  //   email: '',
+  //   password: '',
+  //   validatedPassword: '',
+  // });
 
-  // const handleSubmit = (e: React.FormEvent<HTMLDivElement>) => {
-  //   e.preventDefault();
+  // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const text = e.target.value;
+  //   setForm((prevForm) => ({ ...prevForm, [e.target.name]: text }));
   // };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
+  const onSubmit: SubmitHandler<IFormInput> = async (data: any) => {
     try {
       const auth = getAuth();
       await createUserWithEmailAndPassword(
         auth,
-        form.email,
-        form.password,
+        data.email,
+        data.password,
       ).then((userCredential) => {
         const user = userCredential.user;
         console.log(user);
       });
 
       const docRef = await addDoc(collection(db, 'users'), {
-        nickname: form.nickname,
-        email: form.email,
+        nickname: data.nickname,
+        email: data.email,
       });
     } catch (error) {
       console.log(error);
@@ -62,16 +64,16 @@ const SignUp: React.FC = () => {
           좋습니다.
         </H2Text>
 
-        <Form onSubmit={handleSubmit}>
+        <Form onSubmit={handleSubmit(onSubmit)}>
           <Wrap>
-            <IdInput onChange={handleChange} />
+            <IdInput {...register('email')} />
             <IdCheckBtn color="#611f69" marginTop="0px" background="white">
               중복 확인
             </IdCheckBtn>
           </Wrap>
 
           <Wrap>
-            <NickNameInput onChange={handleChange} />
+            <NickNameInput {...register('nickname')} />
             <NickNameCheckBtn
               color="#1264a3"
               marginTop="0px"
@@ -81,8 +83,8 @@ const SignUp: React.FC = () => {
             </NickNameCheckBtn>
           </Wrap>
 
-          <PwInput onChange={handleChange} />
-          <PwCheckInput onChange={handleChange} />
+          <PwInput {...register('password')} />
+          <PwCheckInput {...register('validatedPassword')} />
 
           <Button
             color="#fff"

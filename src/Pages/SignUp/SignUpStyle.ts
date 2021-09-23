@@ -15,14 +15,12 @@ const IdCheckBtn = styled(Button)`
 
 const PwCheckInput = styled(Input).attrs({
   type: 'password',
-  name: 'validatedPassword',
   placeholder: '비밀번호 확인',
   autoComplete: 'off',
 })``;
 
 const NickNameInput = styled(Input).attrs({
   type: 'text',
-  name: 'nickname',
   placeholder: '닉네임',
   autoComplete: 'off',
 })``;
