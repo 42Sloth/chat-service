@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { styleSignIn } from 'Pages/SignIn/SignInStyle';
 import { styleSignUp } from './SignUpStyle';
 import { IFormInput } from 'Types';
@@ -16,17 +16,8 @@ const SignUp: React.FC = () => {
     formState: { errors },
   } = useForm<IFormInput>();
 
-  // const [form, setForm] = useState<ISignUpForm>({
-  //   nickname: '',
-  //   email: '',
-  //   password: '',
-  //   validatedPassword: '',
-  // });
-
-  // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const text = e.target.value;
-  //   setForm((prevForm) => ({ ...prevForm, [e.target.name]: text }));
-  // };
+  const password = useRef<string | null>(null);
+  password.current = watch('password');
 
   const onSubmit: SubmitHandler<IFormInput> = async (data: any) => {
     try {
@@ -60,20 +51,24 @@ const SignUp: React.FC = () => {
       <Body>
         <H1Text>SignUp</H1Text>
         <H2Text>
-          <Strong>직장에서 사용하는 이메일 주소</Strong>로 가입하는 것이
-          좋습니다.
+          <Strong>직장에서 사용하는 이메일 주소</Strong>로 가입하는
+          것이좋습니다.
         </H2Text>
 
         <Form onSubmit={handleSubmit(onSubmit)}>
           <Wrap>
-            <IdInput {...register('email')} />
+            <IdInput
+              {...register('email', { required: true, pattern: /^\S+@\S+$/i })}
+            />
             <IdCheckBtn color="#611f69" marginTop="0px" background="white">
               중복 확인
             </IdCheckBtn>
           </Wrap>
 
           <Wrap>
-            <NickNameInput {...register('nickname')} />
+            <NickNameInput
+              {...register('nickname', { required: true, maxLength: 20 })}
+            />
             <NickNameCheckBtn
               color="#1264a3"
               marginTop="0px"
@@ -83,8 +78,15 @@ const SignUp: React.FC = () => {
             </NickNameCheckBtn>
           </Wrap>
 
-          <PwInput {...register('password')} />
-          <PwCheckInput {...register('validatedPassword')} />
+          <PwInput
+            {...register('password', { required: true, minLength: 6 })}
+          />
+          <PwCheckInput
+            {...register('validatedPassword', {
+              required: true,
+              validate: (value) => value === password.current,
+            })}
+          />
 
           <Button
             color="#fff"
