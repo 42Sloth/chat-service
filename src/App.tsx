@@ -1,6 +1,7 @@
 import { Home, SignIn, SignUp } from 'Pages';
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { app } from './fBase';
 
 const App = () => {
   return (

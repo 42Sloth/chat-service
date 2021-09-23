@@ -51,7 +51,7 @@ const H2Text = styled.div`
   text-align: center;
 `;
 
-const Form = styled.div`
+const Form = styled.form`
   width: 400px;
 `;
 
@@ -102,12 +102,14 @@ const Input = styled.input`
 
 const IdInput = styled(Input).attrs({
   type: 'text',
+  name: 'email',
   placeholder: 'name@work-email.com',
   autoComplete: 'off',
 })``;
 
 const PwInput = styled(Input).attrs({
   type: 'password',
+  name: 'password',
   placeholder: '비밀번호',
   autoComplete: 'off',
 })``;
