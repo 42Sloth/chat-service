@@ -53,12 +53,6 @@ const H2Text = styled.div`
 
 const Form = styled.form`
   width: 400px;
-
-  p {
-    font-size: 12px;
-    color: red;
-    margin: -15px 0 20px 0;
-  }
 `;
 
 const Button = styled.button`
@@ -66,7 +60,6 @@ const Button = styled.button`
   font-size: 18px;
   font-weight: 700;
   height: 44px;
-  border-radius: 4px;
   align-items: center;
   justify-content: center;
   text-align: center;
@@ -105,17 +98,14 @@ const Input = styled.input`
   box-sizing: border-box;
 `;
 
-const IdInput = styled(Input).attrs({
-  type: 'email',
-  placeholder: 'name@work-email.com',
-  autoComplete: 'off',
-})``;
-
-const PwInput = styled(Input).attrs({
-  type: 'password',
-  placeholder: '비밀번호',
-  autoComplete: 'off',
-})``;
+const TextInput = styled.input`
+  width: 94%;
+  height: 40px;
+  margin-bottom: 20px;
+  padding: 0 0 0 20px;
+  outline: none;
+  border: 1px solid rgba(29, 28, 29, 0.3);
+`;
 
 const SignUp = styled.div`
   font-size: 14px;
@@ -142,10 +132,9 @@ export const styleSignIn = {
   Horizontal,
   Hr,
   Input,
-  IdInput,
-  PwInput,
   SignUp,
   Strong,
   Or,
   ToSignUp,
+  TextInput,
 };
