@@ -1,8 +1,46 @@
-import React from 'react';
+import React, { useState } from 'react';
 
+import { useHistory } from 'react-router-dom';
+import { ISignInForm } from 'Types';
 import { styleSignIn } from './SignInStyle';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import logo from 'Assets/Chatpong_logo_trans.png';
+
 const SignIn = () => {
+  const history = useHistory();
+  const [form, setForm] = useState<ISignInForm>({
+    email: '',
+    password: '',
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const text = e.target.value;
+    setForm((prevForm: ISignInForm) => ({
+      ...prevForm,
+      [e.target.name]: text,
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      const auth = getAuth();
+      await signInWithEmailAndPassword(auth, form.email, form.password).then(
+        (userCredential) => {
+          console.log(userCredential);
+          const user = userCredential.user;
+          history.push({
+            pathname: '/success',
+            state: JSON.stringify(user),
+          });
+        },
+      );
+    } catch (e) {
+      console.log('에러임');
+      console.log(e);
+    }
+  };
+
   return (
     <>
       <Header>
@@ -16,7 +54,7 @@ const SignIn = () => {
           <Strong>직장에서 사용하는 이메일 주소</Strong>를 사용하는
           것이좋습니다.
         </H2Text>
-        <Form>
+        <Form onSubmit={handleSubmit}>
           <Button color="#4285f4" marginTop="0px" background="white">
             Sign in via Google
           </Button>
@@ -29,8 +67,8 @@ const SignIn = () => {
             <Hr />
           </Horizontal>
 
-          <IdInput />
-          <PwInput />
+          <IdInput onChange={handleChange} />
+          <PwInput onChange={handleChange} />
 
           <Button color="#fff" marginTop="20px" background="#4a154b">
             로그인

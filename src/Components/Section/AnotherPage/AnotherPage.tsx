@@ -28,7 +28,7 @@ const AnotherPage: React.FC = () => {
           </Welcome>
           <WorkSpace>
             <WorkSpaceTitle>{userId}의 워크스페이스</WorkSpaceTitle>
-            <WorkSpaceList workSpaceList={workSpaceList} />
+            {/* <WorkSpaceList workSpaceList={workSpaceList} /> */}
           </WorkSpace>
         </Content>
       </InnerContainer>
