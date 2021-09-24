@@ -7,8 +7,10 @@ import { app, db } from '../../fBase';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { getFirestore, collection, addDoc } from 'firebase/firestore';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { useHistory } from 'react-router-dom';
 
 const SignUp: React.FC = () => {
+  const history = useHistory();
   const {
     register,
     watch,
@@ -28,7 +30,12 @@ const SignUp: React.FC = () => {
         data.password,
       ).then((userCredential) => {
         const user = userCredential.user;
-        console.log(user);
+        const info = data.email;
+        history.push({
+          pathname: '/signup-success',
+          state: info,
+        });
+        window.location.replace('/signup-success');
       });
 
       const docRef = await addDoc(collection(db, 'users'), {
