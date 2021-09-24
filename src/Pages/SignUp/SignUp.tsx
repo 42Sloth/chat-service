@@ -31,16 +31,15 @@ const SignUp: React.FC = () => {
       ).then((userCredential) => {
         const user = userCredential.user;
         const info = data.email;
+        const docRef = addDoc(collection(db, 'users'), {
+          nickname: data.nickname,
+          email: data.email,
+        });
         history.push({
           pathname: '/signup-success',
           state: info,
         });
         window.location.replace('/signup-success');
-      });
-
-      const docRef = await addDoc(collection(db, 'users'), {
-        nickname: data.nickname,
-        email: data.email,
       });
     } catch (error) {
       console.log(error);
