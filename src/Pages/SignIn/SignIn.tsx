@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import { useHistory } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
@@ -23,15 +23,12 @@ const SignIn = () => {
       await signInWithEmailAndPassword(auth, form.email, form.password).then(
         (userCredential) => {
           const user = userCredential.user;
-          //const userString = JSON.stringify(user);
           history.push({
             pathname: '/success',
-            // state: userString,
           });
         },
       );
     } catch (e) {
-      console.log('에러임');
       console.log(e);
     }
   };
