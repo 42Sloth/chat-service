@@ -60,7 +60,6 @@ const Button = styled.button`
   font-size: 18px;
   font-weight: 700;
   height: 44px;
-  border-radius: 4px;
   align-items: center;
   justify-content: center;
   text-align: center;
@@ -92,27 +91,21 @@ const Input = styled.input`
   height: 44px;
   line-height: 1.33333333;
   width: 100%;
-  max-width: 100%;
   border-radius: 4px;
   border: 1px solid rgba(29, 28, 29, 0.3);
-  margin: 0 0 20px;
   padding: 20px;
+  margin-bottom: 20px;
   box-sizing: border-box;
 `;
 
-const IdInput = styled(Input).attrs({
-  type: 'text',
-  name: 'email',
-  placeholder: 'name@work-email.com',
-  autoComplete: 'off',
-})``;
-
-const PwInput = styled(Input).attrs({
-  type: 'password',
-  name: 'password',
-  placeholder: '비밀번호',
-  autoComplete: 'off',
-})``;
+const TextInput = styled.input`
+  width: 94%;
+  height: 40px;
+  margin-bottom: 20px;
+  padding: 0 0 0 20px;
+  outline: none;
+  border: 1px solid rgba(29, 28, 29, 0.3);
+`;
 
 const SignUp = styled.div`
   font-size: 14px;
@@ -139,10 +132,9 @@ export const styleSignIn = {
   Horizontal,
   Hr,
   Input,
-  IdInput,
-  PwInput,
   SignUp,
   Strong,
   Or,
   ToSignUp,
+  TextInput,
 };

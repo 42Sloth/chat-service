@@ -67,8 +67,8 @@ const SignIn = () => {
             <Hr />
           </Horizontal>
 
-          <IdInput onChange={handleChange} />
-          <PwInput onChange={handleChange} />
+          <TextInput />
+          <TextInput />
 
           <Button color="#fff" marginTop="20px" background="#4a154b">
             로그인
@@ -95,10 +95,9 @@ const {
   Form,
   Horizontal,
   Hr,
-  IdInput,
-  PwInput,
   SignUp,
   Strong,
   Or,
   ToSignUp,
+  TextInput,
 } = styleSignIn;
