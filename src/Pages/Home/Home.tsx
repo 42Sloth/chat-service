@@ -1,4 +1,4 @@
-import { Navbar, Section, WelcomeContainer, AnotherPage } from 'Components';
+import { Navbar, Section, WelcomeContainer } from 'Components';
 import Footer from 'Components/Footer/Footer';
 import React from 'react';
 
@@ -7,7 +7,6 @@ const Home = () => {
     <>
       <Navbar />
       <Section />
-      <AnotherPage />
       <WelcomeContainer />
       <Footer />
     </>
