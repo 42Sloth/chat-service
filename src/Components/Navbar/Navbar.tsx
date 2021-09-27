@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react';
-
-import { getAuth, onAuthStateChanged, signOut } from '@firebase/auth';
-
+import {
+  getAuth,
+  onAuthStateChanged,
+  setPersistence,
+  signOut,
+  browserSessionPersistence,
+} from '@firebase/auth';
 import logo from 'Assets/Chatpong_logo_trans.png';
 import { style } from './NavbarStyle';
 
@@ -16,12 +20,14 @@ const Navbar: React.FC = () => {
 
   const validateLogIn = () => {
     const auth = getAuth();
-    onAuthStateChanged(auth, (data) => {
-      if (data) {
-        setSignCheck(true);
-      } else {
-        setSignCheck(false);
-      }
+    setPersistence(auth, browserSessionPersistence).then(() => {
+      onAuthStateChanged(auth, (data) => {
+        if (data) {
+          setSignCheck(true);
+        } else {
+          setSignCheck(false);
+        }
+      });
     });
   };
 
