@@ -55,6 +55,23 @@ const Form = styled.form`
   width: 400px;
 `;
 
+const Wrap = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  p {
+    font-size: 12px;
+    color: red;
+    margin: -15px 0 20px 0;
+  }
+`;
+
+const FormLabel = styled.label`
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 5px;
+`;
+
 const Horizontal = styled.div`
   margin-bottom: 24px;
   margin-top: 24px;
@@ -104,13 +121,15 @@ const Or = styled.div`
   padding: 0 20px;
 `;
 
-export const styleSignIn = {
+export const style = {
   Header,
   Logo,
   Body,
   H1Text,
   H2Text,
   Form,
+  Wrap,
+  FormLabel,
   Horizontal,
   Hr,
   Input,
