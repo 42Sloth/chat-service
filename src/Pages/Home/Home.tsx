@@ -1,6 +1,7 @@
+import React from 'react';
+
 import { Navbar, Section, WelcomeContainer } from 'Components';
 import Footer from 'Components/Footer/Footer';
-import React from 'react';
 
 const Home = () => {
   return (

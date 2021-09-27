@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
+
+import { getAuth, onAuthStateChanged, signOut } from '@firebase/auth';
+
 import logo from 'Assets/Chatpong_logo_trans.png';
 import { style } from './NavbarStyle';
-import { getAuth, onAuthStateChanged, signOut } from '@firebase/auth';
 
 const Navbar: React.FC = () => {
   const [signCheck, setSignCheck] = useState<boolean>(false);

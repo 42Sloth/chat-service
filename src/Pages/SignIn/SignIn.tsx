@@ -2,10 +2,13 @@ import React from 'react';
 
 import { useHistory } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+
 import { ISignInForm } from 'Types';
+import { FormButton } from 'Components';
+
 import { styleSignIn } from './SignInStyle';
 import { styleSignUp } from 'Pages/SignUp/SignUpStyle';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import logo from 'Assets/Chatpong_logo_trans.png';
 
 const SignIn = () => {
@@ -24,7 +27,7 @@ const SignIn = () => {
         (userCredential) => {
           const user = userCredential.user;
           history.push({
-            pathname: '/success',
+            pathname: '/',
           });
         },
       );
@@ -49,12 +52,22 @@ const SignIn = () => {
         </H2Text>
 
         <Form onSubmit={handleSubmit(onSubmit)}>
-          <Button color="#4285f4" marginTop="0px" background="white">
+          <FormButton
+            color="#4285f4"
+            marginTop="0px"
+            background="white"
+            type="button"
+          >
             Sign in via Google
-          </Button>
-          <Button color="black" marginTop="15px" background="white">
+          </FormButton>
+          <FormButton
+            color="black"
+            marginTop="15px"
+            background="white"
+            type="button"
+          >
             Sign in via 42Seoul
-          </Button>
+          </FormButton>
 
           <Horizontal>
             <Hr />
@@ -89,15 +102,20 @@ const SignIn = () => {
             )}
           </Wrap>
 
-          <Button color="#fff" marginTop="20px" background="#4a154b">
+          <FormButton
+            color="#fff"
+            marginTop="20px"
+            background="#4a154b"
+            type="submit"
+          >
             로그인
-          </Button>
+          </FormButton>
         </Form>
 
-        <SignUp>
+        <SignUpText>
           처음 사용하시나요?
           <ToSignUp to="/signup">계정 생성</ToSignUp>
-        </SignUp>
+        </SignUpText>
       </Body>
     </>
   );
@@ -111,11 +129,10 @@ const {
   Body,
   H1Text,
   H2Text,
-  Button,
   Form,
   Horizontal,
   Hr,
-  SignUp,
+  SignUpText,
   Strong,
   Or,
   ToSignUp,
