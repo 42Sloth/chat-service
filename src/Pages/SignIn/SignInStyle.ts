@@ -55,23 +55,6 @@ const Form = styled.form`
   width: 400px;
 `;
 
-const Button = styled.button`
-  width: 100%;
-  font-size: 18px;
-  font-weight: 700;
-  height: 44px;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-
-  ${(props: { color: string; marginTop: string; background: string }) => css`
-    color: ${props.color};
-    background-color: ${props.background};
-    margin-top: ${props.marginTop};
-    border: 2px solid ${props.color};
-  `}
-`;
-
 const Horizontal = styled.div`
   margin-bottom: 24px;
   margin-top: 24px;
@@ -107,7 +90,7 @@ const TextInput = styled.input`
   border: 1px solid rgba(29, 28, 29, 0.3);
 `;
 
-const SignUp = styled.div`
+const SignUpText = styled.div`
   font-size: 14px;
   margin-top: 20px;
   text-align: center;
@@ -127,12 +110,11 @@ export const styleSignIn = {
   Body,
   H1Text,
   H2Text,
-  Button,
   Form,
   Horizontal,
   Hr,
   Input,
-  SignUp,
+  SignUpText,
   Strong,
   Or,
   ToSignUp,
