@@ -10,12 +10,12 @@ import logo from 'Assets/Chatpong_logo_trans.png';
 import { style } from './NavbarStyle';
 
 const Navbar: React.FC = () => {
-  const [signCheck, setSignCheck] = useState<boolean>(false);
+  const [signCheck, setSignCheck] = useState<boolean>();
 
   const handleSignOut = () => {
     const auth = getAuth();
     signOut(auth);
-    setSignCheck(false);
+    setSignCheck(true);
   };
 
   const validateLogIn = () => {
@@ -23,9 +23,9 @@ const Navbar: React.FC = () => {
     setPersistence(auth, browserSessionPersistence).then(() => {
       onAuthStateChanged(auth, (data) => {
         if (data) {
-          setSignCheck(true);
-        } else {
           setSignCheck(false);
+        } else {
+          setSignCheck(true);
         }
       });
     });
@@ -48,14 +48,6 @@ const Navbar: React.FC = () => {
         </NavMenu>
         <NavBtn>
           {signCheck ? (
-            <LogOutButton
-              background="transparent"
-              color="#611f66"
-              onClick={handleSignOut}
-            >
-              로그아웃
-            </LogOutButton>
-          ) : (
             <>
               <NavBtnLink to="/signin" background="transparent" color="#611f66">
                 로그인
@@ -64,6 +56,14 @@ const Navbar: React.FC = () => {
                 회원가입
               </NavBtnLink>
             </>
+          ) : (
+            <LogOutButton
+              background="transparent"
+              color="#611f66"
+              onClick={handleSignOut}
+            >
+              로그아웃
+            </LogOutButton>
           )}
         </NavBtn>
       </Nav>
