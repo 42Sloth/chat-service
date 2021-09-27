@@ -12,9 +12,9 @@ const Navbar: React.FC = () => {
     setSignCheck(false);
   };
 
-  const validateLogIn = async () => {
+  const validateLogIn = () => {
     const auth = getAuth();
-    await onAuthStateChanged(auth, (data) => {
+    onAuthStateChanged(auth, (data) => {
       if (data) {
         setSignCheck(true);
       } else {
@@ -40,7 +40,13 @@ const Navbar: React.FC = () => {
         </NavMenu>
         <NavBtn>
           {signCheck ? (
-            <button onClick={handleSignOut}>로그아웃</button>
+            <LogOutButton
+              background="transparent"
+              color="#611f66"
+              onClick={handleSignOut}
+            >
+              로그아웃
+            </LogOutButton>
           ) : (
             <>
               <NavBtnLink to="/signin" background="transparent" color="#611f66">
@@ -59,4 +65,5 @@ const Navbar: React.FC = () => {
 
 export default Navbar;
 
-const { Header, Nav, NavLink, NavMenu, NavBtn, NavBtnLink } = style;
+const { Header, Nav, NavLink, NavMenu, NavBtn, LogOutButton, NavBtnLink } =
+  style;
