@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 import React, { useRef, useState } from 'react';
 import { styleSignIn } from 'Pages/SignIn/SignInStyle';
 import { styleSignUp } from './SignUpStyle';
@@ -8,6 +9,23 @@ import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { getFirestore, collection, addDoc } from 'firebase/firestore';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
+=======
+import React, { useRef } from 'react';
+
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  updateProfile,
+} from 'firebase/auth';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { useHistory } from 'react-router-dom';
+import { IFormInput } from 'Types';
+import { app, db } from '../../fBase';
+import { FormButton } from 'Components';
+import { style } from 'Styles/FormStyle';
+import logo from 'Assets/Chatpong_logo_trans.png';
+import { collection, addDoc } from '@firebase/firestore';
+>>>>>>> Stashed changes
 
 const SignUp: React.FC = () => {
   const history = useHistory();
@@ -24,22 +42,21 @@ const SignUp: React.FC = () => {
   const onSubmit: SubmitHandler<IFormInput> = async (data: any) => {
     try {
       const auth = getAuth();
-      await createUserWithEmailAndPassword(
-        auth,
-        data.email,
-        data.password,
-      ).then((userCredential) => {
-        const user = userCredential.user;
-        const info = data.email;
-        const docRef = addDoc(collection(db, 'users'), {
-          nickname: data.nickname,
-          email: data.email,
+      const info = data.email;
+      await createUserWithEmailAndPassword(auth, data.email, data.password);
+      if (auth.currentUser) {
+        await updateProfile(auth.currentUser, {
+          displayName: data.nickname,
         });
-        history.push({
-          pathname: '/signup-success',
-          state: info,
-        });
-        window.location.replace('/signup-success');
+      }
+      const docRef = await addDoc(collection(db, 'users'), {
+        nickname: data.nickname,
+        email: data.email,
+      });
+      console.log('docRef: ', docRef.id);
+      history.push({
+        pathname: '/signup-success',
+        state: info,
       });
     } catch (error) {
       console.log(error);

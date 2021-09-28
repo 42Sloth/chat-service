@@ -1,17 +1,37 @@
-import { Home, SignIn, SignUp, SignInSuccess } from 'Pages';
+import { getAuth, onAuthStateChanged } from '@firebase/auth';
+import { Home, SignIn, SignUp } from 'Pages';
 import SignUpSuccess from 'Pages/SignUp/Success/SignUpSuccess';
-import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  useHistory,
+} from 'react-router-dom';
 import { app } from './fBase';
 
-const App = () => {
+const App: React.FC = () => {
+  // let history = useHistory();
+
+  // useEffect(() => {
+  //   const auth = getAuth();
+  //   onAuthStateChanged(auth, (data) => {
+  //     if (data) {
+  //       history.push({
+  //         pathname: '/',
+  //       });
+  //     } else {
+  //       history.push('/signin');
+  //     }
+  //   });
+  // }, []);
+
   return (
     <Router>
       <Switch>
         <Route path="/" exact component={Home} />
         <Route path="/signin" component={SignIn} />
         <Route path="/signup" component={SignUp} />
-        <Route path="/success" component={SignInSuccess} />
         <Route path="/signup-success" component={SignUpSuccess} />
       </Switch>
     </Router>
