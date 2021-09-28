@@ -2,7 +2,12 @@ import React from 'react';
 
 import { useHistory } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import {
+  browserLocalPersistence,
+  getAuth,
+  setPersistence,
+  signInWithEmailAndPassword,
+} from 'firebase/auth';
 import { ISignInForm } from 'Types';
 import { FormButton } from 'Components';
 import { style } from 'Styles/FormStyle';
@@ -20,14 +25,11 @@ const SignIn = () => {
     try {
       const auth = getAuth();
       console.log(form.email, form.password);
-      await signInWithEmailAndPassword(auth, form.email, form.password).then(
-        (userCredential) => {
-          const user = userCredential.user;
-          history.push({
-            pathname: '/',
-          });
-        },
-      );
+      await setPersistence(auth, browserLocalPersistence);
+      await signInWithEmailAndPassword(auth, form.email, form.password);
+      history.push({
+        pathname: '/',
+      });
     } catch (e) {
       console.log(e);
     }

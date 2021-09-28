@@ -8,6 +8,7 @@ import {
   Route,
   useHistory,
 } from 'react-router-dom';
+import { RecoilRoot } from 'recoil';
 import { app } from './fBase';
 
 const App: React.FC = () => {
@@ -27,14 +28,16 @@ const App: React.FC = () => {
   // }, []);
 
   return (
-    <Router>
-      <Switch>
-        <Route path="/" exact component={Home} />
-        <Route path="/signin" component={SignIn} />
-        <Route path="/signup" component={SignUp} />
-        <Route path="/signup-success" component={SignUpSuccess} />
-      </Switch>
-    </Router>
+    <RecoilRoot>
+      <Router>
+        <Switch>
+          <Route path="/" exact component={Home} />
+          <Route path="/signin" component={SignIn} />
+          <Route path="/signup" component={SignUp} />
+          <Route path="/signup-success" component={SignUpSuccess} />
+        </Switch>
+      </Router>
+    </RecoilRoot>
   );
 };
 

@@ -66,6 +66,19 @@ const LogOutButton = styled.button`
   }
 `;
 
+const WithdrawBtn = styled.button`
+  border: 1px solid #611f66;
+  border-radius: 4px;
+  padding: 10px 22px;
+  outline: none;
+  text-decoration: none;
+  cursor: pointer;
+  margin-left: 8px;
+  background: ${(props: { background: string; color: string }) =>
+    props.background};
+  color: ${(props: { background: string; color: string }) => props.color};
+`;
+
 const NavBtnLink = styled(Link)`
   border: 1px solid #611f66;
   border-radius: 4px;
@@ -97,4 +110,5 @@ export const style = {
   NavBtn,
   LogOutButton,
   NavBtnLink,
+  WithdrawBtn,
 };
