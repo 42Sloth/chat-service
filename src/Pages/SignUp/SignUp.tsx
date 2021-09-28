@@ -36,14 +36,13 @@ const SignUp: React.FC = () => {
           displayName: data.nickname,
         });
       }
+      await history.push({
+        pathname: '/signup-success',
+        state: info,
+      });
       const docRef = await addDoc(collection(db, 'users'), {
         nickname: data.nickname,
         email: data.email,
-      });
-      console.log('docRef: ', docRef.id);
-      history.push({
-        pathname: '/signup-success',
-        state: info,
       });
     } catch (error) {
       console.log(error);

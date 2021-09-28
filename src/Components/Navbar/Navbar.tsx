@@ -4,11 +4,13 @@ import logo from 'Assets/Chatpong_logo_trans.png';
 import { style } from './NavbarStyle';
 import { useRecoilState } from 'recoil';
 import { SignCheck } from 'Recoil/atom';
+import { deleteUser } from 'firebase/auth';
 
 const Navbar: React.FC = () => {
   const [signCheck, setSignCheck] = useRecoilState(SignCheck);
-
   const auth = getAuth();
+  const user = auth.currentUser;
+
   onAuthStateChanged(auth, (data) => {
     if (data) {
       setSignCheck(false);
@@ -18,8 +20,14 @@ const Navbar: React.FC = () => {
   });
 
   const handleSignOut = () => {
-    const auth = getAuth();
     signOut(auth);
+  };
+
+  const handleWithdraw = () => {
+    if (user) {
+      deleteUser(user);
+      setSignCheck(false);
+    }
   };
 
   return (
@@ -44,13 +52,22 @@ const Navbar: React.FC = () => {
               </NavBtnLink>
             </>
           ) : (
-            <LogOutButton
-              background="transparent"
-              color="#611f66"
-              onClick={handleSignOut}
-            >
-              로그아웃
-            </LogOutButton>
+            <>
+              <LogOutButton
+                background="transparent"
+                color="#611f66"
+                onClick={handleSignOut}
+              >
+                로그아웃
+              </LogOutButton>
+              <WithdrawBtn
+                background="#611f66"
+                color="#fff"
+                onClick={handleWithdraw}
+              >
+                회원탈퇴
+              </WithdrawBtn>
+            </>
           )}
         </NavBtn>
       </Nav>
@@ -60,5 +77,13 @@ const Navbar: React.FC = () => {
 
 export default Navbar;
 
-const { Header, Nav, NavLink, NavMenu, NavBtn, LogOutButton, NavBtnLink } =
-  style;
+const {
+  Header,
+  Nav,
+  NavLink,
+  NavMenu,
+  NavBtn,
+  NavBtnLink,
+  LogOutButton,
+  WithdrawBtn,
+} = style;
