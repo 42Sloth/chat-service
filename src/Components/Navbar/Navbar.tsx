@@ -1,8 +1,40 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import {
+  getAuth,
+  onAuthStateChanged,
+  setPersistence,
+  signOut,
+  browserSessionPersistence,
+} from '@firebase/auth';
 import logo from 'Assets/Chatpong_logo_trans.png';
 import { style } from './NavbarStyle';
 
 const Navbar: React.FC = () => {
+  const [signCheck, setSignCheck] = useState<boolean>();
+
+  const handleSignOut = () => {
+    const auth = getAuth();
+    signOut(auth);
+    setSignCheck(true);
+  };
+
+  const validateLogIn = () => {
+    const auth = getAuth();
+    setPersistence(auth, browserSessionPersistence).then(() => {
+      onAuthStateChanged(auth, (data) => {
+        if (data) {
+          setSignCheck(false);
+        } else {
+          setSignCheck(true);
+        }
+      });
+    });
+  };
+
+  useEffect(() => {
+    validateLogIn();
+  }, []);
+
   return (
     <Header>
       <Nav>
@@ -15,14 +47,6 @@ const Navbar: React.FC = () => {
           <NavLink to="/">Game</NavLink>
         </NavMenu>
         <NavBtn>
-<<<<<<< Updated upstream
-          <NavBtnLink to="/signin" background="transparent" color="#611f66">
-            로그인
-          </NavBtnLink>
-          <NavBtnLink to="/signup" background="#611f66" color="#fff">
-            회원가입
-          </NavBtnLink>
-=======
           {signCheck ? (
             <>
               <NavBtnLink to="/signin" background="transparent" color="#611f66">
@@ -41,8 +65,6 @@ const Navbar: React.FC = () => {
               로그아웃
             </LogOutButton>
           )}
-          {console.log(signCheck)}
->>>>>>> Stashed changes
         </NavBtn>
       </Nav>
     </Header>
@@ -51,4 +73,5 @@ const Navbar: React.FC = () => {
 
 export default Navbar;
 
-const { Header, Nav, NavLink, NavMenu, NavBtn, NavBtnLink } = style;
+const { Header, Nav, NavLink, NavMenu, NavBtn, LogOutButton, NavBtnLink } =
+  style;

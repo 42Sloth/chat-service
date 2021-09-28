@@ -1,7 +1,9 @@
 import React from 'react';
+
+import FooterMenu from './FooterMenu';
+
 import { style } from './FooterStyle';
 import logo from 'Assets/Chatpong_logo_trans.png';
-import FooterMenu from './FooterMenu';
 
 const Footer: React.FC = () => {
   return (

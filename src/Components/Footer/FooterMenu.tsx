@@ -1,7 +1,8 @@
 import React from 'react';
+
 import { style } from './FooterMenuStyle';
 
-const FooterMenu = () => {
+const FooterMenu: React.FC = () => {
   return (
     <MenuList>
       <MenuItems>

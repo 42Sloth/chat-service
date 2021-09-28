@@ -1,17 +1,4 @@
-<<<<<<< Updated upstream
-import React, { useRef, useState } from 'react';
-import { styleSignIn } from 'Pages/SignIn/SignInStyle';
-import { styleSignUp } from './SignUpStyle';
-import { IFormInput } from 'Types';
-import logo from 'Assets/Chatpong_logo_trans.png';
-import { app, db } from '../../fBase';
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
-import { getFirestore, collection, addDoc } from 'firebase/firestore';
-import { useForm, SubmitHandler } from 'react-hook-form';
-import { useHistory } from 'react-router-dom';
-=======
 import React, { useRef } from 'react';
-
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -25,7 +12,6 @@ import { FormButton } from 'Components';
 import { style } from 'Styles/FormStyle';
 import logo from 'Assets/Chatpong_logo_trans.png';
 import { collection, addDoc } from '@firebase/firestore';
->>>>>>> Stashed changes
 
 const SignUp: React.FC = () => {
   const history = useHistory();
@@ -143,14 +129,14 @@ const SignUp: React.FC = () => {
                 <p>The passwords do not match</p>
               )}
           </Wrap>
-          <Button
+          <FormButton
             color="#fff"
             marginTop="25px"
             background="#611f69"
             type="submit"
           >
             회원 가입
-          </Button>
+          </FormButton>
         </Form>
       </Body>
     </>
@@ -159,7 +145,21 @@ const SignUp: React.FC = () => {
 
 export default SignUp;
 
-const { Header, Logo, Body, H1Text, H2Text, Button, Form, Strong, TextInput } =
-  styleSignIn;
-
-const { Wrap, CheckBtn, FormLabel } = styleSignUp;
+const {
+  Header,
+  Logo,
+  Body,
+  H1Text,
+  H2Text,
+  Form,
+  Wrap,
+  FormLabel,
+  Horizontal,
+  Hr,
+  Input,
+  SignUpText,
+  Strong,
+  Or,
+  ToSignUp,
+  TextInput,
+} = style;

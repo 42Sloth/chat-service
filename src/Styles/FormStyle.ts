@@ -55,21 +55,21 @@ const Form = styled.form`
   width: 400px;
 `;
 
-const Button = styled.button`
-  width: 100%;
-  font-size: 18px;
-  font-weight: 700;
-  height: 44px;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
+const Wrap = styled.div`
+  display: flex;
+  flex-direction: column;
 
-  ${(props: { color: string; marginTop: string; background: string }) => css`
-    color: ${props.color};
-    background-color: ${props.background};
-    margin-top: ${props.marginTop};
-    border: 2px solid ${props.color};
-  `}
+  p {
+    font-size: 12px;
+    color: red;
+    margin: -15px 0 20px 0;
+  }
+`;
+
+const FormLabel = styled.label`
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 5px;
 `;
 
 const Horizontal = styled.div`
@@ -107,7 +107,7 @@ const TextInput = styled.input`
   border: 1px solid rgba(29, 28, 29, 0.3);
 `;
 
-const SignUp = styled.div`
+const SignUpText = styled.div`
   font-size: 14px;
   margin-top: 20px;
   text-align: center;
@@ -121,18 +121,19 @@ const Or = styled.div`
   padding: 0 20px;
 `;
 
-export const styleSignIn = {
+export const style = {
   Header,
   Logo,
   Body,
   H1Text,
   H2Text,
-  Button,
   Form,
+  Wrap,
+  FormLabel,
   Horizontal,
   Hr,
   Input,
-  SignUp,
+  SignUpText,
   Strong,
   Or,
   ToSignUp,
