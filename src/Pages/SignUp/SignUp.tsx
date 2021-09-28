@@ -25,22 +25,21 @@ const SignUp: React.FC = () => {
   const onSubmit: SubmitHandler<IFormInput> = async (data: any) => {
     try {
       const auth = getAuth();
-      await createUserWithEmailAndPassword(
-        auth,
-        data.email,
-        data.password,
-      ).then((userCredential) => {
-        const user = userCredential.user;
-        const info = data.email;
-        const docRef = addDoc(collection(db, 'users'), {
-          nickname: data.nickname,
-          email: data.email,
+      const info = data.email;
+      await createUserWithEmailAndPassword(auth, data.email, data.password);
+      if (auth.currentUser) {
+        await updateProfile(auth.currentUser, {
+          displayName: data.nickname,
         });
-        history.push({
-          pathname: '/signup-success',
-          state: info,
-        });
-        window.location.replace('/signup-success');
+      }
+      const docRef = await addDoc(collection(db, 'users'), {
+        nickname: data.nickname,
+        email: data.email,
+      });
+      console.log('docRef: ', docRef.id);
+      history.push({
+        pathname: '/signup-success',
+        state: info,
       });
     } catch (error) {
       console.log(error);
