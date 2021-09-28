@@ -1,6 +1,9 @@
 import React, { useRef } from 'react';
-
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  updateProfile,
+} from 'firebase/auth';
 import { getFirestore, collection, addDoc } from 'firebase/firestore';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
@@ -32,14 +35,13 @@ const SignUp: React.FC = () => {
           displayName: data.nickname,
         });
       }
+      await history.push({
+        pathname: '/signup-success',
+        state: info,
+      });
       const docRef = await addDoc(collection(db, 'users'), {
         nickname: data.nickname,
         email: data.email,
-      });
-      console.log('docRef: ', docRef.id);
-      history.push({
-        pathname: '/signup-success',
-        state: info,
       });
     } catch (error) {
       console.log(error);

@@ -5,21 +5,31 @@ import {
   setPersistence,
   signOut,
   browserSessionPersistence,
+  deleteUser,
 } from '@firebase/auth';
 import logo from 'Assets/Chatpong_logo_trans.png';
 import { style } from './NavbarStyle';
+import { doc, deleteDoc } from '@firebase/firestore';
+import { db } from '../../fBase';
 
 const Navbar: React.FC = () => {
   const [signCheck, setSignCheck] = useState<boolean>();
+  const auth = getAuth();
+  const user = auth.currentUser;
 
   const handleSignOut = () => {
-    const auth = getAuth();
     signOut(auth);
     setSignCheck(true);
   };
 
+  const handleWithdraw = () => {
+    if (user) {
+      deleteUser(user);
+      setSignCheck(false);
+    }
+  };
+
   const validateLogIn = () => {
-    const auth = getAuth();
     setPersistence(auth, browserSessionPersistence).then(() => {
       onAuthStateChanged(auth, (data) => {
         if (data) {
@@ -57,13 +67,22 @@ const Navbar: React.FC = () => {
               </NavBtnLink>
             </>
           ) : (
-            <LogOutButton
-              background="transparent"
-              color="#611f66"
-              onClick={handleSignOut}
-            >
-              로그아웃
-            </LogOutButton>
+            <>
+              <LogOutButton
+                background="transparent"
+                color="#611f66"
+                onClick={handleSignOut}
+              >
+                로그아웃
+              </LogOutButton>
+              <WithdrawBtn
+                background="#611f66"
+                color="#fff"
+                onClick={handleWithdraw}
+              >
+                회원탈퇴
+              </WithdrawBtn>
+            </>
           )}
         </NavBtn>
       </Nav>
@@ -73,5 +92,13 @@ const Navbar: React.FC = () => {
 
 export default Navbar;
 
-const { Header, Nav, NavLink, NavMenu, NavBtn, LogOutButton, NavBtnLink } =
-  style;
+const {
+  Header,
+  Nav,
+  NavLink,
+  NavMenu,
+  NavBtn,
+  NavBtnLink,
+  LogOutButton,
+  WithdrawBtn,
+} = style;
