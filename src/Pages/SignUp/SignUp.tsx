@@ -4,7 +4,6 @@ import {
   createUserWithEmailAndPassword,
   updateProfile,
 } from 'firebase/auth';
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { getFirestore, collection, addDoc } from 'firebase/firestore';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
@@ -13,7 +12,6 @@ import { app, db } from '../../fBase';
 import { FormButton } from 'Components';
 import { style } from 'Styles/FormStyle';
 import logo from 'Assets/Chatpong_logo_trans.png';
-import { collection, addDoc } from '@firebase/firestore';
 
 const SignUp: React.FC = () => {
   const history = useHistory();
