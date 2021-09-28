@@ -1,39 +1,26 @@
-import React, { useEffect, useState } from 'react';
-import {
-  getAuth,
-  onAuthStateChanged,
-  setPersistence,
-  signOut,
-  browserSessionPersistence,
-} from '@firebase/auth';
+import React from 'react';
+import { getAuth, onAuthStateChanged, signOut } from '@firebase/auth';
 import logo from 'Assets/Chatpong_logo_trans.png';
 import { style } from './NavbarStyle';
+import { useRecoilState } from 'recoil';
+import { SignCheck } from 'Recoil/atom';
 
 const Navbar: React.FC = () => {
-  const [signCheck, setSignCheck] = useState<boolean>();
+  const [signCheck, setSignCheck] = useRecoilState(SignCheck);
+
+  const auth = getAuth();
+  onAuthStateChanged(auth, (data) => {
+    if (data) {
+      setSignCheck(false);
+    } else {
+      setSignCheck(true);
+    }
+  });
 
   const handleSignOut = () => {
     const auth = getAuth();
     signOut(auth);
-    setSignCheck(true);
   };
-
-  const validateLogIn = () => {
-    const auth = getAuth();
-    setPersistence(auth, browserSessionPersistence).then(() => {
-      onAuthStateChanged(auth, (data) => {
-        if (data) {
-          setSignCheck(false);
-        } else {
-          setSignCheck(true);
-        }
-      });
-    });
-  };
-
-  useEffect(() => {
-    validateLogIn();
-  }, []);
 
   return (
     <Header>
