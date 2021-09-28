@@ -4,13 +4,10 @@ import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { getFirestore, collection, addDoc } from 'firebase/firestore';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
-
 import { IFormInput } from 'Types';
 import { app, db } from '../../fBase';
 import { FormButton } from 'Components';
-
-import { styleSignIn } from 'Pages/SignIn/SignInStyle';
-import { styleSignUp } from './SignUpStyle';
+import { style } from 'Styles/FormStyle';
 import logo from 'Assets/Chatpong_logo_trans.png';
 
 const SignUp: React.FC = () => {
@@ -146,7 +143,21 @@ const SignUp: React.FC = () => {
 
 export default SignUp;
 
-const { Header, Logo, Body, H1Text, H2Text, Form, Strong, TextInput } =
-  styleSignIn;
-
-const { Wrap, FormLabel } = styleSignUp;
+const {
+  Header,
+  Logo,
+  Body,
+  H1Text,
+  H2Text,
+  Form,
+  Wrap,
+  FormLabel,
+  Horizontal,
+  Hr,
+  Input,
+  SignUpText,
+  Strong,
+  Or,
+  ToSignUp,
+  TextInput,
+} = style;

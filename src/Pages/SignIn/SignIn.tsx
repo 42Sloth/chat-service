@@ -3,12 +3,9 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-
 import { ISignInForm } from 'Types';
 import { FormButton } from 'Components';
-
-import { styleSignIn } from './SignInStyle';
-import { styleSignUp } from 'Pages/SignUp/SignUpStyle';
+import { style } from 'Styles/FormStyle';
 import logo from 'Assets/Chatpong_logo_trans.png';
 
 const SignIn = () => {
@@ -130,13 +127,14 @@ const {
   H1Text,
   H2Text,
   Form,
+  Wrap,
+  FormLabel,
   Horizontal,
   Hr,
+  Input,
   SignUpText,
   Strong,
   Or,
   ToSignUp,
   TextInput,
-} = styleSignIn;
-
-const { Wrap, FormLabel } = styleSignUp;
+} = style;
