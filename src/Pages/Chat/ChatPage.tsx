@@ -1,7 +1,12 @@
 import React from 'react';
 
+import Headerpannel from 'Components/ChatPannel/HeaderPannel/HeaderPannel';
 const ChatPage = () => {
-  return <div>Test Chat Page</div>;
+  return (
+    <>
+      <Headerpannel />
+    </>
+  );
 };
 
 export default ChatPage;
