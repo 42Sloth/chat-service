@@ -1,7 +1,12 @@
+import { MainPannel } from 'Components';
 import React from 'react';
 
 const ChatPage = () => {
-  return <div>Test Chat Page</div>;
+  return (
+    <div>
+      <MainPannel />
+    </div>
+  );
 };
 
 export default ChatPage;
