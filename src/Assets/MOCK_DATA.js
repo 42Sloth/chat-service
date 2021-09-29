@@ -5,6 +5,7 @@ const user = [
     email: 'apple@naver.com',
     status: 'online',
     thumbnail: 'https://getuikit.com/v2/docs/images/placeholder_600x400.svg',
+    room: 'room1',
   },
   {
     id: 2,
@@ -12,6 +13,7 @@ const user = [
     email: 'banana@naver.com',
     status: 'offline',
     thumbnail: 'https://getuikit.com/v2/docs/images/placeholder_600x400.svg',
+    room: 'room2',
   },
   {
     id: 3,
@@ -19,6 +21,7 @@ const user = [
     email: 'melon@naver.com',
     status: 'online',
     thumbnail: 'https://getuikit.com/v2/docs/images/placeholder_600x400.svg',
+    room: 'room3',
   },
   {
     id: 4,
@@ -26,6 +29,7 @@ const user = [
     email: 'orange@naver.com',
     status: 'online',
     thumbnail: 'https://getuikit.com/v2/docs/images/placeholder_600x400.svg',
+    room: 'room4',
   },
   {
     id: 5,
@@ -33,6 +37,7 @@ const user = [
     email: 'mango@naver.com',
     status: 'offline',
     thumbnail: 'https://getuikit.com/v2/docs/images/placeholder_600x400.svg',
+    room: 'room5',
   },
   {
     id: 6,
@@ -40,6 +45,7 @@ const user = [
     email: 'tomato@naver.com',
     status: 'offline',
     thumbnail: 'https://getuikit.com/v2/docs/images/placeholder_600x400.svg',
+    room: 'room6',
   },
   {
     id: 7,
@@ -47,6 +53,7 @@ const user = [
     email: 'coke@naver.com',
     status: 'online',
     thumbnail: 'https://getuikit.com/v2/docs/images/placeholder_600x400.svg',
+    room: 'room7',
   },
 ];
 
