@@ -38,7 +38,7 @@ const Navbar: React.FC = () => {
         </NavLink>
         <NavMenu>
           <NavLink to="/">Home</NavLink>
-          <NavLink to="/">Chat</NavLink>
+          <NavLink to="/chat">Chat</NavLink>
           <NavLink to="/">Game</NavLink>
         </NavMenu>
         <NavBtn>
