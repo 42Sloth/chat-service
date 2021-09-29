@@ -1,7 +1,7 @@
 import React from 'react';
 import { style } from './MessageStyle';
 
-const Message = () => {
+const Message: React.FC = () => {
   return <Container>Message</Container>;
 };
 

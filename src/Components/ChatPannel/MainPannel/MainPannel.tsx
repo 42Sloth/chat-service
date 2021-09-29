@@ -2,7 +2,7 @@ import React from 'react';
 import { Message, MessageForm, MessageHeader } from '.';
 import styled from 'styled-components';
 
-const MainPannel = () => {
+const MainPannel: React.FC = () => {
   return (
     <MessageContainer>
       <MessageHeader />

@@ -1,7 +1,7 @@
 import React from 'react';
 import { style } from './MessageFormStyle';
 
-const MessageForm = () => {
+const MessageForm: React.FC = () => {
   return (
     <Container>
       <Inner>
