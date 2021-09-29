@@ -4,7 +4,7 @@ import { Headerstyle } from './HeaderPannelStyle';
 import logo from 'Assets/Chatpong_logo_trans.png';
 import profile_kbs from 'Assets/profile_kbs.jpg';
 
-const Headerpannel: React.FC = () => {
+const HeaderPannel: React.FC = () => {
   return (
     <Header>
       <HeaderLink to="/">
@@ -17,6 +17,6 @@ const Headerpannel: React.FC = () => {
   );
 };
 
-export default Headerpannel;
+export default HeaderPannel;
 
 const { Header, HeaderLink, Profile } = Headerstyle;

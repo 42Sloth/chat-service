@@ -1,12 +1,13 @@
-import SidePannel from 'Components/ChatPannel/SidePannel/SidePannel';
+import { MainPannel, HeaderPannel, SidePannel } from 'Components';
 import React from 'react';
-
-import Headerpannel from 'Components/ChatPannel/HeaderPannel/HeaderPannel';
-const ChatPage = () => {
+const ChatPage: React.FC = () => {
   return (
     <>
-      <Headerpannel />
-      <SidePannel />
+      <HeaderPannel />
+      <div style={{ display: 'flex' }}>
+        <SidePannel />
+        <MainPannel />
+      </div>
     </>
   );
 };
