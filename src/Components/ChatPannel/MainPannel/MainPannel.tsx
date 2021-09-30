@@ -1,12 +1,12 @@
 import React from 'react';
-import { Message, MessageForm, MessageHeader } from '.';
+import { MessageField, MessageForm, MessageHeader } from '.';
 import styled from 'styled-components';
 
 const MainPannel: React.FC = () => {
   return (
     <MessageContainer>
       <MessageHeader />
-      <Message />
+      <MessageField />
       <MessageForm />
     </MessageContainer>
   );

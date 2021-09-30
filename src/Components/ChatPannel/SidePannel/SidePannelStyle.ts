@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 const SideContainer = styled.div`
   width: 260px;
-  height: 100vh;
+  height: 90vh;
   background: #fceb92;
 `;
 
