@@ -1,15 +1,20 @@
-import { MainPannel, HeaderPannel, SidePannel } from 'Components';
-import MemberList from 'Components/ChatPannel/SidePannel/MemberList';
+import React, { useState } from 'react';
 
-import React from 'react';
+import { MainPannel, HeaderPannel, SidePannel } from 'Components';
+import { MemberList, Profile } from 'Components/ChatPannel/SidePannel';
+import {useRecoilValue} from "recoil";
+import {atomClickedUser} from 'Recoil/atom';
+
 const ChatPage: React.FC = () => {
+  const clickedUser = useRecoilValue(atomClickedUser)
+
   return (
     <>
       <HeaderPannel />
       <div style={{ display: 'flex' }}>
         <SidePannel />
         <MainPannel />
-        <MemberList />
+        {!clickedUser.nickname ? <MemberList /> : <Profile />}
       </div>
     </>
   );
