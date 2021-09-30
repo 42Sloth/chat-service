@@ -4,7 +4,7 @@ const user = [
     nickname: 'apple',
     email: 'apple@naver.com',
     status: 'online',
-    thumbnail: 'https://getuikit.com/v2/docs/images/placeholder_600x400.svg',
+    thumbnail: 'https://avatars.githubusercontent.com/u/66353903?v=4',
     room: 'room1',
   },
   {
@@ -12,7 +12,7 @@ const user = [
     nickname: 'banana',
     email: 'banana@naver.com',
     status: 'offline',
-    thumbnail: 'https://getuikit.com/v2/docs/images/placeholder_600x400.svg',
+    thumbnail: 'https://avatars.githubusercontent.com/u/66353903?v=4',
     room: 'room2',
   },
   {
@@ -20,7 +20,7 @@ const user = [
     nickname: 'melon',
     email: 'melon@naver.com',
     status: 'online',
-    thumbnail: 'https://getuikit.com/v2/docs/images/placeholder_600x400.svg',
+    thumbnail: 'https://avatars.githubusercontent.com/u/66353903?v=4',
     room: 'room3',
   },
   {
@@ -28,7 +28,7 @@ const user = [
     nickname: 'orange',
     email: 'orange@naver.com',
     status: 'online',
-    thumbnail: 'https://getuikit.com/v2/docs/images/placeholder_600x400.svg',
+    thumbnail: 'https://avatars.githubusercontent.com/u/66353903?v=4',
     room: 'room4',
   },
   {
@@ -36,7 +36,7 @@ const user = [
     nickname: 'mango',
     email: 'mango@naver.com',
     status: 'offline',
-    thumbnail: 'https://getuikit.com/v2/docs/images/placeholder_600x400.svg',
+    thumbnail: 'https://avatars.githubusercontent.com/u/66353903?v=4',
     room: 'room5',
   },
   {
@@ -44,7 +44,7 @@ const user = [
     nickname: 'tomato',
     email: 'tomato@naver.com',
     status: 'offline',
-    thumbnail: 'https://getuikit.com/v2/docs/images/placeholder_600x400.svg',
+    thumbnail: 'https://avatars.githubusercontent.com/u/66353903?v=4',
     room: 'room6',
   },
   {
@@ -52,7 +52,7 @@ const user = [
     nickname: 'coke',
     email: 'coke@naver.com',
     status: 'online',
-    thumbnail: 'https://getuikit.com/v2/docs/images/placeholder_600x400.svg',
+    thumbnail: 'https://avatars.githubusercontent.com/u/66353903?v=4',
     room: 'room7',
   },
 ];
