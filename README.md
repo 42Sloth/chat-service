@@ -24,18 +24,22 @@
 `로그인`
 
 - 이메일, 비밀번호 입력을 통한 로그인 기능.
-- `react-hook-form` 라이브러리를 활용.
-- `firebase`의 `Authentication`에 있는 유저 정보를 확인하여 유저 확인.
+- react-hook-form 라이브러리를 활용.
+- firebase의 Authentication에 있는 유저 정보를 확인하여 유저 확인.
+
+<br/>
 
 `회원 가입`
 
 - 아이디, 닉네임, 비밀번호, 비밀번호 확인 입력을 통한 회원가입 기능.
-- `react-hook-form` 라이브러리 활용.
-- `firebase`의 `Authentication`에 유저 정보 저장.
+- react-hook-form 라이브러리 활용.
+- firebase의 Authentication에 유저 정보 저장.
+
+<br/>
 
 `채팅`
 
-- `Slack`을 벤치마킹하여 구현.
+- Slack을 벤치마킹하여 구현.
 
 
 
