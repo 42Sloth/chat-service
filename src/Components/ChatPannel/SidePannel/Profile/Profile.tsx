@@ -2,7 +2,7 @@ import React from 'react';
 
 import { useHistory } from 'react-router-dom';
 import { useRecoilValue, useResetRecoilState } from 'recoil';
-import { atomClickedUser } from 'Recoil/atom';
+import { atomClickedUser, atomMyInfo } from 'Recoil/atom';
 import { getAuth, signOut } from '@firebase/auth';
 
 import { FaTimes, FaPaperPlane, FaEdit } from 'react-icons/fa';
@@ -14,7 +14,8 @@ const Profile = () => {
   const auth = getAuth();
   const history = useHistory();
   const resetClickedUser = useResetRecoilState(atomClickedUser);
-  const user = useRecoilValue(atomClickedUser);
+  const clickedUserInfo = useRecoilValue(atomClickedUser);
+  const myInfo = useRecoilValue(atomMyInfo);
 
   const handleClose = () => {
     resetClickedUser();
@@ -36,8 +37,8 @@ const Profile = () => {
       <User>
         <img src={profile_kbs} alt="profile" />
         <UserInfo>
-          <UserName>{user.nickname}</UserName>
-          <UserEmail>{user.email}</UserEmail>
+          <UserName>{clickedUserInfo.nickname}</UserName>
+          <UserEmail>{clickedUserInfo.email}</UserEmail>
         </UserInfo>
         <BtnGroup>
           <Btn>
@@ -46,15 +47,19 @@ const Profile = () => {
             </BtnIcon>
             <span>Direct Message</span>
           </Btn>
-          <Btn>
-            <BtnIcon>
-              <FaEdit />
-            </BtnIcon>
-            <span>Edit Profile</span>
-          </Btn>
+          {myInfo.uid === clickedUserInfo.uid && (
+            <Btn>
+              <BtnIcon>
+                <FaEdit />
+              </BtnIcon>
+              <span>Edit Profile</span>
+            </Btn>
+          )}
         </BtnGroup>
       </User>
-      <LogoutBtn onClick={handleSignOut}>로그아웃</LogoutBtn>
+      {myInfo.uid === clickedUserInfo.uid && (
+        <LogoutBtn onClick={handleSignOut}>로그아웃</LogoutBtn>
+      )}
     </Container>
   );
 };

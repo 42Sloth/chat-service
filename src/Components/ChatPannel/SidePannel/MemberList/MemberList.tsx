@@ -6,7 +6,7 @@ import { db } from 'fBase';
 import { MlStyle } from './MemberListStyle';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { atomMemberList, atomClickedUser } from 'Recoil/atom';
-import { IMemberList } from 'Types';
+import { IUserInfo } from 'Types';
 
 const MemberList = () => {
   const [memberList, setMemberList] = useRecoilState(atomMemberList);
@@ -15,18 +15,21 @@ const MemberList = () => {
   const memberListListener = () => {
     const q = query(collection(db, 'users'));
     onSnapshot(q, (query) => {
-      const temp: IMemberList[] = [];
-      query.forEach((doc) =>
+      const temp: IUserInfo[] = [];
+      query.forEach((doc) => {
+        const docData = doc.data();
         temp.push({
-          nickname: doc.data().nickname,
-          email: doc.data().email,
-        }),
-      );
+          nickname: docData.nickname,
+          email: docData.email,
+          uid: docData.uid,
+          photoURL: docData.photoURL,
+        });
+      });
       setMemberList(temp);
     });
   };
 
-  const handleClickedUser = (data: IMemberList) => {
+  const handleClickedUser = (data: IUserInfo) => {
     setClickedUser(data);
   };
 

@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import { MainPannel, HeaderPannel, SidePannel } from 'Components';
 import { MemberList, Profile } from 'Components/ChatPannel/SidePannel';
-import {useRecoilValue} from "recoil";
-import {atomClickedUser} from 'Recoil/atom';
+import { useRecoilValue } from 'recoil';
+import { atomClickedUser } from 'Recoil/atom';
 
 const ChatPage: React.FC = () => {
-  const clickedUser = useRecoilValue(atomClickedUser)
+  const clickedUser = useRecoilValue(atomClickedUser);
 
   return (
     <>
@@ -14,7 +14,7 @@ const ChatPage: React.FC = () => {
       <div style={{ display: 'flex' }}>
         <SidePannel />
         <MainPannel />
-        {!clickedUser.nickname ? <MemberList /> : <Profile />}
+        {!clickedUser.uid ? <MemberList /> : <Profile />}
       </div>
     </>
   );
