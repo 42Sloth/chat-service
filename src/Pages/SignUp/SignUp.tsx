@@ -32,18 +32,22 @@ const SignUp: React.FC = () => {
       const info = data.email;
       await createUserWithEmailAndPassword(auth, data.email, data.password);
       if (auth.currentUser) {
-        await updateProfile(auth.currentUser, {
-          displayName: data.nickname,
+        // await updateProfile(auth.currentUser, {
+        //   // displayName: data.nickname,
+        //   // photoURL: 'https://avatars.githubusercontent.com/u/66353903?v=4',
+        // });
+        // console.log(auth.currentUser.displayName, auth.currentUser.photoURL);
+        const docRef = await addDoc(collection(db, 'users'), {
+          nickname: data.nickname,
+          email: data.email,
+          uid: auth.currentUser.uid,
+          photoURL: '',
+        });
+        history.push({
+          pathname: '/signup-success',
+          state: info,
         });
       }
-      await history.push({
-        pathname: '/signup-success',
-        state: info,
-      });
-      const docRef = await addDoc(collection(db, 'users'), {
-        nickname: data.nickname,
-        email: data.email,
-      });
     } catch (error) {
       console.log(error);
     }
