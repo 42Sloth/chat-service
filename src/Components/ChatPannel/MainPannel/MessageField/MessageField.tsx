@@ -1,396 +1,62 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+
+import {
+  collection,
+  doc,
+  onSnapshot,
+  orderBy,
+  query,
+  setDoc,
+} from 'firebase/firestore';
+import { db } from 'fBase';
+import { useRecoilState } from 'recoil';
+import { atomMessages } from 'Recoil/atom';
+
 import { style } from './MessageFieldStyle';
 import profile_kbs from 'Assets/profile_kbs.jpg';
+import { IMessage } from 'Types';
 
 const MessageField: React.FC = () => {
+  const [messages, setMessages] = useRecoilState(atomMessages);
+
+  const messagesListener = () => {
+    const q = query(collection(db, 'messages'), orderBy('date'));
+    onSnapshot(q, (query) => {
+      const temp: IMessage[] = [];
+      query.forEach((doc) => {
+        const docData = doc.data();
+        temp.push({
+          content: docData.content,
+          from: docData.from,
+          date: docData.date,
+        });
+      });
+      setMessages(temp);
+    });
+  };
+
+  useEffect(() => {
+    messagesListener();
+  }, []);
   return (
     <Container>
-      <Content>
-        <Thumbnail>
-          <img src={profile_kbs} alt="profile" />
-        </Thumbnail>
-        <InnerContainer>
-          <h6>
-            미친 홍길동<span>00:34</span>
-          </h6>
-          <p>마지막</p>
-        </InnerContainer>
-      </Content>
-      <Content>
-        <Thumbnail>
-          <img src={profile_kbs} alt="profile" />
-        </Thumbnail>
-        <InnerContainer>
-          <h6>
-            놀자 놀자<span>00:34</span>
-          </h6>
-          <p>
-            현재까지 33명이 제출해주셨습니다. 아직 작성하지 않은 분들 오늘까지
-            제출 부탁드릴께요~ 마지막 설문은 요기
-          </p>
-        </InnerContainer>
-      </Content>
-      <Content>
-        <Thumbnail>
-          <img src={profile_kbs} alt="profile" />
-        </Thumbnail>
-        <InnerContainer>
-          <h6>
-            놀자 놀자<span>00:34</span>
-          </h6>
-          <p>
-            현재까지 33명이 제출해주셨습니다. 아직 작성하지 않은 분들 오늘까지
-            제출 부탁드릴께요~ 마지막 설문은 요기
-          </p>
-        </InnerContainer>
-      </Content>
-      <Content>
-        <Thumbnail>
-          <img src={profile_kbs} alt="profile" />
-        </Thumbnail>
-        <InnerContainer>
-          <h6>
-            놀자 놀자<span>00:34</span>
-          </h6>
-          <p>
-            현재까지 33명이 제출해주셨습니다. 아직 작성하지 않은 분들 오늘까지
-            제출 부탁드릴께요~ 마지막 설문은 요기
-          </p>
-        </InnerContainer>
-      </Content>
-      <Content>
-        <Thumbnail>
-          <img src={profile_kbs} alt="profile" />
-        </Thumbnail>
-        <InnerContainer>
-          <h6>
-            놀자 놀자<span>00:34</span>
-          </h6>
-          <p>
-            현재까지 33명이 제출해주셨습니다. 아직 작성하지 않은 분들 오늘까지
-            제출 부탁드릴께요~ 마지막 설문은 요기
-          </p>
-        </InnerContainer>
-      </Content>
-      <Content>
-        <Thumbnail>
-          <img src={profile_kbs} alt="profile" />
-        </Thumbnail>
-        <InnerContainer>
-          <h6>
-            놀자 놀자<span>00:34</span>
-          </h6>
-          <p>
-            현재까지 33명이 제출해주셨습니다. 아직 작성하지 않은 분들 오늘까지
-            제출 부탁드릴께요~ 마지막 설문은 요기
-          </p>
-        </InnerContainer>
-      </Content>
-      <Content>
-        <Thumbnail>
-          <img src={profile_kbs} alt="profile" />
-        </Thumbnail>
-        <InnerContainer>
-          <h6>
-            놀자 놀자<span>00:34</span>
-          </h6>
-          <p>
-            현재까지 33명이 제출해주셨습니다. 아직 작성하지 않은 분들 오늘까지
-            제출 부탁드릴께요~ 마지막 설문은 요기
-          </p>
-        </InnerContainer>
-      </Content>
-      <Content>
-        <Thumbnail>
-          <img src={profile_kbs} alt="profile" />
-        </Thumbnail>
-        <InnerContainer>
-          <h6>
-            놀자 놀자<span>00:34</span>
-          </h6>
-          <p>
-            현재까지 33명이 제출해주셨습니다. 아직 작성하지 않은 분들 오늘까지
-            제출 부탁드릴께요~ 마지막 설문은 요기
-          </p>
-        </InnerContainer>
-      </Content>
-      <Content>
-        <Thumbnail>
-          <img src={profile_kbs} alt="profile" />
-        </Thumbnail>
-        <InnerContainer>
-          <h6>
-            놀자 놀자<span>00:34</span>
-          </h6>
-          <p>
-            현재까지 33명이 제출해주셨습니다. 아직 작성하지 않은 분들 오늘까지
-            제출 부탁드릴께요~ 마지막 설문은 요기
-          </p>
-        </InnerContainer>
-      </Content>
-      <Content>
-        <Thumbnail>
-          <img src={profile_kbs} alt="profile" />
-        </Thumbnail>
-        <InnerContainer>
-          <h6>
-            놀자 놀자<span>00:34</span>
-          </h6>
-          <p>
-            현재까지 33명이 제출해주셨습니다. 아직 작성하지 않은 분들 오늘까지
-            제출 부탁드릴께요~ 마지막 설문은 요기
-          </p>
-        </InnerContainer>
-      </Content>
-      <Content>
-        <Thumbnail>
-          <img src={profile_kbs} alt="profile" />
-        </Thumbnail>
-        <InnerContainer>
-          <h6>
-            놀자 놀자<span>00:34</span>
-          </h6>
-          <p>
-            현재까지 33명이 제출해주셨습니다. 아직 작성하지 않은 분들 오늘까지
-            제출 부탁드릴께요~ 마지막 설문은 요기
-          </p>
-        </InnerContainer>
-      </Content>
-      <Content>
-        <Thumbnail>
-          <img src={profile_kbs} alt="profile" />
-        </Thumbnail>
-        <InnerContainer>
-          <h6>
-            놀자 놀자<span>00:34</span>
-          </h6>
-          <p>
-            현재까지 33명이 제출해주셨습니다. 아직 작성하지 않은 분들 오늘까지
-            제출 부탁드릴께요~ 마지막 설문은 요기
-          </p>
-        </InnerContainer>
-      </Content>
-      <Content>
-        <Thumbnail>
-          <img src={profile_kbs} alt="profile" />
-        </Thumbnail>
-        <InnerContainer>
-          <h6>
-            놀자 놀자<span>00:34</span>
-          </h6>
-          <p>
-            현재까지 33명이 제출해주셨습니다. 아직 작성하지 않은 분들 오늘까지
-            제출 부탁드릴께요~ 마지막 설문은 요기
-          </p>
-        </InnerContainer>
-      </Content>
-      <Content>
-        <Thumbnail>
-          <img src={profile_kbs} alt="profile" />
-        </Thumbnail>
-        <InnerContainer>
-          <h6>
-            놀자 놀자<span>00:34</span>
-          </h6>
-          <p>
-            현재까지 33명이 제출해주셨습니다. 아직 작성하지 않은 분들 오늘까지
-            제출 부탁드릴께요~ 마지막 설문은 요기
-          </p>
-        </InnerContainer>
-      </Content>
-      <Content>
-        <Thumbnail>
-          <img src={profile_kbs} alt="profile" />
-        </Thumbnail>
-        <InnerContainer>
-          <h6>
-            놀자 놀자<span>00:34</span>
-          </h6>
-          <p>
-            현재까지 33명이 제출해주셨습니다. 아직 작성하지 않은 분들 오늘까지
-            제출 부탁드릴께요~ 마지막 설문은 요기
-          </p>
-        </InnerContainer>
-      </Content>
-      <Content>
-        <Thumbnail>
-          <img src={profile_kbs} alt="profile" />
-        </Thumbnail>
-        <InnerContainer>
-          <h6>
-            놀자 놀자<span>00:34</span>
-          </h6>
-          <p>
-            현재까지 33명이 제출해주셨습니다. 아직 작성하지 않은 분들 오늘까지
-            제출 부탁드릴께요~ 마지막 설문은 요기
-          </p>
-        </InnerContainer>
-      </Content>
-      <Content>
-        <Thumbnail>
-          <img src={profile_kbs} alt="profile" />
-        </Thumbnail>
-        <InnerContainer>
-          <h6>
-            놀자 놀자<span>00:34</span>
-          </h6>
-          <p>
-            현재까지 33명이 제출해주셨습니다. 아직 작성하지 않은 분들 오늘까지
-            제출 부탁드릴께요~ 마지막 설문은 요기
-          </p>
-        </InnerContainer>
-      </Content>
-      <Content>
-        <Thumbnail>
-          <img src={profile_kbs} alt="profile" />
-        </Thumbnail>
-        <InnerContainer>
-          <h6>
-            놀자 놀자<span>00:34</span>
-          </h6>
-          <p>
-            현재까지 33명이 제출해주셨습니다. 아직 작성하지 않은 분들 오늘까지
-            제출 부탁드릴께요~ 마지막 설문은 요기
-          </p>
-        </InnerContainer>
-      </Content>
-      <Content>
-        <Thumbnail>
-          <img src={profile_kbs} alt="profile" />
-        </Thumbnail>
-        <InnerContainer>
-          <h6>
-            놀자 놀자<span>00:34</span>
-          </h6>
-          <p>
-            현재까지 33명이 제출해주셨습니다. 아직 작성하지 않은 분들 오늘까지
-            제출 부탁드릴께요~ 마지막 설문은 요기
-          </p>
-        </InnerContainer>
-      </Content>
-      <Content>
-        <Thumbnail>
-          <img src={profile_kbs} alt="profile" />
-        </Thumbnail>
-        <InnerContainer>
-          <h6>
-            놀자 놀자<span>00:34</span>
-          </h6>
-          <p>
-            현재까지 33명이 제출해주셨습니다. 아직 작성하지 않은 분들 오늘까지
-            제출 부탁드릴께요~ 마지막 설문은 요기
-          </p>
-        </InnerContainer>
-      </Content>
-      <Content>
-        <Thumbnail>
-          <img src={profile_kbs} alt="profile" />
-        </Thumbnail>
-        <InnerContainer>
-          <h6>
-            놀자 놀자<span>00:34</span>
-          </h6>
-          <p>
-            현재까지 33명이 제출해주셨습니다. 아직 작성하지 않은 분들 오늘까지
-            제출 부탁드릴께요~ 마지막 설문은 요기
-          </p>
-        </InnerContainer>
-      </Content>
-      <Content>
-        <Thumbnail>
-          <img src={profile_kbs} alt="profile" />
-        </Thumbnail>
-        <InnerContainer>
-          <h6>
-            놀자 놀자<span>00:34</span>
-          </h6>
-          <p>
-            현재까지 33명이 제출해주셨습니다. 아직 작성하지 않은 분들 오늘까지
-            제출 부탁드릴께요~ 마지막 설문은 요기
-          </p>
-        </InnerContainer>
-      </Content>
-      <Content>
-        <Thumbnail>
-          <img src={profile_kbs} alt="profile" />
-        </Thumbnail>
-        <InnerContainer>
-          <h6>
-            놀자 놀자<span>00:34</span>
-          </h6>
-          <p>
-            현재까지 33명이 제출해주셨습니다. 아직 작성하지 않은 분들 오늘까지
-            제출 부탁드릴께요~ 마지막 설문은 요기
-          </p>
-        </InnerContainer>
-      </Content>
-      <Content>
-        <Thumbnail>
-          <img src={profile_kbs} alt="profile" />
-        </Thumbnail>
-        <InnerContainer>
-          <h6>
-            놀자 놀자<span>00:34</span>
-          </h6>
-          <p>
-            현재까지 33명이 제출해주셨습니다. 아직 작성하지 않은 분들 오늘까지
-            제출 부탁드릴께요~ 마지막 설문은 요기
-          </p>
-        </InnerContainer>
-      </Content>
-      <Content>
-        <Thumbnail>
-          <img src={profile_kbs} alt="profile" />
-        </Thumbnail>
-        <InnerContainer>
-          <h6>
-            놀자 놀자<span>00:34</span>
-          </h6>
-          <p>
-            현재까지 33명이 제출해주셨습니다. 아직 작성하지 않은 분들 오늘까지
-            제출 부탁드릴께요~ 마지막 설문은 요기
-          </p>
-        </InnerContainer>
-      </Content>
-      <Content>
-        <Thumbnail>
-          <img src={profile_kbs} alt="profile" />
-        </Thumbnail>
-        <InnerContainer>
-          <h6>
-            놀자 놀자<span>00:34</span>
-          </h6>
-          <p>
-            현재까지 33명이 제출해주셨습니다. 아직 작성하지 않은 분들 오늘까지
-            제출 부탁드릴께요~ 마지막 설문은 요기
-          </p>
-        </InnerContainer>
-      </Content>
-      <Content>
-        <Thumbnail>
-          <img src={profile_kbs} alt="profile" />
-        </Thumbnail>
-        <InnerContainer>
-          <h6>
-            놀자 놀자<span>00:34</span>
-          </h6>
-          <p>
-            현재까지 33명이 제출해주셨습니다. 아직 작성하지 않은 분들 오늘까지
-            제출 부탁드릴께요~ 마지막 설문은 요기
-          </p>
-        </InnerContainer>
-      </Content>
-      <Content>
-        <Thumbnail>
-          <img src={profile_kbs} alt="profile" />
-        </Thumbnail>
-        <InnerContainer>
-          <h6>
-            놀자 놀자<span>00:34</span>
-          </h6>
-          <p>처음</p>
-        </InnerContainer>
-      </Content>
+      {messages
+        .slice(0)
+        .reverse()
+        .map((message) => (
+          <Content key={message.date}>
+            <Thumbnail>
+              <img src={profile_kbs} alt="profile" />
+            </Thumbnail>
+            <InnerContainer>
+              <h6>
+                {message.from}
+                <span>00:34</span>
+              </h6>
+              <p>{message.content}</p>
+            </InnerContainer>
+          </Content>
+        ))}
     </Container>
   );
 };
