@@ -7,6 +7,8 @@ const Title = styled.span`
   align-items: center;
   font-size: 16px;
   padding: 4px;
+  cursor: pointer;
+  width: fit-content;
 `;
 
 const DMList = styled.ul`

@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { style } from './DirectMessageStyle';
-import { FaCaretRight } from 'react-icons/fa';
+import { FaCaretRight, FaCaretDown } from 'react-icons/fa';
 import user from 'Assets/MOCK_DATA';
 
 const DirectMessage = () => {
@@ -11,13 +11,19 @@ const DirectMessage = () => {
     </li>
   ));
 
+  const [toggle, setToggle] = useState<boolean>(true);
+
+  const handleClick = () => {
+    setToggle(!toggle);
+  };
+
   return (
     <DMContainer>
-      <Title>
-        <FaCaretRight />
+      <Title onClick={handleClick}>
+        {toggle ? <FaCaretDown /> : <FaCaretRight />}
         Direct message
       </Title>
-      <DMList>{renderDirectMessages}</DMList>
+      {toggle ? <DMList>{renderDirectMessages}</DMList> : null}
     </DMContainer>
   );
 };
