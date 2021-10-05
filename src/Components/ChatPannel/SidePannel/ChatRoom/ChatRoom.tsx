@@ -1,11 +1,17 @@
-import React, { useState } from 'react';
-import { style } from './ChatRoomStyle';
-import { FaCaretRight, FaCaretDown, FaPlusSquare } from 'react-icons/fa';
+import React, { useEffect, useState } from 'react';
 import user from 'Assets/MOCK_DATA';
 
-const ChatRoom = () => {
-  const renderRooms = user.map((data) => <li key={data.id}># {data.room}</li>);
+import { collection, onSnapshot, query } from 'firebase/firestore';
+import { db } from 'fBase';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { atomRoomsInfo } from 'Recoil/atom';
+import { IRoomInfo } from 'Types';
 
+import { style } from './ChatRoomStyle';
+import { FaCaretRight, FaCaretDown, FaPlusSquare } from 'react-icons/fa';
+
+const ChatRoom = () => {
+  const [roomsList, setRoomsList] = useRecoilState(atomRoomsInfo);
   const [toggle, setToggle] = useState<boolean>(true);
 
   const handleToggle = () => {
@@ -13,6 +19,27 @@ const ChatRoom = () => {
   };
 
   const handleAdd = () => {};
+
+  const roomsListener = () => {
+    const q = query(collection(db, 'Rooms'));
+    onSnapshot(q, (query) => {
+      const temp: IRoomInfo[] = [];
+      query.forEach((doc) => {
+        const docData = doc.data();
+        temp.push({
+          roomID: docData.roomID,
+          roomName: docData.roomName,
+          Owner: docData.Owner,
+          Members: docData.Members,
+        });
+      });
+      setRoomsList(temp);
+    });
+  };
+
+  useEffect(() => {
+    roomsListener();
+  }, []);
 
   return (
     <RoomContainer>
@@ -25,7 +52,13 @@ const ChatRoom = () => {
           <FaPlusSquare />
         </Btn>
       </RoomTitleWrap>
-      {toggle ? <RoomList>{renderRooms}</RoomList> : null}
+      {toggle ? (
+        <RoomList>
+          {roomsList.map((data) => (
+            <li key={data.roomID}># {data.roomName}</li>
+          ))}
+        </RoomList>
+      ) : null}
     </RoomContainer>
   );
 };
