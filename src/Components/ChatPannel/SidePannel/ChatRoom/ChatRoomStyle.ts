@@ -32,6 +32,7 @@ const Btn = styled.div`
   svg {
     color: indigo;
   }
+  cursor: pointer;
 `;
 export const style = {
   RoomContainer,

@@ -1,5 +1,5 @@
 import { atom } from 'recoil';
-import { IRoomInfo, IUserInfo } from 'Types';
+import { IMessage, IRoomInfo, IUserInfo } from 'Types';
 
 export const atomSignCheck = atom<boolean>({
   key: 'SignCheck',
@@ -33,5 +33,20 @@ export const atomMyInfo = atom<IUserInfo>({
 
 export const atomRoomsInfo = atom<IRoomInfo[]>({
   key: 'Rooms',
+  default: [],
+});
+
+export const atomEnterRoom = atom<IRoomInfo>({
+  key: 'EnterRoom',
+  default: {
+    roomID: 0,
+    roomName: '',
+    Owner: '',
+    Members: [],
+  },
+});
+
+export const atomMessages = atom<IMessage[]>({
+  key: 'Messages',
   default: [],
 });
