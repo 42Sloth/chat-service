@@ -1,5 +1,5 @@
 import { getAuth, onAuthStateChanged } from '@firebase/auth';
-import { Home, SignIn, SignUp } from 'Pages';
+import { ChatPage, Home, SignIn, SignUp } from 'Pages';
 import SignUpSuccess from 'Pages/SignUp/Success/SignUpSuccess';
 import React, { useEffect } from 'react';
 import {
@@ -35,6 +35,7 @@ const App: React.FC = () => {
           <Route path="/signin" component={SignIn} />
           <Route path="/signup" component={SignUp} />
           <Route path="/signup-success" component={SignUpSuccess} />
+          <Route path="/chat" component={ChatPage} />
         </Switch>
       </Router>
     </RecoilRoot>
