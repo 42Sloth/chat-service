@@ -3,11 +3,11 @@ import { getAuth, onAuthStateChanged, signOut } from '@firebase/auth';
 import logo from 'Assets/Chatpong_logo_trans.png';
 import { style } from './NavbarStyle';
 import { useRecoilState } from 'recoil';
-import { SignCheck } from 'Recoil/atom';
+import { atomSignCheck } from 'Recoil/atom';
 import { deleteUser } from 'firebase/auth';
 
 const Navbar: React.FC = () => {
-  const [signCheck, setSignCheck] = useRecoilState(SignCheck);
+  const [signCheck, setSignCheck] = useRecoilState(atomSignCheck);
   const auth = getAuth();
   const user = auth.currentUser;
 

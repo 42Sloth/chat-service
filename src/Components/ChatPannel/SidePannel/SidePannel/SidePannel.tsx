@@ -1,6 +1,5 @@
 import React from 'react';
-import ChatRoom from './ChatRoom';
-import DirectMessage from './DirectMessage';
+import {DirectMessage, ChatRoom} from "../";
 import { style } from './SidePannelStyle';
 
 const SidePannel = () => {

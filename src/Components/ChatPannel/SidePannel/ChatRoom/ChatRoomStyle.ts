@@ -4,9 +4,9 @@ const RoomContainer = styled.div``;
 
 const RoomTitle = styled.span`
   display: flex;
-  align-items: center;
   font-size: 16px;
-  padding: 4px;
+  cursor: pointer;
+  width: fit-content;
 `;
 
 const RoomList = styled.ul`
@@ -20,8 +20,24 @@ const RoomList = styled.ul`
   }
 `;
 
+const RoomTitleWrap = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: 4px;
+  align-items: center;
+`;
+
+const Btn = styled.div`
+  width: fit-content;
+  svg {
+    color: indigo;
+  }
+  cursor: pointer;
+`;
 export const style = {
   RoomContainer,
   RoomTitle,
   RoomList,
+  RoomTitleWrap,
+  Btn,
 };

@@ -36,7 +36,8 @@ const MemberLists = styled.ul`
     font-size: 16px;
     font-weight: 500;
     color: #333;
+    cursor: pointer;
   }
 `;
 
-export const style = { Container, Title, MemberLists };
+export const MlStyle = { Container, Title, MemberLists };

@@ -8,7 +8,11 @@ import {
   setPersistence,
   signInWithEmailAndPassword,
 } from 'firebase/auth';
+import { query, collection, where, getDocs } from '@firebase/firestore';
+import { db } from 'fBase';
+import { useSetRecoilState } from 'recoil';
 import { ISignInForm } from 'Types';
+import { atomMyInfo } from 'Recoil/atom';
 import { FormButton } from 'Components';
 import { style } from 'Styles/FormStyle';
 import logo from 'Assets/Chatpong_logo_trans.png';
@@ -20,13 +24,30 @@ const SignIn = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<ISignInForm>();
+  const setMyInfo = useSetRecoilState(atomMyInfo);
 
   const onSubmit: SubmitHandler<ISignInForm> = async (form) => {
     try {
       const auth = getAuth();
-      console.log(form.email, form.password);
       await setPersistence(auth, browserLocalPersistence);
       await signInWithEmailAndPassword(auth, form.email, form.password);
+      if (auth.currentUser) {
+        const q = query(
+          collection(db, 'users'),
+          where('uid', '==', auth.currentUser.uid),
+        );
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+          const docData = doc.data();
+          setMyInfo({
+            nickname: docData.nickname,
+            email: docData.email,
+            uid: docData.uid,
+            photoURL: docData.photoURL,
+          });
+        });
+      }
+
       history.push({
         pathname: '/',
       });

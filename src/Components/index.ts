@@ -6,4 +6,4 @@ export { default as AnotherPage } from './Section/AnotherPage/AnotherPage';
 export { default as FormButton } from './FormButton/FormButton';
 export { default as MainPannel } from './ChatPannel/MainPannel/MainPannel';
 export { default as HeaderPannel } from './ChatPannel/HeaderPannel/HeaderPannel';
-export { default as SidePannel } from './ChatPannel/SidePannel/SidePannel';
+export { default as SidePannel } from './ChatPannel/SidePannel/SidePannel/SidePannel';
