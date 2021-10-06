@@ -23,9 +23,16 @@ const MessageForm: React.FC = () => {
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     const temp = content;
     setContent('');
+
+    const myInfo = localStorage.getItem('MyInfo');
+
+    let myUID;
+    if (myInfo) {
+      myUID = JSON.parse(myInfo).uid;
+    }
     addDoc(collection(db, 'messages'), {
       content: temp,
-      from: myInfo.uid,
+      from: myUID,
       date: getDate(),
     });
   };

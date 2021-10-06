@@ -23,6 +23,7 @@ const Profile = () => {
 
   const handleSignOut = () => {
     signOut(auth);
+    localStorage.removeItem('MyInfo');
     history.push('/');
   };
 
