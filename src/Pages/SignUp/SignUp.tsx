@@ -13,6 +13,7 @@ import { app, db } from '../../fBase';
 import { FormButton } from 'Components';
 import { style } from 'Styles/FormStyle';
 import logo from 'Assets/Chatpong_logo_trans.png';
+import defaultAvatar from 'Assets/default_avatar.png';
 
 const SignUp: React.FC = () => {
   const history = useHistory();
@@ -41,7 +42,7 @@ const SignUp: React.FC = () => {
           nickname: data.nickname,
           email: data.email,
           uid: auth.currentUser.uid,
-          photoURL: '',
+          photoURL: `${defaultAvatar}`,
         });
         history.push({
           pathname: '/signup-success',
