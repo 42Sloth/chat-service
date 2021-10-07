@@ -31,7 +31,11 @@ const Profile = () => {
     inputOpenImageRef.current?.click();
   };
 
-  const handleUploadImage = () => {};
+  const handleUploadImage = async (event: any) => {
+    const file = event.target.files[0];
+
+    console.log(file);
+  };
 
   return (
     <Container>
