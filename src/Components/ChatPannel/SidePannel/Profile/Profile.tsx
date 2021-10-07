@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 
 import { useHistory } from 'react-router-dom';
 import { useRecoilValue, useResetRecoilState } from 'recoil';
@@ -16,6 +16,7 @@ const Profile = () => {
   const resetClickedUser = useResetRecoilState(atomClickedUser);
   const clickedUserInfo = useRecoilValue(atomClickedUser);
   const myInfo = useRecoilValue(atomMyInfo);
+  const inputOpenImageRef = useRef<HTMLInputElement>(null);
 
   const handleClose = () => {
     resetClickedUser();
@@ -26,6 +27,12 @@ const Profile = () => {
     history.push('/');
   };
 
+  const handleOpenImageRef = () => {
+    inputOpenImageRef.current?.click();
+  };
+
+  const handleUploadImage = () => {};
+
   return (
     <Container>
       <ProfileTitle>
@@ -35,7 +42,14 @@ const Profile = () => {
         </div>
       </ProfileTitle>
       <User>
-        <img src={profile_kbs} alt="profile" />
+        <img src={profile_kbs} alt="profile" onClick={handleOpenImageRef} />
+        <input
+          onChange={handleUploadImage}
+          accept="image.jpeg, image/png"
+          type="file"
+          style={{ display: 'none' }}
+          ref={inputOpenImageRef}
+        />
         <UserInfo>
           <UserName>{clickedUserInfo.nickname}</UserName>
           <UserEmail>{clickedUserInfo.email}</UserEmail>
