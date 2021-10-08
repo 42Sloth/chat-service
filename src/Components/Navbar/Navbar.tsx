@@ -1,23 +1,39 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { getAuth, onAuthStateChanged, signOut } from '@firebase/auth';
 import logo from 'Assets/Chatpong_logo_trans.png';
 import { style } from './NavbarStyle';
-import { useRecoilState } from 'recoil';
-import { atomSignCheck } from 'Recoil/atom';
+import { useRecoilState, useResetRecoilState } from 'recoil';
+import { atomMyInfo } from 'Recoil/atom';
 import { deleteUser } from 'firebase/auth';
+import { query } from '@firebase/firestore';
+import { collection, getDocs, where } from 'firebase/firestore';
+import { db } from 'fBase';
 
 const Navbar: React.FC = () => {
-  const [signCheck, setSignCheck] = useRecoilState(atomSignCheck);
+  const [myInfo, setMyInfo] = useRecoilState(atomMyInfo);
+  const myInfoReset = useResetRecoilState(atomMyInfo);
   const auth = getAuth();
   const user = auth.currentUser;
 
-  onAuthStateChanged(auth, (data) => {
-    if (data) {
-      setSignCheck(false);
-    } else {
-      setSignCheck(true);
-    }
-  });
+  useEffect(() => {
+    onAuthStateChanged(auth, async (data) => {
+      if (data) {
+        const q = query(collection(db, 'users'), where('uid', '==', data.uid));
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+          const docData = doc.data();
+          setMyInfo({
+            nickname: docData.nickname,
+            email: docData.email,
+            uid: docData.uid,
+            photoURL: docData.photoURL,
+          });
+        });
+      } else {
+        myInfoReset();
+      }
+    });
+  }, []);
 
   const handleSignOut = () => {
     signOut(auth);
@@ -26,7 +42,6 @@ const Navbar: React.FC = () => {
   const handleWithdraw = () => {
     if (user) {
       deleteUser(user);
-      setSignCheck(false);
     }
   };
 
@@ -42,7 +57,7 @@ const Navbar: React.FC = () => {
           <NavLink to="/">Game</NavLink>
         </NavMenu>
         <NavBtn>
-          {signCheck ? (
+          {!myInfo.uid ? (
             <>
               <NavBtnLink to="/signin" background="transparent" color="#611f66">
                 로그인

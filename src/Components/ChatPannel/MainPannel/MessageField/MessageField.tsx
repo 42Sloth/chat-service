@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import {
   collection,
@@ -11,16 +11,23 @@ import {
 import { db } from 'fBase';
 import { useRecoilState } from 'recoil';
 import { atomMessages } from 'Recoil/atom';
+import { useLocation } from 'react-router-dom';
 
 import { style } from './MessageFieldStyle';
 import profile_kbs from 'Assets/profile_kbs.jpg';
 import { IMessage } from 'Types';
+import { message } from 'antd';
 
 const MessageField: React.FC = () => {
-  const [messages, setMessages] = useRecoilState(atomMessages);
+  //const [messages, setMessages] = useRecoilState(atomMessages);
+  const [messages, setMessages] = useState<IMessage[]>([]);
+  const location = useLocation();
 
   const messagesListener = () => {
-    const q = query(collection(db, 'messages'), orderBy('date'));
+    const q = query(
+      collection(db, 'Rooms', `${location.state}`, 'Messages'),
+      orderBy('date'),
+    );
     onSnapshot(q, (query) => {
       const temp: IMessage[] = [];
       query.forEach((doc) => {
@@ -37,12 +44,13 @@ const MessageField: React.FC = () => {
 
   useEffect(() => {
     messagesListener();
-  }, []);
+  }, [location.state]);
+
   return (
     <Container>
       {messages
         .slice(0)
-        .reverse()
+        .reverse() 
         .map((message) => (
           <Content key={message.date}>
             <Thumbnail>
