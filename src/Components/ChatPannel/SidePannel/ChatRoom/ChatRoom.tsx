@@ -1,6 +1,13 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { collection, doc, onSnapshot, query, setDoc } from 'firebase/firestore';
+import {
+  collection,
+  doc,
+  onSnapshot,
+  orderBy,
+  query,
+  setDoc,
+} from 'firebase/firestore';
 import { db } from 'fBase';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { atomEnterRoom, atomMyInfo, atomRoomsInfo } from 'Recoil/atom';
@@ -8,6 +15,7 @@ import { IRoomInfo } from 'Types';
 
 import { style } from './ChatRoomStyle';
 import { FaCaretRight, FaCaretDown, FaPlusSquare } from 'react-icons/fa';
+import { getDate } from 'Utils/getDate';
 
 const ChatRoom = () => {
   const history = useHistory();
@@ -19,7 +27,7 @@ const ChatRoom = () => {
   const [title, setTitle] = useState<string>('');
 
   const roomsListener = () => {
-    const q = query(collection(db, 'Rooms'));
+    const q = query(collection(db, 'Rooms'), orderBy('date'));
     onSnapshot(q, (query) => {
       const temp: IRoomInfo[] = [];
       query.forEach((doc) => {
@@ -56,10 +64,11 @@ const ChatRoom = () => {
     setAdd(false);
 
     await setDoc(doc(db, 'Rooms', temp), {
-      roomID: roomsList[roomsList.length - 1].roomID + 1,
+      roomID: roomsList === [] ? roomsList[roomsList.length - 1].roomID + 1 : 0,
       roomName: temp,
       Owner: myInfo.uid,
       Members: [myInfo.uid],
+      date: getDate(),
     });
     setTitle('');
   };

@@ -1,22 +1,12 @@
 import React, { useEffect, useState } from 'react';
 
-import {
-  collection,
-  doc,
-  onSnapshot,
-  orderBy,
-  query,
-  setDoc,
-} from 'firebase/firestore';
+import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
 import { db } from 'fBase';
-import { useRecoilState } from 'recoil';
-import { atomMessages } from 'Recoil/atom';
 import { useLocation } from 'react-router-dom';
 
 import { style } from './MessageFieldStyle';
 import profile_kbs from 'Assets/profile_kbs.jpg';
 import { IMessage } from 'Types';
-import { message } from 'antd';
 
 const MessageField: React.FC = () => {
   //const [messages, setMessages] = useRecoilState(atomMessages);
@@ -35,6 +25,7 @@ const MessageField: React.FC = () => {
         temp.push({
           content: docData.content,
           from: docData.from,
+          nickname: docData.nickname,
           date: docData.date,
         });
       });
@@ -50,7 +41,7 @@ const MessageField: React.FC = () => {
     <Container>
       {messages
         .slice(0)
-        .reverse() 
+        .reverse()
         .map((message) => (
           <Content key={message.date}>
             <Thumbnail>
@@ -58,7 +49,7 @@ const MessageField: React.FC = () => {
             </Thumbnail>
             <InnerContainer>
               <h6>
-                {message.from}
+                {message.nickname}
                 <span>00:34</span>
               </h6>
               <p>{message.content}</p>
