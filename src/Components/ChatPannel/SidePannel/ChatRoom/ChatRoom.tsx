@@ -1,6 +1,5 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
-import user from 'Assets/MOCK_DATA';
-
+import { useHistory } from 'react-router-dom';
 import { collection, doc, onSnapshot, query, setDoc } from 'firebase/firestore';
 import { db } from 'fBase';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
@@ -11,6 +10,7 @@ import { style } from './ChatRoomStyle';
 import { FaCaretRight, FaCaretDown, FaPlusSquare } from 'react-icons/fa';
 
 const ChatRoom = () => {
+  const history = useHistory();
   const [roomsList, setRoomsList] = useRecoilState(atomRoomsInfo);
   const [enterRoom, setEnterRoom] = useRecoilState(atomEnterRoom);
   const myInfo = useRecoilValue(atomMyInfo);
@@ -65,6 +65,11 @@ const ChatRoom = () => {
   };
 
   const handleEnterRoom = (data: IRoomInfo) => {
+    history.push({
+      pathname: `/chat/${data.roomName}`,
+      state: data.roomName,
+    });
+
     setEnterRoom(data);
   };
 
@@ -92,9 +97,9 @@ const ChatRoom = () => {
       {toggle ? (
         <RoomList>
           {roomsList.map((data) => (
-            <li key={data.roomID} onClick={() => handleEnterRoom(data)}>
+            <Room key={data.roomID} onClick={() => handleEnterRoom(data)}>
               # {data.roomName}
-            </li>
+            </Room>
           ))}
         </RoomList>
       ) : null}
@@ -104,4 +109,4 @@ const ChatRoom = () => {
 
 export default ChatRoom;
 
-const { RoomContainer, RoomTitle, RoomList, RoomTitleWrap, Btn } = style;
+const { RoomContainer, RoomTitle, RoomList, RoomTitleWrap, Btn, Room } = style;
