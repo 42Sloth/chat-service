@@ -3,4 +3,5 @@ export interface IRoomInfo {
   roomName: string;
   Owner: string;
   Members: string[];
+  date: string;
 }

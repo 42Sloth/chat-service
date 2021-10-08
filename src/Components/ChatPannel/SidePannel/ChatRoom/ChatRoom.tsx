@@ -20,7 +20,7 @@ import { getDate } from 'Utils/getDate';
 const ChatRoom = () => {
   const history = useHistory();
   const [roomsList, setRoomsList] = useRecoilState(atomRoomsInfo);
-  const [enterRoom, setEnterRoom] = useRecoilState(atomEnterRoom);
+  const setEnterRoom = useSetRecoilState(atomEnterRoom);
   const myInfo = useRecoilValue(atomMyInfo);
   const [toggle, setToggle] = useState<boolean>(true);
   const [add, setAdd] = useState<boolean>(false);
@@ -37,6 +37,7 @@ const ChatRoom = () => {
           roomName: docData.roomName,
           Owner: docData.Owner,
           Members: docData.Members,
+          date: docData.date,
         });
       });
       setRoomsList(temp);
@@ -64,7 +65,7 @@ const ChatRoom = () => {
     setAdd(false);
 
     await setDoc(doc(db, 'Rooms', temp), {
-      roomID: roomsList === [] ? roomsList[roomsList.length - 1].roomID + 1 : 0,
+      roomID: roomsList[roomsList.length - 1].roomID + 1,
       roomName: temp,
       Owner: myInfo.uid,
       Members: [myInfo.uid],
@@ -74,12 +75,11 @@ const ChatRoom = () => {
   };
 
   const handleEnterRoom = (data: IRoomInfo) => {
+    setEnterRoom(data);
     history.push({
       pathname: `/chat/${data.roomName}`,
       state: data.roomName,
     });
-
-    setEnterRoom(data);
   };
 
   return (
