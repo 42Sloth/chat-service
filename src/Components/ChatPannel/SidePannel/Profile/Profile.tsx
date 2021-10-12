@@ -44,7 +44,7 @@ const Profile = () => {
     const metadata = {
       contentType: 'image/jpeg',
     };
-    const docRef = doc(db, 'users', `${myInfo.nickname}`);
+    const docRef = doc(db, 'users', `${clickedUserInfo.nickname}`);
     uploadBytesResumable(imageRef, file, metadata)
       .then((snapshot) => {
         getDownloadURL(snapshot.ref).then((url) => {
@@ -78,7 +78,7 @@ const Profile = () => {
       </ProfileTitle>
       <User>
         <img
-          src={myInfo.photoURL ? myInfo.photoURL : ''}
+          src={clickedUserInfo.photoURL ? clickedUserInfo.photoURL : ''}
           alt="profile"
           onClick={handleOpenImageRef}
         />
