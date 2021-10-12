@@ -45,6 +45,7 @@ const Profile = () => {
       contentType: 'image/jpeg',
     };
     const docRef = doc(db, 'users', `${clickedUserInfo.nickname}`);
+
     uploadBytesResumable(imageRef, file, metadata)
       .then((snapshot) => {
         getDownloadURL(snapshot.ref).then((url) => {

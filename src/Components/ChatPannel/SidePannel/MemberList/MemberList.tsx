@@ -3,9 +3,9 @@ import { FaCaretRight } from 'react-icons/fa';
 import { collection, onSnapshot, query } from 'firebase/firestore';
 import { db } from 'fBase';
 import { MlStyle } from './MemberListStyle';
-import { useRecoilState, useSetRecoilState } from 'recoil';
-import { atomMemberList, atomClickedUser } from 'Recoil/atom';
-import { IUserInfo } from 'Types';
+import { useRecoilState, useSetRecoilState, useRecoilValue } from 'recoil';
+import { atomMemberList, atomClickedUser, atomMyInfo } from 'Recoil/atom';
+import { IUserInfo } from 'Types/IUserInfo';
 
 const MemberList = () => {
   const [memberList, setMemberList] = useRecoilState(atomMemberList);
@@ -52,10 +52,7 @@ const MemberList = () => {
               handleClickedUser(data);
             }}
           >
-            <img
-              src="https://avatars.githubusercontent.com/u/66353903?v=4"
-              alt="members"
-            />
+            <img src={data.photoURL} alt="members" />
             {data.nickname}
           </li>
         ))}
