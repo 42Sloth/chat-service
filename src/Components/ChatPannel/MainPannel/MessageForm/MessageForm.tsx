@@ -7,27 +7,30 @@ import { useLocation } from 'react-router-dom';
 import { FaPaperPlane } from 'react-icons/fa';
 
 import { style } from './MessageFormStyle';
+import { getDate } from 'Utils/getDate';
 
 const MessageForm: React.FC = () => {
   const [content, setContent] = useState('');
   const myInfo = useRecoilValue(atomMyInfo);
   const location = useLocation();
 
-  const getDate = () => {
-    const date = new Date();
-    return date.toISOString();
-  };
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setContent(e.target.value);
   };
 
-  const handleSubmit = (e: React.MouseEvent<SVGElement>) => {
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleSubmit();
+    }
+  };
+
+  const handleSubmit = () => {
     const temp = content;
     setContent('');
     addDoc(collection(db, 'Rooms', `${location.state}`, 'Messages'), {
       content: temp,
       from: myInfo.uid,
+      nickname: myInfo.nickname,
       date: getDate(),
     });
   };
@@ -39,7 +42,8 @@ const MessageForm: React.FC = () => {
             value={content}
             placeholder="메세지를 입력해주세요"
             onChange={handleChange}
-          />
+            onKeyPress={handleKeyPress}
+          ></Input>
           <div>
             <FaPaperPlane onClick={handleSubmit} />
           </div>

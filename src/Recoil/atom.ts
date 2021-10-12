@@ -43,6 +43,7 @@ export const atomEnterRoom = atom<IRoomInfo>({
     roomName: '',
     Owner: '',
     Members: [],
+    date: ''
   },
 });
 
