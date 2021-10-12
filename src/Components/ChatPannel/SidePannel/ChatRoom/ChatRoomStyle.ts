@@ -12,12 +12,6 @@ const RoomTitle = styled.span`
 const RoomList = styled.ul`
   list-style: none;
   padding: 10px 10px 0 20px;
-
-  li {
-    margin-bottom: 5px;
-    display: flex;
-    align-items: center;
-  }
 `;
 
 const RoomTitleWrap = styled.div`
@@ -34,10 +28,22 @@ const Btn = styled.div`
   }
   cursor: pointer;
 `;
+
+const Room = styled.li`
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+
+  &:active {
+    font-weight: bold;
+  }
+`;
 export const style = {
   RoomContainer,
   RoomTitle,
   RoomList,
   RoomTitleWrap,
   Btn,
+  Room,
 };
