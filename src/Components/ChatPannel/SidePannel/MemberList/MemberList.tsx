@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { FaCaretRight } from 'react-icons/fa';
 import { collection, onSnapshot, query } from 'firebase/firestore';
 import { db } from 'fBase';
-
 import { MlStyle } from './MemberListStyle';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { atomMemberList, atomClickedUser } from 'Recoil/atom';
@@ -40,7 +39,9 @@ const MemberList = () => {
   return (
     <Container>
       <Title>
-        <FaCaretRight />
+        <div>
+          <FaCaretRight />
+        </div>
         <h6>All Member</h6>
       </Title>
       <MemberLists>

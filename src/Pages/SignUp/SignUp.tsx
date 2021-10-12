@@ -5,11 +5,11 @@ import {
   createUserWithEmailAndPassword,
   updateProfile,
 } from 'firebase/auth';
-import { getFirestore, collection, addDoc } from 'firebase/firestore';
+import { collection, addDoc, setDoc, doc } from 'firebase/firestore';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import { IFormInput } from 'Types';
-import { app, db } from '../../fBase';
+import { db } from 'fBase';
 import { FormButton } from 'Components';
 import { style } from 'Styles/FormStyle';
 import logo from 'Assets/Chatpong_logo_trans.png';
@@ -37,7 +37,7 @@ const SignUp: React.FC = () => {
         //   // photoURL: 'https://avatars.githubusercontent.com/u/66353903?v=4',
         // });
         // console.log(auth.currentUser.displayName, auth.currentUser.photoURL);
-        const docRef = await addDoc(collection(db, 'users'), {
+        await setDoc(doc(db, 'users', `${data.nickname}`), {
           nickname: data.nickname,
           email: data.email,
           uid: auth.currentUser.uid,

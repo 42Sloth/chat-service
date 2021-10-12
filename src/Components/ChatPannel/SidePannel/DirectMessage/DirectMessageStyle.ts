@@ -2,34 +2,59 @@ import styled from 'styled-components';
 
 const DMContainer = styled.div``;
 
-const Title = styled.span`
+const TitleWrap = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: 4px;
+  align-items: center;
+`;
+
+const Title = styled.div`
   display: flex;
   align-items: center;
-  font-size: 16px;
+  font-size: 18px;
   padding: 4px;
   cursor: pointer;
   width: fit-content;
+
+  div {
+    font-size: 20px;
+    margin-right: 5px;
+  }
+`;
+
+const Btn = styled.div`
+  cursor: pointer;
+  font-size: 20px;
+
+  svg {
+    color: indigo;
+  }
 `;
 
 const DMList = styled.ul`
   list-style: none;
-  padding: 10px 10px 0 20px;
+  font-size: 16px;
+  padding: 0 10px 0 30px;
 
   li {
     margin-bottom: 5px;
     display: flex;
     align-items: center;
+    line-height: 25px;
   }
 
   img {
     width: 20px;
-    height: 20px;
     margin: 0 5px;
+    border-radius: 5px;
   }
 `;
 
 export const style = {
   DMContainer,
+  TitleWrap,
   Title,
+  Btn,
   DMList,
 };

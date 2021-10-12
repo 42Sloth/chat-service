@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { atomMyInfo } from 'Recoil/atom';
 import { useLocation } from 'react-router-dom';
-import { getJSDocDeprecatedTag } from 'typescript';
+import { FaPaperPlane } from 'react-icons/fa';
 
 import { style } from './MessageFormStyle';
 import { getDate } from 'Utils/getDate';
@@ -40,11 +40,13 @@ const MessageForm: React.FC = () => {
         <InnerBox>
           <Input
             value={content}
-            placeholder="입력해주세요"
+            placeholder="메세지를 입력해주세요"
             onChange={handleChange}
             onKeyPress={handleKeyPress}
           ></Input>
-          <button onClick={handleSubmit}>전송</button>
+          <div>
+            <FaPaperPlane onClick={handleSubmit} />
+          </div>
         </InnerBox>
       </Inner>
     </Container>
