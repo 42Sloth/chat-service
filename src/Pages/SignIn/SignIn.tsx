@@ -45,6 +45,16 @@ const SignIn = () => {
             uid: docData.uid,
             photoURL: docData.photoURL,
           });
+
+          localStorage.setItem(
+            'MyInfo',
+            JSON.stringify({
+              nickname: docData.nickname,
+              email: docData.email,
+              uid: docData.uid,
+              photoURL: docData.photoURL,
+            }),
+          );
         });
       }
 
