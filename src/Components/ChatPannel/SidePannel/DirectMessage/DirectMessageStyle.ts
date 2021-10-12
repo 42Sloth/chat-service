@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 const DMContainer = styled.div``;
 
@@ -15,12 +15,6 @@ const DMList = styled.ul`
   list-style: none;
   padding: 10px 10px 0 20px;
 
-  li {
-    margin-bottom: 5px;
-    display: flex;
-    align-items: center;
-  }
-
   img {
     width: 20px;
     height: 20px;
@@ -28,8 +22,22 @@ const DMList = styled.ul`
   }
 `;
 
+const DM = styled.li`
+  margin-bottom: 7px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+
+  ${(props: { selectedDM: boolean }) =>
+    props.selectedDM &&
+    css`
+      font-weight: bolder;
+    `}
+`;
+
 export const style = {
   DMContainer,
   Title,
   DMList,
+  DM,
 };
