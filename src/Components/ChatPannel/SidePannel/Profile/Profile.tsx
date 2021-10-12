@@ -66,6 +66,8 @@ const Profile = () => {
       });
   };
 
+  console.log(myInfo.photoURL);
+
   return (
     <Container>
       <ProfileTitle>
