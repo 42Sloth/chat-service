@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-
+import styled from 'styled-components';
 import { MainPannel, HeaderPannel, SidePannel } from 'Components';
 import { MemberList, Profile } from 'Components/ChatPannel/SidePannel';
 import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
