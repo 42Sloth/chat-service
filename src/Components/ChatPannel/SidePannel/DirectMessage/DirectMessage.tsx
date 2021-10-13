@@ -1,12 +1,18 @@
 import React, { useState } from 'react';
 import { style } from './DirectMessageStyle';
-import { FaCaretRight, FaCaretDown } from 'react-icons/fa';
+import {
+  FaCaretRight,
+  FaCaretDown,
+  FaHashtag,
+  FaPlusSquare,
+} from 'react-icons/fa';
 import user from 'Assets/MOCK_DATA';
 
 const DirectMessage = () => {
   const renderDirectMessages = user.map((data) => (
     <li key={data.id}>
-      # <img src={data.thumbnail} />
+      <FaHashtag />
+      <img src={data.thumbnail} />
       {data.nickname}
     </li>
   ));
@@ -19,10 +25,23 @@ const DirectMessage = () => {
 
   return (
     <DMContainer>
-      <Title onClick={handleClick}>
-        {toggle ? <FaCaretDown /> : <FaCaretRight />}
-        Direct message
-      </Title>
+      <TitleWrap>
+        <Title onClick={handleClick}>
+          {toggle ? (
+            <div>
+              <FaCaretDown />
+            </div>
+          ) : (
+            <div>
+              <FaCaretRight />
+            </div>
+          )}
+          Direct message
+        </Title>
+        <Btn>
+          <FaPlusSquare />
+        </Btn>
+      </TitleWrap>
       {toggle ? <DMList>{renderDirectMessages}</DMList> : null}
     </DMContainer>
   );
@@ -30,4 +49,4 @@ const DirectMessage = () => {
 
 export default DirectMessage;
 
-const { DMContainer, Title, DMList } = style;
+const { DMContainer, TitleWrap, Title, DMList, Btn } = style;

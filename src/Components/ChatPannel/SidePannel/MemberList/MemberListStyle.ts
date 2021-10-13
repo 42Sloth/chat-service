@@ -4,6 +4,7 @@ const Container = styled.div`
   width: 300px;
   display: flex;
   flex-direction: column;
+  border-left: 1px solid rgba(29, 28, 29, 0.13);
 `;
 
 const Title = styled.div`
@@ -11,9 +12,12 @@ const Title = styled.div`
   display: flex;
   align-items: center;
   padding-left: 20px;
-  border-left: 1px solid rgba(29, 28, 29, 0.13);
   border-bottom: 1px solid rgba(29, 28, 29, 0.13);
   background: #fceb92;
+
+  div {
+    font-size: 20px;
+  }
 
   h6 {
     font-size: 16px;

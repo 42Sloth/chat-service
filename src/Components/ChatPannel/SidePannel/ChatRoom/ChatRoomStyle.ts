@@ -1,22 +1,19 @@
 import styled from 'styled-components';
 
-const RoomContainer = styled.div``;
-
-const RoomTitle = styled.span`
-  display: flex;
-  font-size: 16px;
-  cursor: pointer;
-  width: fit-content;
+const RoomContainer = styled.div`
+  margin-bottom: 30px;
 `;
 
-const RoomList = styled.ul`
-  list-style: none;
-  padding: 10px 10px 0 20px;
+const RoomTitle = styled.div`
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+  cursor: pointer;
+  width: fit-content;
 
-  li {
-    margin-bottom: 5px;
-    display: flex;
-    align-items: center;
+  div {
+    font-size: 20px;
+    margin-right: 5px;
   }
 `;
 
@@ -28,11 +25,32 @@ const RoomTitleWrap = styled.div`
 `;
 
 const Btn = styled.div`
-  width: fit-content;
+  cursor: pointer;
+  font-size: 20px;
+
   svg {
     color: indigo;
   }
+`;
+
+const RoomList = styled.ul`
+  list-style: none;
+  padding: 0 10px 0 30px;
+`;
+
+const Room = styled.li`
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
   cursor: pointer;
+
+  p {
+    margin-left: 5px;
+  }
+
+  &:active {
+    font-weight: bold;
+  }
 `;
 export const style = {
   RoomContainer,
@@ -40,4 +58,5 @@ export const style = {
   RoomList,
   RoomTitleWrap,
   Btn,
+  Room,
 };

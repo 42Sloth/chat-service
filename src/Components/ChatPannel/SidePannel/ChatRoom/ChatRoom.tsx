@@ -1,25 +1,38 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
-import user from 'Assets/MOCK_DATA';
-
-import { collection, doc, onSnapshot, query, setDoc } from 'firebase/firestore';
+import { useHistory } from 'react-router-dom';
+import {
+  collection,
+  doc,
+  onSnapshot,
+  orderBy,
+  query,
+  setDoc,
+} from 'firebase/firestore';
 import { db } from 'fBase';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { atomEnterRoom, atomMyInfo, atomRoomsInfo } from 'Recoil/atom';
 import { IRoomInfo } from 'Types';
 
 import { style } from './ChatRoomStyle';
-import { FaCaretRight, FaCaretDown, FaPlusSquare } from 'react-icons/fa';
+import { getDate } from 'Utils/getDate';
+import {
+  FaCaretRight,
+  FaCaretDown,
+  FaPlusSquare,
+  FaHashtag,
+} from 'react-icons/fa';
 
 const ChatRoom = () => {
+  const history = useHistory();
   const [roomsList, setRoomsList] = useRecoilState(atomRoomsInfo);
-  const [enterRoom, setEnterRoom] = useRecoilState(atomEnterRoom);
+  const setEnterRoom = useSetRecoilState(atomEnterRoom);
   const myInfo = useRecoilValue(atomMyInfo);
   const [toggle, setToggle] = useState<boolean>(true);
   const [add, setAdd] = useState<boolean>(false);
   const [title, setTitle] = useState<string>('');
 
   const roomsListener = () => {
-    const q = query(collection(db, 'Rooms'));
+    const q = query(collection(db, 'Rooms'), orderBy('date'));
     onSnapshot(q, (query) => {
       const temp: IRoomInfo[] = [];
       query.forEach((doc) => {
@@ -29,6 +42,7 @@ const ChatRoom = () => {
           roomName: docData.roomName,
           Owner: docData.Owner,
           Members: docData.Members,
+          date: docData.date,
         });
       });
       setRoomsList(temp);
@@ -60,19 +74,32 @@ const ChatRoom = () => {
       roomName: temp,
       Owner: myInfo.uid,
       Members: [myInfo.uid],
+      date: getDate(),
     });
     setTitle('');
   };
 
   const handleEnterRoom = (data: IRoomInfo) => {
     setEnterRoom(data);
+    history.push({
+      pathname: `/chat/${data.roomName}`,
+      state: data.roomName,
+    });
   };
 
   return (
     <RoomContainer>
       <RoomTitleWrap>
         <RoomTitle onClick={handleToggle}>
-          {toggle ? <FaCaretDown /> : <FaCaretRight />}
+          {toggle ? (
+            <div>
+              <FaCaretDown />
+            </div>
+          ) : (
+            <div>
+              <FaCaretRight />
+            </div>
+          )}
           Room
         </RoomTitle>
         <Btn>
@@ -92,9 +119,10 @@ const ChatRoom = () => {
       {toggle ? (
         <RoomList>
           {roomsList.map((data) => (
-            <li key={data.roomID} onClick={() => handleEnterRoom(data)}>
-              # {data.roomName}
-            </li>
+            <Room key={data.roomID} onClick={() => handleEnterRoom(data)}>
+              <FaHashtag />
+              <p>{data.roomName}</p>
+            </Room>
           ))}
         </RoomList>
       ) : null}
@@ -104,4 +132,4 @@ const ChatRoom = () => {
 
 export default ChatRoom;
 
-const { RoomContainer, RoomTitle, RoomList, RoomTitleWrap, Btn } = style;
+const { RoomContainer, RoomTitle, RoomList, RoomTitleWrap, Btn, Room } = style;
