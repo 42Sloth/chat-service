@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { useRecoilValue, useResetRecoilState } from 'recoil';
 import { atomClickedUser, atomMyInfo } from 'Recoil/atom';
 import { getAuth, signOut, updateProfile } from '@firebase/auth';
-import { FaTimes, FaPaperPlane, FaEdit } from 'react-icons/fa';
+import { FaTimes, FaPaperPlane, FaEdit, FaUserPlus } from 'react-icons/fa';
 import { style } from './ProfileStyle';
 import { MlStyle } from 'Components/ChatPannel/SidePannel/MemberList/MemberListStyle';
 import {
@@ -98,12 +98,20 @@ const Profile = () => {
             </BtnIcon>
             <span>Direct Message</span>
           </Btn>
+          {myInfo.uid !== clickedUserInfo.uid && (
+            <Btn>
+              <BtnIcon>
+                <FaUserPlus />
+              </BtnIcon>
+              <span>친구 추가</span>
+            </Btn>
+          )}
           {myInfo.uid === clickedUserInfo.uid && (
             <Btn>
               <BtnIcon>
                 <FaEdit />
               </BtnIcon>
-              <span>Edit Profile</span>
+              <span>닉네임 변경</span>
             </Btn>
           )}
         </BtnGroup>
