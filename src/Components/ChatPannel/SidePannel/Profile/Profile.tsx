@@ -1,4 +1,4 @@
-import React, { ReactEventHandler, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useRecoilValue, useResetRecoilState } from 'recoil';
 import { atomClickedUser, atomMyInfo } from 'Recoil/atom';
@@ -78,9 +78,18 @@ const Profile = ({ init }: TextInputProps) => {
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const editName = doc(db, 'users', `${clickedUserInfo.nickname}`);
     if (e.key === 'Enter') {
       setEditable(!editable);
+    } else if (auth.currentUser) {
+      updateProfile(auth.currentUser, {
+        displayName: text,
+      });
     }
+    updateDoc(editName, {
+      nickname: text,
+    });
+    console.log(auth.currentUser);
   };
 
   return (

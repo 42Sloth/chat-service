@@ -5,7 +5,7 @@ import {
   createUserWithEmailAndPassword,
   updateProfile,
 } from 'firebase/auth';
-import { collection, addDoc, setDoc, doc } from 'firebase/firestore';
+import { setDoc, doc } from 'firebase/firestore';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import { IFormInput } from 'Types';
@@ -13,6 +13,7 @@ import { db } from 'fBase';
 import { FormButton } from 'Components';
 import { style } from 'Styles/FormStyle';
 import logo from 'Assets/Chatpong_logo_trans.png';
+import defaultImg from 'Assets/default_avatar.png';
 
 const SignUp: React.FC = () => {
   const history = useHistory();
@@ -30,18 +31,21 @@ const SignUp: React.FC = () => {
     try {
       const auth = getAuth();
       const info = data.email;
+
       await createUserWithEmailAndPassword(auth, data.email, data.password);
       if (auth.currentUser) {
-        // await updateProfile(auth.currentUser, {
-        //   // displayName: data.nickname,
-        //   // photoURL: 'https://avatars.githubusercontent.com/u/66353903?v=4',
-        // });
-        // console.log(auth.currentUser.displayName, auth.currentUser.photoURL);
+        await updateProfile(auth.currentUser, {
+          displayName: data.nickname,
+          photoURL:
+            'https://iupac.org/wp-content/uploads/2018/05/default-avatar.png',
+        });
+        console.log(auth.currentUser.displayName, auth.currentUser.photoURL);
         await setDoc(doc(db, 'users', `${data.nickname}`), {
           nickname: data.nickname,
           email: data.email,
           uid: auth.currentUser.uid,
-          photoURL: '',
+          photoURL:
+            'https://iupac.org/wp-content/uploads/2018/05/default-avatar.png',
         });
         history.push({
           pathname: '/signup-success',

@@ -5,8 +5,14 @@ import { style } from './NavbarStyle';
 import { useRecoilState, useResetRecoilState } from 'recoil';
 import { atomMyInfo } from 'Recoil/atom';
 import { deleteUser } from 'firebase/auth';
-import { query } from '@firebase/firestore';
-import { collection, getDocs, where } from 'firebase/firestore';
+import {
+  collection,
+  getDocs,
+  where,
+  doc,
+  deleteDoc,
+  query,
+} from 'firebase/firestore';
 import { db } from 'fBase';
 
 const Navbar: React.FC = () => {
@@ -43,6 +49,7 @@ const Navbar: React.FC = () => {
   const handleWithdraw = () => {
     if (user) {
       deleteUser(user);
+      deleteDoc(doc(db, 'users', `${user}`));
     }
   };
 
