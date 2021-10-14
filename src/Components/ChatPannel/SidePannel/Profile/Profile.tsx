@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { ReactEventHandler, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useRecoilValue, useResetRecoilState } from 'recoil';
 import { atomClickedUser, atomMyInfo } from 'Recoil/atom';
@@ -14,8 +14,11 @@ import {
 } from '@firebase/storage';
 import { doc, updateDoc } from 'firebase/firestore';
 import { db } from 'fBase';
+import { TextInputProps } from 'Types/TextInputProps';
 
-const Profile = () => {
+const Profile = ({ init }: TextInputProps) => {
+  const [text, setText] = useState(init);
+  const [editable, setEditable] = useState(false);
   const auth = getAuth();
   const history = useHistory();
   const resetClickedUser = useResetRecoilState(atomClickedUser);
@@ -66,6 +69,20 @@ const Profile = () => {
       });
   };
 
+  const editOn = () => {
+    setEditable(true);
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setText(e.target.value);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      setEditable(!editable);
+    }
+  };
+
   return (
     <Container>
       <ProfileTitle>
@@ -88,7 +105,16 @@ const Profile = () => {
           ref={inputOpenImageRef}
         />
         <UserInfo>
-          <UserName>{clickedUserInfo.nickname}</UserName>
+          {editable ? (
+            <input
+              type="text"
+              value={text}
+              onChange={(e) => handleChange(e)}
+              onKeyDown={handleKeyDown}
+            />
+          ) : (
+            <UserName>{clickedUserInfo.nickname}</UserName>
+          )}
           <UserEmail>{clickedUserInfo.email}</UserEmail>
         </UserInfo>
         <BtnGroup>
@@ -107,7 +133,7 @@ const Profile = () => {
             </Btn>
           )}
           {myInfo.uid === clickedUserInfo.uid && (
-            <Btn>
+            <Btn onClick={() => editOn()}>
               <BtnIcon>
                 <FaEdit />
               </BtnIcon>

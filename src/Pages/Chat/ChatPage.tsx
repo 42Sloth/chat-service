@@ -7,8 +7,9 @@ import { atomClickedUser, atomMyInfo } from 'Recoil/atom';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { db } from 'fBase';
+import { TextInputProps } from 'Types/TextInputProps';
 
-const ChatPage: React.FC = () => {
+const ChatPage: React.FC<TextInputProps> = ({ init }) => {
   const clickedUser = useRecoilValue(atomClickedUser);
   const setMyInfo = useSetRecoilState(atomMyInfo);
   const myInfoReset = useResetRecoilState(atomMyInfo);
@@ -40,7 +41,7 @@ const ChatPage: React.FC = () => {
       <div style={{ display: 'flex' }}>
         <SidePannel />
         <MainPannel />
-        {!clickedUser.uid ? <MemberList /> : <Profile />}
+        {!clickedUser.uid ? <MemberList /> : <Profile init={init} />}
       </div>
     </>
   );
