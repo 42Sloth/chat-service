@@ -120,6 +120,7 @@ const Profile = ({ init }: TextInputProps) => {
               value={text}
               onChange={(e) => handleChange(e)}
               onKeyDown={handleKeyDown}
+              placeholder="변경할 닉네임을 입력하세요."
             />
           ) : (
             <UserName>{clickedUserInfo.nickname}</UserName>
