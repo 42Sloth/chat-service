@@ -1,11 +1,16 @@
 import React, { useState } from 'react';
 import { style } from './DirectMessageStyle';
-import { FaCaretRight, FaCaretDown } from 'react-icons/fa';
+import {
+  FaCaretRight,
+  FaCaretDown,
+  FaHashtag,
+  FaPlusSquare,
+} from 'react-icons/fa';
 import user from 'Assets/MOCK_DATA';
 
 const DirectMessage = () => {
   const [toggle, setToggle] = useState<boolean>(true);
-  //selected를 나중에 url에 따라서 값이 변경되는 것으로 로직 수정하자. 
+  //selected를 나중에 url에 따라서 값이 변경되는 것으로 로직 수정하자.
   const [selected, setSelected] = useState<number>(0);
 
   const handleToggle = () => {

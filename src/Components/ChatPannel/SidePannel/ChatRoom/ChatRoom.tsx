@@ -14,8 +14,13 @@ import { atomEnterRoom, atomMyInfo, atomRoomsInfo } from 'Recoil/atom';
 import { IRoomInfo } from 'Types';
 
 import { style } from './ChatRoomStyle';
-import { FaCaretRight, FaCaretDown, FaPlusSquare } from 'react-icons/fa';
 import { getDate } from 'Utils/getDate';
+import {
+  FaCaretRight,
+  FaCaretDown,
+  FaPlusSquare,
+  FaHashtag,
+} from 'react-icons/fa';
 
 const ChatRoom = () => {
   const history = useHistory();
@@ -86,7 +91,15 @@ const ChatRoom = () => {
     <RoomContainer>
       <RoomTitleWrap>
         <RoomTitle onClick={handleToggle}>
-          {toggle ? <FaCaretDown /> : <FaCaretRight />}
+          {toggle ? (
+            <div>
+              <FaCaretDown />
+            </div>
+          ) : (
+            <div>
+              <FaCaretRight />
+            </div>
+          )}
           Room
         </RoomTitle>
         <Btn>
@@ -107,7 +120,8 @@ const ChatRoom = () => {
         <RoomList>
           {roomsList.map((data) => (
             <Room key={data.roomID} onClick={() => handleEnterRoom(data)}>
-              # {data.roomName}
+              <FaHashtag />
+              <p>{data.roomName}</p>
             </Room>
           ))}
         </RoomList>

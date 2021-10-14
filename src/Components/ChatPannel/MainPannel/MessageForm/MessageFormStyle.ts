@@ -12,6 +12,13 @@ const InnerBox = styled.div`
   width: 100%;
   height: 5rem;
   border-radius: 10px;
+
+  div {
+    display: flex;
+    justify-content: flex-end;
+    padding: 5px 15px;
+    font-size: 16px;
+  }
 `;
 
 const Input = styled.input`
