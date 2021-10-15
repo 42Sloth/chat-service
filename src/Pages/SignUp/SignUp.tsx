@@ -39,8 +39,7 @@ const SignUp: React.FC = () => {
           photoURL:
             'https://iupac.org/wp-content/uploads/2018/05/default-avatar.png',
         });
-        console.log(auth.currentUser.displayName, auth.currentUser.photoURL);
-        await setDoc(doc(db, 'users', `${data.nickname}`), {
+        await setDoc(doc(db, 'users', `${auth.currentUser.uid}`), {
           nickname: data.nickname,
           email: data.email,
           uid: auth.currentUser.uid,
@@ -162,12 +161,6 @@ const {
   Form,
   Wrap,
   FormLabel,
-  Horizontal,
-  Hr,
-  Input,
-  SignUpText,
   Strong,
-  Or,
-  ToSignUp,
   TextInput,
 } = style;

@@ -12,12 +12,12 @@ import {
   getStorage,
   uploadBytesResumable,
 } from '@firebase/storage';
-import { doc, updateDoc } from 'firebase/firestore';
+import { doc, updateDoc, setDoc } from 'firebase/firestore';
 import { db } from 'fBase';
 import { TextInputProps } from 'Types/TextInputProps';
 
 const Profile = ({ init }: TextInputProps) => {
-  const [text, setText] = useState(init);
+  const [text, setText] = useState(' ');
   const [editable, setEditable] = useState(false);
   const auth = getAuth();
   const history = useHistory();
@@ -47,7 +47,7 @@ const Profile = ({ init }: TextInputProps) => {
     const metadata = {
       contentType: 'image/jpeg',
     };
-    const docRef = doc(db, 'users', `${clickedUserInfo.nickname}`);
+    const docRef = doc(db, 'users', `${clickedUserInfo.uid}`);
     uploadBytesResumable(imageRef, file, metadata)
       .then((snapshot) => {
         getDownloadURL(snapshot.ref).then((url) => {
@@ -77,20 +77,25 @@ const Profile = ({ init }: TextInputProps) => {
     setText(e.target.value);
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    const editName = doc(db, 'users', `${clickedUserInfo.nickname}`);
-    if (e.key === 'Enter') {
-      setEditable(!editable);
-    } else if (auth.currentUser) {
+  // const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  //   if (e.key === 'Enter') {
+  //     setEditable(!editable);
+  //   }
+  // };
+
+  const handleUpdateNickname = async () => {
+    const editName = doc(db, 'users', `${clickedUserInfo.uid}`);
+    if (auth.currentUser) {
       updateProfile(auth.currentUser, {
         displayName: text,
       });
     }
-    updateDoc(editName, {
+    await updateDoc(editName, {
       nickname: text,
     });
-    console.log(auth.currentUser);
+    setEditable(!editable);
   };
+  console.log(auth.currentUser?.displayName);
 
   return (
     <Container>
@@ -115,13 +120,16 @@ const Profile = ({ init }: TextInputProps) => {
         />
         <UserInfo>
           {editable ? (
-            <input
-              type="text"
-              value={text}
-              onChange={(e) => handleChange(e)}
-              onKeyDown={handleKeyDown}
-              placeholder="변경할 닉네임을 입력하세요."
-            />
+            <div>
+              <input
+                type="text"
+                value={text}
+                onChange={(e) => handleChange(e)}
+                // onKeyDown={handleKeyDown}
+                placeholder="변경할 닉네임을 입력하세요."
+              />
+              <button onClick={handleUpdateNickname}>변경</button>
+            </div>
           ) : (
             <UserName>{clickedUserInfo.nickname}</UserName>
           )}
