@@ -1,45 +1,38 @@
 import React, { useEffect } from 'react';
-import { getAuth, onAuthStateChanged, signOut } from '@firebase/auth';
+import { getAuth, onAuthStateChanged, signOut, User } from '@firebase/auth';
 import logo from 'Assets/Chatpong_logo_trans.png';
 import { style } from './NavbarStyle';
 import { useRecoilState, useResetRecoilState } from 'recoil';
 import { atomMyInfo } from 'Recoil/atom';
 import { deleteUser } from 'firebase/auth';
-import {
-  collection,
-  getDocs,
-  where,
-  doc,
-  deleteDoc,
-  query,
-} from 'firebase/firestore';
+import { doc, deleteDoc, getDoc } from 'firebase/firestore';
 import { db } from 'fBase';
 
 const Navbar: React.FC = () => {
   const [myInfo, setMyInfo] = useRecoilState(atomMyInfo);
   const myInfoReset = useResetRecoilState(atomMyInfo);
   const auth = getAuth();
-  const user = auth.currentUser;
 
   useEffect(() => {
     onAuthStateChanged(auth, async (data) => {
       if (data) {
-        const q = query(collection(db, 'users'), where('uid', '==', data.uid));
-        const querySnapshot = await getDocs(q);
-        querySnapshot.forEach((doc) => {
-          const docData = doc.data();
+        const q = await getDoc(doc(db, 'users', data.uid));
+        const docData = q.data();
+        if (docData) {
           setMyInfo({
             nickname: docData.nickname,
             email: docData.email,
             uid: docData.uid,
             photoURL: docData.photoURL,
           });
-        });
+        }
       } else {
         myInfoReset();
       }
     });
   }, []);
+
+  console.log(myInfo);
 
   const handleSignOut = () => {
     signOut(auth);
@@ -47,9 +40,11 @@ const Navbar: React.FC = () => {
   };
 
   const handleWithdraw = () => {
+    const auth = getAuth();
+    const user = auth.currentUser;
     if (user) {
+      deleteDoc(doc(db, 'users', user.uid));
       deleteUser(user);
-      deleteDoc(doc(db, 'users', `${user}`));
     }
   };
 
