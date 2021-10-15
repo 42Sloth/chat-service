@@ -35,15 +35,18 @@ const DirectMessage = () => {
       const temp: IDirectRoomInfo[] = [];
       query.forEach((doc) => {
         const docData = doc.data();
-        let myDM = false;
+        let myDmList: boolean = false;
         for (let i = 0; i < docData.Members.length; i++) {
+          // myInfo가 새로고침하면 없어지는 이슈 발생.
+          console.log(myInfo);
+          console.log('myInfo', myInfo.uid);
           if (myInfo.uid === docData.Members[i]) {
-            myDM = true;
+            myDmList = true;
             break;
           }
         }
 
-        if (myDM) {
+        if (myDmList) {
           setPath(docData.roomName);
           const splitUID: string[] = docData.roomName.split('Direct');
           let directRoomName: string = '';
@@ -51,7 +54,7 @@ const DirectMessage = () => {
             if (splitUID[i] !== myInfo.uid) {
               for (let j = 0; j < memberList.length; j++) {
                 if (splitUID[i] === memberList[j].uid) {
-                  directRoomName += memberList[j].nickname;
+                  directRoomName += memberList[j].nickname + ' ';
                 }
               }
             }
@@ -67,6 +70,7 @@ const DirectMessage = () => {
       setDmList(temp);
     });
   };
+
   const handleToggle = () => {
     setToggle(!toggle);
   };
