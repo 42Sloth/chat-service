@@ -16,6 +16,7 @@ import { atomMyInfo } from 'Recoil/atom';
 import { FormButton } from 'Components';
 import { style } from 'Styles/FormStyle';
 import logo from 'Assets/Chatpong_logo_trans.png';
+import { doc, getDoc } from 'firebase/firestore';
 
 const SignIn = () => {
   const history = useHistory();
@@ -24,39 +25,25 @@ const SignIn = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<ISignInForm>();
-  const setMyInfo = useSetRecoilState(atomMyInfo);
+  // const setMyInfo = useSetRecoilState(atomMyInfo);
 
   const onSubmit: SubmitHandler<ISignInForm> = async (form) => {
     try {
       const auth = getAuth();
       await setPersistence(auth, browserLocalPersistence);
       await signInWithEmailAndPassword(auth, form.email, form.password);
-      if (auth.currentUser) {
-        const q = query(
-          collection(db, 'users'),
-          where('uid', '==', auth.currentUser.uid),
-        );
-        const querySnapshot = await getDocs(q);
-        querySnapshot.forEach((doc) => {
-          const docData = doc.data();
-          setMyInfo({
-            nickname: docData.nickname,
-            email: docData.email,
-            uid: docData.uid,
-            photoURL: docData.photoURL,
-          });
-
-          localStorage.setItem(
-            'MyInfo',
-            JSON.stringify({
-              nickname: docData.nickname,
-              email: docData.email,
-              uid: docData.uid,
-              photoURL: docData.photoURL,
-            }),
-          );
-        });
-      }
+      // if (auth.currentUser) {
+      //   const q = await getDoc(doc(db, 'users', auth.currentUser.uid));
+      //   const docData = q.data();
+      //   if (docData) {
+      //     setMyInfo({
+      //       nickname: docData.nickname,
+      //       email: docData.email,
+      //       uid: docData.uid,
+      //       photoURL: docData.photoURL,
+      //     });
+      //   }
+      // }
 
       history.push({
         pathname: '/',

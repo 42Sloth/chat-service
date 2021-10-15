@@ -10,7 +10,7 @@ const InnerBox = styled.div`
   border: 1px solid #333;
   padding: 0;
   width: 100%;
-  height: 5rem;
+  height: 80px;
   border-radius: 10px;
 
   div {

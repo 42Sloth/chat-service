@@ -46,18 +46,18 @@ const MemberList = () => {
       </Title>
       <MemberLists>
         {memberList.map((data, idx) => (
-          <li
-            key={idx}
-            onClick={() => {
-              handleClickedUser(data);
-            }}
-          >
-            <img
-              src="https://avatars.githubusercontent.com/u/66353903?v=4"
-              alt="members"
-            />
-            {data.nickname}
-          </li>
+          <div>
+            <li
+              key={idx}
+              onClick={() => {
+                handleClickedUser(data);
+              }}
+            >
+              <img src={data.photoURL} alt="members" />
+              {data.nickname}
+            </li>
+            <button>팔로우</button>
+          </div>
         ))}
       </MemberLists>
     </Container>

@@ -28,6 +28,34 @@ const UserInfo = styled.div`
   flex-direction: column;
   padding: 10px 20px;
   text-align: center;
+
+  div {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 20px;
+  }
+
+  input {
+    width: 200px;
+    height: 30px;
+    margin-right: 5px;
+  }
+
+  button {
+    width: 50px;
+    height: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 0;
+    background: #611f66;
+    color: #fff;
+    transition: 0.5s;
+
+    &:hover {
+      font-weight: 600;
+    }
+  }
 `;
 
 const UserName = styled.h6`

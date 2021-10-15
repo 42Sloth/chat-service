@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import {
+  arrayUnion,
   collection,
   doc,
   onSnapshot,
   orderBy,
   query,
   setDoc,
+  updateDoc,
 } from 'firebase/firestore';
 import { db } from 'fBase';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
@@ -73,14 +75,18 @@ const ChatRoom = () => {
       roomID: roomsList[roomsList.length - 1].roomID + 1,
       roomName: temp,
       Owner: myInfo.uid,
-      Members: [myInfo.uid],
+      Members: arrayUnion(myInfo.uid),
       date: getDate(),
     });
     setTitle('');
   };
 
-  const handleEnterRoom = (data: IRoomInfo) => {
+  const handleEnterRoom = async (data: IRoomInfo) => {
     setEnterRoom(data);
+    console.log(myInfo.uid);
+    await updateDoc(doc(db, 'Rooms', data.roomName), {
+      Members: arrayUnion(myInfo.uid),
+    });
     history.push({
       pathname: `/chat/${data.roomName}`,
       state: { from: data.roomName},
