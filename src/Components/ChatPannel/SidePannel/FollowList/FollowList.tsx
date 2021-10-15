@@ -16,10 +16,21 @@ const FollowList = () => {
       </Title>
       <MemberLists>
         {memberList.map((data, idx) => (
-          <li key={idx}>
-            <img src={data.photoURL} alt="members" />
-            {data.nickname}
-          </li>
+          <div>
+            <li key={idx}>
+              <img src={data.photoURL} alt="members" />
+              {data.nickname}
+            </li>
+            <button
+              style={{
+                background: 'transparent',
+                color: '#611f66',
+                border: '1px solid #611f66',
+              }}
+            >
+              언팔로우
+            </button>
+          </div>
         ))}
       </MemberLists>
     </Container>

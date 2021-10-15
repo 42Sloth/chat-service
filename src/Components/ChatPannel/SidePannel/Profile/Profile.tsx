@@ -12,12 +12,12 @@ import {
   getStorage,
   uploadBytesResumable,
 } from '@firebase/storage';
-import { doc, updateDoc, setDoc } from 'firebase/firestore';
+import { doc, updateDoc } from 'firebase/firestore';
 import { db } from 'fBase';
 import { TextInputProps } from 'Types/TextInputProps';
 
 const Profile = ({ init }: TextInputProps) => {
-  const [text, setText] = useState(' ');
+  const [text, setText] = useState(init);
   const [editable, setEditable] = useState(false);
   const auth = getAuth();
   const history = useHistory();
@@ -77,12 +77,6 @@ const Profile = ({ init }: TextInputProps) => {
     setText(e.target.value);
   };
 
-  // const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-  //   if (e.key === 'Enter') {
-  //     setEditable(!editable);
-  //   }
-  // };
-
   const handleUpdateNickname = async () => {
     const editName = doc(db, 'users', `${clickedUserInfo.uid}`);
     if (auth.currentUser) {
@@ -95,7 +89,6 @@ const Profile = ({ init }: TextInputProps) => {
     });
     setEditable(!editable);
   };
-  console.log(auth.currentUser?.displayName);
 
   return (
     <Container>
@@ -125,7 +118,6 @@ const Profile = ({ init }: TextInputProps) => {
                 type="text"
                 value={text}
                 onChange={(e) => handleChange(e)}
-                // onKeyDown={handleKeyDown}
                 placeholder="변경할 닉네임을 입력하세요."
               />
               <button onClick={handleUpdateNickname}>변경</button>
