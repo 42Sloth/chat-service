@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useRecoilValue, useResetRecoilState } from 'recoil';
-import { atomClickedUser, atomMyInfo } from 'Recoil/atom';
+import { useRecoilValue, useResetRecoilState, useRecoilState } from 'recoil';
+import { atomClickedUser, atomMyInfo, atomDirectRoomInfo } from 'Recoil/atom';
 import { getAuth, signOut, updateProfile } from '@firebase/auth';
 import { FaTimes, FaPaperPlane, FaEdit } from 'react-icons/fa';
 import { style } from './ProfileStyle';
@@ -12,13 +12,15 @@ import {
   getStorage,
   uploadBytesResumable,
 } from '@firebase/storage';
-import { doc, updateDoc } from 'firebase/firestore';
+import { doc, updateDoc, setDoc } from 'firebase/firestore';
 import { db } from 'fBase';
+import { getDate } from 'Utils/getDate';
 
 const Profile = () => {
   const auth = getAuth();
   const history = useHistory();
   const resetClickedUser = useResetRecoilState(atomClickedUser);
+  const [dmList, setDmList] = useRecoilState(atomDirectRoomInfo);
   const clickedUserInfo = useRecoilValue(atomClickedUser);
   const myInfo = useRecoilValue(atomMyInfo);
   const inputOpenImageRef = useRef<HTMLInputElement>(null);
@@ -67,6 +69,23 @@ const Profile = () => {
       });
   };
 
+  const handleClickDirectMsg = async () => {
+    const docTitle: string = clickedUserInfo.uid + 'Direct' + myInfo.uid;
+    let id = 0;
+    if (dmList.length > 0) id += dmList.length + 1;
+    await setDoc(doc(db, 'Direct', docTitle), {
+      roomID: id,
+      roomName: docTitle,
+      Members: [myInfo.uid, clickedUserInfo.uid],
+      date: getDate(),
+    });
+
+    history.push({
+      pathname: `/chat/${docTitle}`,
+      state: { from: docTitle },
+    });
+  };
+
   return (
     <Container>
       <ProfileTitle>
@@ -77,7 +96,7 @@ const Profile = () => {
       </ProfileTitle>
       <User>
         <img
-          src={myInfo.photoURL ? myInfo.photoURL : ''}
+          src={clickedUserInfo.photoURL ? clickedUserInfo.photoURL : ''}
           alt="profile"
           onClick={handleOpenImageRef}
         />
@@ -93,7 +112,7 @@ const Profile = () => {
           <UserEmail>{clickedUserInfo.email}</UserEmail>
         </UserInfo>
         <BtnGroup>
-          <Btn>
+          <Btn onClick={handleClickDirectMsg}>
             <BtnIcon>
               <FaPaperPlane />
             </BtnIcon>

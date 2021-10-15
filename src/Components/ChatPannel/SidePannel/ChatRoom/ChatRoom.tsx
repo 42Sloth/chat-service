@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import {
   collection,
@@ -83,7 +83,7 @@ const ChatRoom = () => {
     setEnterRoom(data);
     history.push({
       pathname: `/chat/${data.roomName}`,
-      state: data.roomName,
+      state: { from: data.roomName},
     });
   };
 
