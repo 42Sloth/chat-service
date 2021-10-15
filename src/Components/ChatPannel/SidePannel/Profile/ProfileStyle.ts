@@ -28,6 +28,11 @@ const UserInfo = styled.div`
   flex-direction: column;
   padding: 10px 20px;
   text-align: center;
+
+  input {
+    height: 30px;
+    margin-bottom: 10px;
+  }
 `;
 
 const UserName = styled.h6`

@@ -52,10 +52,7 @@ const MemberList = () => {
               handleClickedUser(data);
             }}
           >
-            <img
-              src="https://avatars.githubusercontent.com/u/66353903?v=4"
-              alt="members"
-            />
+            <img src={data.photoURL} alt="members" />
             {data.nickname}
           </li>
         ))}
