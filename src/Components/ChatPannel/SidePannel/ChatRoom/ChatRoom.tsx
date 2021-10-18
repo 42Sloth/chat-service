@@ -12,7 +12,12 @@ import {
 } from 'firebase/firestore';
 import { db } from 'fBase';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import { atomEnterRoom, atomMyInfo, atomRoomsInfo } from 'Recoil/atom';
+import {
+  atomEnterRoom,
+  atomMyInfo,
+  atomRoomsInfo,
+  atomRoomCheck,
+} from 'Recoil/atom';
 import { IRoomInfo } from 'Types';
 
 import { style } from './ChatRoomStyle';
@@ -32,6 +37,7 @@ const ChatRoom = () => {
   const [toggle, setToggle] = useState<boolean>(true);
   const [add, setAdd] = useState<boolean>(false);
   const [title, setTitle] = useState<string>('');
+  const setIsDirect = useSetRecoilState(atomRoomCheck);
 
   const roomsListener = () => {
     const q = query(collection(db, 'Rooms'), orderBy('date'));
@@ -83,13 +89,14 @@ const ChatRoom = () => {
 
   const handleEnterRoom = async (data: IRoomInfo) => {
     setEnterRoom(data);
-    console.log(myInfo.uid);
+
     await updateDoc(doc(db, 'Rooms', data.roomName), {
       Members: arrayUnion(myInfo.uid),
     });
+    setIsDirect(false);
     history.push({
       pathname: `/chat/${data.roomName}`,
-      state: { from: data.roomName},
+      state: { from: data.roomName },
     });
   };
 

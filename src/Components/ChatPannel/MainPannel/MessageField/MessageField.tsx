@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
 import { db } from 'fBase';
 import { useLocation } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { IMessage, ILocationState } from 'Types';
 import { atomRoomCheck } from 'Recoil/atom';
 
@@ -14,20 +14,14 @@ const MessageField: React.FC = () => {
   //const [messages, setMessages] = useRecoilState(atomMessages);
   const [messages, setMessages] = useState<IMessage[]>([]);
   const location = useLocation<ILocationState>();
-  const [isDirect, setIsDirect] = useRecoilState(atomRoomCheck);
+  const isDirect = useRecoilValue(atomRoomCheck);
 
   const messagesListener = () => {
     // const path =
     //   location.state.from !== undefined ? location.state.from : 'lobby';
-    // /chat으로가면 로비로 이동 
+    // /chat으로가면 로비로 이동
     const { from } = location.state || { from: 'lobby' };
-    setIsDirect(false);
 
-    if (from.length > 6) {
-      if ('Direct' === from.substring(from.length - 6, from.length)) {
-        setIsDirect(true);
-      }
-    }
     const q = query(
       collection(
         db,

@@ -1,12 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { atomDirectRoomInfo, atomMyInfo, atomMemberList } from 'Recoil/atom';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import {
+  atomDirectRoomInfo,
+  atomMyInfo,
+  atomMemberList,
+  atomRoomCheck,
+} from 'Recoil/atom';
+
 import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
 import { db } from 'fBase';
-import { IDirectRoomInfo } from 'Types';
+import { getAuth } from 'firebase/auth';
 
+import { IDirectRoomInfo } from 'Types';
 import { style } from './DirectMessageStyle';
 import {
   FaCaretRight,
@@ -20,14 +27,16 @@ const DirectMessage = () => {
   const [dmList, setDmList] = useRecoilState(atomDirectRoomInfo);
   const myInfo = useRecoilValue(atomMyInfo);
   const memberList = useRecoilValue(atomMemberList);
+  // path도 기본값 현재 url 넣어줘야함
   const [path, setPath] = useState<string>('');
   const [toggle, setToggle] = useState<boolean>(true);
+  const setIsDirect = useSetRecoilState(atomRoomCheck);
   //selected를 나중에 url에 따라서 값이 변경되는 것으로 로직 수정하자.
   const [selected, setSelected] = useState<number>(0);
 
   useEffect(() => {
     DirectMessagesRoomListener();
-  }, []);
+  }, [myInfo]);
 
   const DirectMessagesRoomListener = () => {
     const q = query(collection(db, 'Direct'), orderBy('date'));
@@ -37,15 +46,11 @@ const DirectMessage = () => {
         const docData = doc.data();
         let myDmList: boolean = false;
         for (let i = 0; i < docData.Members.length; i++) {
-          // myInfo가 새로고침하면 없어지는 이슈 발생.
-          console.log(myInfo);
-          console.log('myInfo', myInfo.uid);
           if (myInfo.uid === docData.Members[i]) {
             myDmList = true;
             break;
           }
         }
-
         if (myDmList) {
           setPath(docData.roomName);
           const splitUID: string[] = docData.roomName.split('Direct');
@@ -77,10 +82,11 @@ const DirectMessage = () => {
 
   const handleEnterRoom = (data: IDirectRoomInfo) => {
     setSelected(data.roomID);
-
+    setIsDirect(true);
+    const clickedPath = data.Members[0] + 'Direct' + data.Members[1];
     history.push({
-      pathname: `/chat/${path}`,
-      state: { from: path },
+      pathname: `/dm/${clickedPath}`,
+      state: { from: clickedPath },
     });
   };
 
