@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaCaretRight } from 'react-icons/fa';
-import { collection, onSnapshot, query } from 'firebase/firestore';
+import { getAuth } from 'firebase/auth';
+import { doc, setDoc, collection, onSnapshot, query } from 'firebase/firestore';
 import { db } from 'fBase';
 import { MlStyle } from './MemberListStyle';
 import { useRecoilState, useSetRecoilState } from 'recoil';
@@ -10,6 +11,7 @@ import { IUserInfo } from 'Types';
 const MemberList = () => {
   const [memberList, setMemberList] = useRecoilState(atomMemberList);
   const setClickedUser = useSetRecoilState(atomClickedUser);
+  const [following, setFollowing] = useState(false);
 
   const memberListListener = () => {
     const q = query(collection(db, 'users'));
@@ -36,6 +38,29 @@ const MemberList = () => {
     memberListListener();
   }, []);
 
+  const addFollowing = async (data: IUserInfo) => {
+    const auth = getAuth();
+    const uid = data.uid;
+    console.log(uid);
+    if (auth.currentUser) {
+      const followRef = doc(
+        db,
+        'Following',
+        `${auth.currentUser.uid}`,
+        'FollowingUser',
+        `${uid}`,
+      );
+      await setDoc(followRef, {
+        isFollowing: true,
+      });
+      setFollowing(true);
+    }
+  };
+
+  const handleClickFollow = (data: IUserInfo) => {
+    addFollowing(data);
+  };
+
   return (
     <Container>
       <Title>
@@ -56,7 +81,17 @@ const MemberList = () => {
               <img src={data.photoURL} alt="members" />
               {data.nickname}
             </li>
-            <button>팔로우</button>
+            {!following ? (
+              <button
+                onClick={() => {
+                  handleClickFollow(data);
+                }}
+              >
+                Follow
+              </button>
+            ) : (
+              <button>Unfollow</button>
+            )}
           </div>
         ))}
       </MemberLists>
