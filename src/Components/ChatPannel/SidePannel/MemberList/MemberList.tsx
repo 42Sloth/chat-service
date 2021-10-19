@@ -3,13 +3,14 @@ import { FaCaretRight } from 'react-icons/fa';
 import { collection, onSnapshot, query } from 'firebase/firestore';
 import { db } from 'fBase';
 import { MlStyle } from './MemberListStyle';
-import { useRecoilState, useSetRecoilState } from 'recoil';
-import { atomMemberList, atomClickedUser } from 'Recoil/atom';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { atomMemberList, atomClickedUser, atomEnterRoom } from 'Recoil/atom';
 import { IUserInfo } from 'Types';
 
 const MemberList = () => {
   const [memberList, setMemberList] = useRecoilState(atomMemberList);
   const setClickedUser = useSetRecoilState(atomClickedUser);
+  const enterRoom = useRecoilValue(atomEnterRoom);
 
   const memberListListener = () => {
     const q = query(collection(db, 'users'));
@@ -17,12 +18,14 @@ const MemberList = () => {
       const temp: IUserInfo[] = [];
       query.forEach((doc) => {
         const docData = doc.data();
-        temp.push({
-          nickname: docData.nickname,
-          email: docData.email,
-          uid: docData.uid,
-          photoURL: docData.photoURL,
-        });
+        if (enterRoom.Members.includes(docData.uid)) {
+          temp.push({
+            nickname: docData.nickname,
+            email: docData.email,
+            uid: docData.uid,
+            photoURL: docData.photoURL,
+          });
+        }
       });
       setMemberList(temp);
     });
@@ -34,7 +37,7 @@ const MemberList = () => {
 
   useEffect(() => {
     memberListListener();
-  }, []);
+  }, [enterRoom]);
 
   return (
     <Container>
@@ -46,9 +49,8 @@ const MemberList = () => {
       </Title>
       <MemberLists>
         {memberList.map((data, idx) => (
-          <div>
+          <div key={idx}>
             <li
-              key={idx}
               onClick={() => {
                 handleClickedUser(data);
               }}

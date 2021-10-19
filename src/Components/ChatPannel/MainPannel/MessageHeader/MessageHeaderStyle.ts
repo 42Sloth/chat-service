@@ -14,11 +14,9 @@ const JoinRoomList = styled.div`
   width: auto;
 `;
 
-const JoinRoom = styled.button`
+const JoinRoom = styled.div`
   padding: 0px 20px 0px 16px;
   font-weight: 600;
-  border: none;
-  background: transparent;
 `;
 
 export const style = {

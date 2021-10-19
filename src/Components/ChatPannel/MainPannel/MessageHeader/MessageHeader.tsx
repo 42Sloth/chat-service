@@ -9,49 +9,50 @@ import { IRoomInfo } from 'Types';
 import { style } from './MessageHeaderStyle';
 
 const MessageHeader: React.FC = () => {
-  const history = useHistory();
-  const myInfo = useRecoilValue(atomMyInfo);
-  const setEnterRoom = useSetRecoilState(atomEnterRoom);
-  const [joinRooms, setJoinRooms] = useState<IRoomInfo[]>([]);
+  // const history = useHistory();
+  // const myInfo = useRecoilValue(atomMyInfo);
+  // const setEnterRoom = useSetRecoilState(atomEnterRoom);
+  const enterRoom = useRecoilValue(atomEnterRoom);
+  // const [joinRooms, setJoinRooms] = useState<IRoomInfo[]>([]);
 
-  const joinRoomListener = () => {
-    const q = query(
-      collection(db, 'Rooms'),
-      where('Members', 'array-contains', myInfo.uid),
-    );
-    onSnapshot(q, (query) => {
-      const temp: IRoomInfo[] = [];
-      query.forEach((doc) => {
-        const docData = doc.data();
-        console.log(docData);
-        temp.push({
-          roomID: docData.roomID,
-          roomName: docData.roomName,
-          Owner: docData.Owner,
-          Members: docData.Members,
-          date: docData.date,
-        });
-      });
-      console.log(temp);
-      setJoinRooms(temp);
-    });
-  };
+  // const joinRoomListener = () => {
+  //   const q = query(
+  //     collection(db, 'Rooms'),
+  //     where('Members', 'array-contains', myInfo.uid),
+  //   );
+  //   onSnapshot(q, (query) => {
+  //     const temp: IRoomInfo[] = [];
+  //     query.forEach((doc) => {
+  //       const docData = doc.data();
+  //       console.log(docData);
+  //       temp.push({
+  //         roomID: docData.roomID,
+  //         roomName: docData.roomName,
+  //         Owner: docData.Owner,
+  //         Members: docData.Members,
+  //         date: docData.date,
+  //       });
+  //     });
+  //     console.log(temp);
+  //     setJoinRooms(temp);
+  //   });
+  // };
 
-  useEffect(() => {
-    joinRoomListener();
-  }, []);
+  // useEffect(() => {
+  //   joinRoomListener();
+  // }, []);
 
-  const handleEnterRoom = (data: IRoomInfo) => {
-    setEnterRoom(data);
-    history.push({
-      pathname: `/chat/${data.roomName}`,
-      state: data.roomName,
-    });
-  };
+  // const handleEnterRoom = (data: IRoomInfo) => {
+  //   setEnterRoom(data);
+  //   history.push({
+  //     pathname: `/chat/${data.roomName}`,
+  //     state: data.roomName,
+  //   });
+  // };
 
   return (
     <Container>
-      <JoinRoomList>
+      {/* <JoinRoomList>
         {joinRooms.map((data) => {
           return (
             <JoinRoom
@@ -64,7 +65,8 @@ const MessageHeader: React.FC = () => {
             </JoinRoom>
           );
         })}
-      </JoinRoomList>
+      </JoinRoomList> */}
+      <JoinRoom># {enterRoom.roomName}</JoinRoom>
     </Container>
   );
 };
