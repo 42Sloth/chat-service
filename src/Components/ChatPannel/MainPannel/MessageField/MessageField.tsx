@@ -17,7 +17,8 @@ const MessageField: React.FC = () => {
 
   const messagesListener = () => {
     // /chat으로가면 로비로 이동
-    const { from } = location.state || { from: 'lobby' };
+    // const { from } = location.state || { from: 'lobby' };
+    const from = location.pathname.split('/')[2];
 
     const q = query(
       collection(
@@ -52,8 +53,8 @@ const MessageField: React.FC = () => {
       {messages
         .slice(0)
         .reverse()
-        .map((message) => (
-          <Content key={message.date}>
+        .map((message, idx) => (
+          <Content key={idx}>
             <Thumbnail>
               <img src={profile_kbs} alt="profile" />
             </Thumbnail>
