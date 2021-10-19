@@ -37,6 +37,7 @@ const App: React.FC = () => {
           <Route path="/signup-success" component={SignUpSuccess} />
           <Route path="/chat/:id" component={ChatPage} />
           <Route path="/chat" exact component={ChatPage} />
+          <Route path="/dm/:id" exact component={ChatPage} />
         </Switch>
       </Router>
     </RecoilRoot>

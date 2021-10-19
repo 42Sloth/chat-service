@@ -5,3 +5,5 @@ export type { IFormInput } from './IFormInput';
 export type { IUserInfo } from './IUserInfo';
 export type { IRoomInfo } from './IRoomInfo';
 export type { IMessage } from './IMessage';
+export type { IDirectRoomInfo } from './IDirectRoomInfo';
+export type { ILocationState } from './ILocationState';
