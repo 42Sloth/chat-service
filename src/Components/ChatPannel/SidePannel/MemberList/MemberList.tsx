@@ -1,11 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { FaCaretRight } from 'react-icons/fa';
 import { getAuth } from 'firebase/auth';
-import { doc, setDoc, collection, onSnapshot, query } from 'firebase/firestore';
+import {
+  doc,
+  setDoc,
+  deleteDoc,
+  collection,
+  onSnapshot,
+  query,
+} from 'firebase/firestore';
 import { db } from 'fBase';
 import { MlStyle } from './MemberListStyle';
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import { atomMemberList, atomClickedUser } from 'Recoil/atom';
+import { atomMemberList, atomClickedUser, atomMyInfo } from 'Recoil/atom';
 import { IUserInfo } from 'Types';
 
 const MemberList = () => {
@@ -38,7 +45,7 @@ const MemberList = () => {
     memberListListener();
   }, []);
 
-  const addFollowing = async (data: IUserInfo) => {
+  const handleFollowing = async (data: IUserInfo) => {
     const auth = getAuth();
     const uid = data.uid;
     console.log(uid);
@@ -50,15 +57,16 @@ const MemberList = () => {
         'FollowingUser',
         `${uid}`,
       );
-      await setDoc(followRef, {
-        isFollowing: true,
-      });
-      setFollowing(true);
+      if (following) {
+        await deleteDoc(followRef);
+        setFollowing((prev) => !prev);
+      } else {
+        await setDoc(followRef, {
+          isFollowing: true,
+        });
+        setFollowing((prev) => !prev);
+      }
     }
-  };
-
-  const handleClickFollow = (data: IUserInfo) => {
-    addFollowing(data);
   };
 
   return (
@@ -84,13 +92,19 @@ const MemberList = () => {
             {!following ? (
               <button
                 onClick={() => {
-                  handleClickFollow(data);
+                  handleFollowing(data);
                 }}
               >
                 Follow
               </button>
             ) : (
-              <button>Unfollow</button>
+              <button
+                onClick={() => {
+                  handleFollowing(data);
+                }}
+              >
+                Unfollow
+              </button>
             )}
           </div>
         ))}
