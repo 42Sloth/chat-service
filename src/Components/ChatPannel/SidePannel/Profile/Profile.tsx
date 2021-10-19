@@ -1,7 +1,17 @@
 import React, { useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useRecoilValue, useResetRecoilState } from 'recoil';
-import { atomClickedUser, atomMyInfo } from 'Recoil/atom';
+import {
+  useRecoilValue,
+  useResetRecoilState,
+  useRecoilState,
+  useSetRecoilState,
+} from 'recoil';
+import {
+  atomClickedUser,
+  atomMyInfo,
+  atomDirectRoomInfo,
+  atomRoomCheck,
+} from 'Recoil/atom';
 import { getAuth, signOut, updateProfile } from '@firebase/auth';
 import { FaTimes, FaPaperPlane, FaEdit, FaUserPlus } from 'react-icons/fa';
 import { style } from './ProfileStyle';
@@ -12,8 +22,18 @@ import {
   getStorage,
   uploadBytesResumable,
 } from '@firebase/storage';
-import { doc, updateDoc } from 'firebase/firestore';
+import {
+  doc,
+  updateDoc,
+  setDoc,
+  query,
+  collection,
+  onSnapshot,
+  orderBy,
+} from 'firebase/firestore';
 import { db } from 'fBase';
+import { getDate } from 'Utils/getDate';
+import { IDirectRoomInfo } from 'Types';
 import { TextInputProps } from 'Types/TextInputProps';
 
 const Profile = ({ init }: TextInputProps) => {
@@ -22,8 +42,10 @@ const Profile = ({ init }: TextInputProps) => {
   const auth = getAuth();
   const history = useHistory();
   const resetClickedUser = useResetRecoilState(atomClickedUser);
+  const [dmList, setDmList] = useRecoilState(atomDirectRoomInfo);
   const clickedUserInfo = useRecoilValue(atomClickedUser);
   const myInfo = useRecoilValue(atomMyInfo);
+  const setIsDirect = useSetRecoilState(atomRoomCheck);
   const inputOpenImageRef = useRef<HTMLInputElement>(null);
 
   const handleClose = () => {
@@ -67,6 +89,47 @@ const Profile = ({ init }: TextInputProps) => {
       .catch((error) => {
         alert(error);
       });
+  };
+
+  const handleClickDirectMsg = async () => {
+    const docTitleArray: string[] = [clickedUserInfo.uid, myInfo.uid].sort();
+    // 자기자신은 방 생성 불가
+    if (docTitleArray[0] === docTitleArray[1]) {
+      console.log('자기자신은 방 생성 안됨');
+      return;
+    }
+    const docTitle: string = docTitleArray[0] + 'Direct' + docTitleArray[1];
+
+    // 이미 DB에 DM 방이 있는지 검사
+    const q = query(collection(db, 'Direct'), orderBy('date'));
+    onSnapshot(q, (query) => {
+      query.forEach((doc) => {
+        const docData = doc.data();
+        if (docData.roomName === docTitle) {
+          setIsDirect(true);
+          history.push({
+            pathname: `/dm/${docTitle}`,
+            state: { from: docTitle },
+          });
+          return;
+        }
+      });
+    });
+
+    let id = 0;
+    if (dmList.length > 0) id += dmList.length + 1;
+    await setDoc(doc(db, 'Direct', docTitle), {
+      roomID: id,
+      roomName: docTitle,
+      Members: [myInfo.uid, clickedUserInfo.uid].sort(),
+      date: getDate(),
+    });
+
+    setIsDirect(true);
+    history.push({
+      pathname: `/dm/${docTitle}`,
+      state: { from: docTitle },
+    });
   };
 
   const editOn = () => {
@@ -128,7 +191,7 @@ const Profile = ({ init }: TextInputProps) => {
           <UserEmail>{clickedUserInfo.email}</UserEmail>
         </UserInfo>
         <BtnGroup>
-          <Btn>
+          <Btn onClick={handleClickDirectMsg}>
             <BtnIcon>
               <FaPaperPlane />
             </BtnIcon>
