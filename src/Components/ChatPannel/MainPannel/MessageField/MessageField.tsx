@@ -11,14 +11,11 @@ import { style } from './MessageFieldStyle';
 import profile_kbs from 'Assets/profile_kbs.jpg';
 
 const MessageField: React.FC = () => {
-  //const [messages, setMessages] = useRecoilState(atomMessages);
   const [messages, setMessages] = useState<IMessage[]>([]);
   const location = useLocation<ILocationState>();
   const isDirect = useRecoilValue(atomRoomCheck);
 
   const messagesListener = () => {
-    // const path =
-    //   location.state.from !== undefined ? location.state.from : 'lobby';
     // /chat으로가면 로비로 이동
     const { from } = location.state || { from: 'lobby' };
 
