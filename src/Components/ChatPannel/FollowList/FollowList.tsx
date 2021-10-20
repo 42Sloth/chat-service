@@ -1,6 +1,6 @@
 import React from 'react';
 import { FaCaretRight } from 'react-icons/fa';
-import { MlStyle } from '../MemberList/MemberListStyle';
+import { MlStyle } from '../SidePannel/MemberList/MemberListStyle';
 import { useRecoilState } from 'recoil';
 import { atomMemberList } from 'Recoil/atom';
 

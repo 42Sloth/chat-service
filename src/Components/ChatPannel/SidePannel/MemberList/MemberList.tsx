@@ -14,6 +14,7 @@ import { MlStyle } from './MemberListStyle';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { atomMemberList, atomClickedUser, atomMyInfo } from 'Recoil/atom';
 import { IUserInfo } from 'Types';
+import FollowButton from 'Components/ChatPannel/FollowButton/FollowButton';
 
 const MemberList = () => {
   const [memberList, setMemberList] = useRecoilState(atomMemberList);
@@ -31,6 +32,7 @@ const MemberList = () => {
           email: docData.email,
           uid: docData.uid,
           photoURL: docData.photoURL,
+          following: false,
         });
       });
       setMemberList(temp);
@@ -79,9 +81,8 @@ const MemberList = () => {
       </Title>
       <MemberLists>
         {memberList.map((data, idx) => (
-          <div>
+          <div key={idx}>
             <li
-              key={idx}
               onClick={() => {
                 handleClickedUser(data);
               }}
@@ -90,21 +91,15 @@ const MemberList = () => {
               {data.nickname}
             </li>
             {!following ? (
-              <button
-                onClick={() => {
-                  handleFollowing(data);
-                }}
-              >
-                Follow
-              </button>
+              <FollowButton
+                text="Follow"
+                onClick={() => handleFollowing(data)}
+              />
             ) : (
-              <button
-                onClick={() => {
-                  handleFollowing(data);
-                }}
-              >
-                Unfollow
-              </button>
+              <FollowButton
+                text="Unfollow"
+                onClick={() => handleFollowing(data)}
+              />
             )}
           </div>
         ))}

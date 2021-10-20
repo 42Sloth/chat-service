@@ -32,6 +32,7 @@ const ChatPage: React.FC<TextInputProps> = ({ init }) => {
             email: docData.email,
             uid: docData.uid,
             photoURL: docData.photoURL,
+            following: false,
           });
         }
       } else {

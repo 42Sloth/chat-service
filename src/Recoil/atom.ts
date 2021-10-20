@@ -18,6 +18,7 @@ export const atomClickedUser = atom<IUserInfo>({
     email: '',
     uid: '',
     photoURL: '',
+    following: false,
   },
 });
 
@@ -28,6 +29,7 @@ export const atomMyInfo = atom<IUserInfo>({
     email: '',
     uid: '',
     photoURL: '',
+    following: false,
   },
 });
 
