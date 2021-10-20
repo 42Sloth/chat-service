@@ -4,6 +4,7 @@ import { getAuth } from 'firebase/auth';
 import {
   doc,
   setDoc,
+  getDocs,
   deleteDoc,
   collection,
   onSnapshot,
@@ -12,14 +13,15 @@ import {
 import { db } from 'fBase';
 import { MlStyle } from './MemberListStyle';
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import { atomMemberList, atomClickedUser, atomMyInfo } from 'Recoil/atom';
+import { atomMemberList, atomClickedUser, atomFollowCheck } from 'Recoil/atom';
 import { IUserInfo } from 'Types';
 import FollowButton from 'Components/ChatPannel/FollowButton/FollowButton';
+import MemberListLi from './MemberListLi';
 
 const MemberList = () => {
   const [memberList, setMemberList] = useRecoilState(atomMemberList);
   const setClickedUser = useSetRecoilState(atomClickedUser);
-  const [following, setFollowing] = useState(false);
+  const [following, setFollowing] = useRecoilState(atomFollowCheck);
 
   const memberListListener = () => {
     const q = query(collection(db, 'users'));
@@ -32,7 +34,6 @@ const MemberList = () => {
           email: docData.email,
           uid: docData.uid,
           photoURL: docData.photoURL,
-          following: false,
         });
       });
       setMemberList(temp);
@@ -43,8 +44,20 @@ const MemberList = () => {
     setClickedUser(data);
   };
 
+  const addFollowingListener = () => {
+    const followSnapshot = query(collection(db, 'Following'));
+    onSnapshot(followSnapshot, (querySnapshot) => {
+      const isFollow: any = [];
+      querySnapshot.forEach((doc) => {
+        isFollow.push(doc.data().isFollowing);
+      });
+      setFollowing(isFollow);
+    });
+  };
+
   useEffect(() => {
     memberListListener();
+    addFollowingListener();
   }, []);
 
   const handleFollowing = async (data: IUserInfo) => {
@@ -82,14 +95,11 @@ const MemberList = () => {
       <MemberLists>
         {memberList.map((data, idx) => (
           <div key={idx}>
-            <li
-              onClick={() => {
-                handleClickedUser(data);
-              }}
-            >
-              <img src={data.photoURL} alt="members" />
-              {data.nickname}
-            </li>
+            <MemberListLi
+              onClick={() => handleClickedUser(data)}
+              photoURL={data.photoURL}
+              nickname={data.nickname}
+            />
             {!following ? (
               <FollowButton
                 text="Follow"

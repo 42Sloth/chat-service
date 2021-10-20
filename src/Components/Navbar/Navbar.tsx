@@ -24,7 +24,6 @@ const Navbar: React.FC = () => {
             email: docData.email,
             uid: docData.uid,
             photoURL: docData.photoURL,
-            following: false,
           });
         }
       } else {

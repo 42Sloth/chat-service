@@ -3,5 +3,4 @@ export interface IUserInfo {
   email: string;
   uid: string;
   photoURL: string;
-  following: boolean;
 }

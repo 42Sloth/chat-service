@@ -18,7 +18,6 @@ export const atomClickedUser = atom<IUserInfo>({
     email: '',
     uid: '',
     photoURL: '',
-    following: false,
   },
 });
 
@@ -29,7 +28,6 @@ export const atomMyInfo = atom<IUserInfo>({
     email: '',
     uid: '',
     photoURL: '',
-    following: false,
   },
 });
 
@@ -61,5 +59,10 @@ export const atomDirectRoomInfo = atom<IDirectRoomInfo[]>({
 
 export const atomRoomCheck = atom<Boolean>({
   key: 'RoomCheck',
+  default: false,
+});
+
+export const atomFollowCheck = atom<Boolean>({
+  key: 'FollowCheck',
   default: false,
 });
