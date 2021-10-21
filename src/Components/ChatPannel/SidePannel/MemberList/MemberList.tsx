@@ -6,38 +6,40 @@ import { MlStyle } from './MemberListStyle';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { atomMemberList, atomClickedUser, atomEnterRoom } from 'Recoil/atom';
 import { IUserInfo } from 'Types';
+import { selectorMemberList } from 'Recoil/selector';
 
 const MemberList = () => {
-  const [memberList, setMemberList] = useRecoilState(atomMemberList);
+  // const [memberList, setMemberList] = useRecoilState(atomMemberList);
   const setClickedUser = useSetRecoilState(atomClickedUser);
-  const enterRoom = useRecoilValue(atomEnterRoom);
+  // const enterRoom = useRecoilValue(atomEnterRoom);
+  const memberList = useRecoilValue(selectorMemberList);
 
-  const memberListListener = () => {
-    const q = query(collection(db, 'users'));
-    onSnapshot(q, (query) => {
-      const temp: IUserInfo[] = [];
-      query.forEach((doc) => {
-        const docData = doc.data();
-        if (enterRoom.Members.includes(docData.uid)) {
-          temp.push({
-            nickname: docData.nickname,
-            email: docData.email,
-            uid: docData.uid,
-            photoURL: docData.photoURL,
-          });
-        }
-      });
-      setMemberList(temp);
-    });
-  };
+  // const memberListListener = () => {
+  //   const q = query(collection(db, 'users'));
+  //   onSnapshot(q, (query) => {
+  //     const temp: IUserInfo[] = [];
+  //     query.forEach((doc) => {
+  //       const docData = doc.data();
+  //       // if (enterRoom.Members.includes(docData.uid)) {
+  //       temp.push({
+  //         nickname: docData.nickname,
+  //         email: docData.email,
+  //         uid: docData.uid,
+  //         photoURL: docData.photoURL,
+  //       });
+  //       // }
+  //     });
+  //     setMemberList(temp);
+  //   });
+  // };
 
   const handleClickedUser = (data: IUserInfo) => {
     setClickedUser(data);
   };
 
-  useEffect(() => {
-    memberListListener();
-  }, [enterRoom]);
+  // useEffect(() => {
+  //   memberListListener();
+  // }, [enterRoom]);
 
   return (
     <Container>

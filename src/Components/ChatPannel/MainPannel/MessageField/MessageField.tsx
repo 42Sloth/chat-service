@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
 import { db } from 'fBase';
@@ -46,7 +46,7 @@ const MessageField: React.FC = () => {
 
   useEffect(() => {
     messagesListener();
-  }, [location.state, isDirect]);
+  }, [location.pathname, isDirect]);
 
   return (
     <Container>

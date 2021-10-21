@@ -6,6 +6,11 @@ export const atomSignCheck = atom<boolean>({
   default: false,
 });
 
+export const atomUserList = atom<IUserInfo[]>({
+  key: 'UserList',
+  default: [],
+});
+
 export const atomMemberList = atom<IUserInfo[]>({
   key: 'MemberList',
   default: [],

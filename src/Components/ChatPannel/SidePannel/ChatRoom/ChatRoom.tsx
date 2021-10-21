@@ -89,7 +89,7 @@ const ChatRoom = () => {
 
   const handleEnterRoom = async (data: IRoomInfo) => {
     setEnterRoom(data);
-
+    console.log(data.roomName);
     await updateDoc(doc(db, 'Rooms', data.roomName), {
       Members: arrayUnion(myInfo.uid),
     });
