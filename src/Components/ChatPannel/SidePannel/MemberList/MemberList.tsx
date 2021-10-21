@@ -21,7 +21,6 @@ import MemberListLi from './MemberListLi';
 const MemberList = () => {
   const [memberList, setMemberList] = useRecoilState(atomMemberList);
   const setClickedUser = useSetRecoilState(atomClickedUser);
-  const [following, setFollowing] = useRecoilState(atomFollowCheck);
 
   const memberListListener = () => {
     const q = query(collection(db, 'users'));
@@ -44,45 +43,9 @@ const MemberList = () => {
     setClickedUser(data);
   };
 
-  const addFollowingListener = () => {
-    const followSnapshot = query(collection(db, 'Following'));
-    onSnapshot(followSnapshot, (querySnapshot) => {
-      const isFollow: any = [];
-      querySnapshot.forEach((doc) => {
-        isFollow.push(doc.data().isFollowing);
-      });
-      setFollowing(isFollow);
-    });
-  };
-
   useEffect(() => {
     memberListListener();
-    addFollowingListener();
   }, []);
-
-  const handleFollowing = async (data: IUserInfo) => {
-    const auth = getAuth();
-    const uid = data.uid;
-    console.log(uid);
-    if (auth.currentUser) {
-      const followRef = doc(
-        db,
-        'Following',
-        `${auth.currentUser.uid}`,
-        'FollowingUser',
-        `${uid}`,
-      );
-      if (following) {
-        await deleteDoc(followRef);
-        setFollowing((prev) => !prev);
-      } else {
-        await setDoc(followRef, {
-          isFollowing: true,
-        });
-        setFollowing((prev) => !prev);
-      }
-    }
-  };
 
   return (
     <Container>
@@ -100,17 +63,7 @@ const MemberList = () => {
               photoURL={data.photoURL}
               nickname={data.nickname}
             />
-            {!following ? (
-              <FollowButton
-                text="Follow"
-                onClick={() => handleFollowing(data)}
-              />
-            ) : (
-              <FollowButton
-                text="Unfollow"
-                onClick={() => handleFollowing(data)}
-              />
-            )}
+            <FollowButton data={data} />
           </div>
         ))}
       </MemberLists>
