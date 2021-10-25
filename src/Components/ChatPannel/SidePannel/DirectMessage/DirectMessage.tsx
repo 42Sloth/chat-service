@@ -5,7 +5,7 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import {
   atomDirectRoomInfo,
   atomMyInfo,
-  atomMemberList,
+  atomUserList,
   atomRoomCheck,
   atomClickedDirectMsg,
   atomClickedChat,
@@ -28,7 +28,7 @@ const DirectMessage = () => {
   const history = useHistory();
   const [dmList, setDmList] = useRecoilState(atomDirectRoomInfo);
   const myInfo = useRecoilValue(atomMyInfo);
-  const memberList = useRecoilValue(atomMemberList);
+  const userList = useRecoilValue(atomUserList);
   // path도 기본값 현재 url 넣어줘야함
   const [path, setPath] = useState<string>('');
   const [toggle, setToggle] = useState<boolean>(true);
@@ -65,9 +65,10 @@ const DirectMessage = () => {
           let directRoomName: string = '';
           for (let i = 0; i < splitUID.length; i++) {
             if (splitUID[i] !== myInfo.uid) {
-              for (let j = 0; j < memberList.length; j++) {
-                if (splitUID[i] === memberList[j].uid) {
-                  directRoomName += memberList[j].nickname + ' ';
+              console.log(userList);
+              for (let j = 0; j < userList.length; j++) {
+                if (splitUID[i] === userList[j].uid) {
+                  directRoomName += userList[j].nickname + ' ';
                 }
               }
             }
@@ -91,7 +92,6 @@ const DirectMessage = () => {
   };
 
   const handleEnterRoom = (data: IDirectRoomInfo) => {
-    
     setSelected(data.roomID); // 선택된 roomID
     setClickedDM(true); // dm room 클릭
     setClickedChat(false); // chat room 클릭
