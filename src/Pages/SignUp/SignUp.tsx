@@ -1,5 +1,4 @@
 import React, { useRef } from 'react';
-
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -13,7 +12,6 @@ import { db } from 'fBase';
 import { FormButton } from 'Components';
 import { style } from 'Styles/FormStyle';
 import logo from 'Assets/Chatpong_logo_trans.png';
-import defaultImg from 'Assets/default_avatar.png';
 
 const SignUp: React.FC = () => {
   const history = useHistory();

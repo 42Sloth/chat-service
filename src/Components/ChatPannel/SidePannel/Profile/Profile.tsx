@@ -109,7 +109,7 @@ const Profile = ({ init }: TextInputProps) => {
           setIsDirect(true);
           history.push({
             pathname: `/dm/${docTitle}`,
-            state: { from: docTitle },
+            // state: { from: docTitle },
           });
           return;
         }
@@ -132,7 +132,7 @@ const Profile = ({ init }: TextInputProps) => {
     setIsDirect(true);
     history.push({
       pathname: `/dm/${docTitle}`,
-      state: { from: docTitle },
+      // state: { from: docTitle },
     });
   };
 
