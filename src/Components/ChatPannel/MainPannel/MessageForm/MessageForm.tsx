@@ -28,13 +28,14 @@ const MessageForm: React.FC = () => {
 
   const handleSubmit = () => {
     const temp = content;
-    const path = location.state.from;
+    // const { from } = location.state || { from: 'lobby' };
+    const from = location.pathname.split('/')[2];
     setContent('');
     addDoc(
       collection(
         db,
         `${isDirect === false ? 'Rooms' : 'Direct'}`,
-        path,
+        from,
         'Messages',
       ),
       {

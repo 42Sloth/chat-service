@@ -16,8 +16,8 @@ const FollowList = () => {
       </Title>
       <MemberLists>
         {memberList.map((data, idx) => (
-          <div>
-            <li key={idx}>
+          <div key={idx}>
+            <li>
               <img src={data.photoURL} alt="members" />
               {data.nickname}
             </li>
