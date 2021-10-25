@@ -116,10 +116,14 @@ const Profile = ({ init }: TextInputProps) => {
       });
     });
 
-    let id = 0;
-    if (dmList.length > 0) id += dmList.length + 1;
+    let maxId = 0;
+    for (let i = 0; i < dmList.length; i++) {
+      maxId = Math.max(maxId, dmList[i].roomID);
+    }
+    maxId = maxId === 0 ? 0 : maxId + 1;
+
     await setDoc(doc(db, 'Direct', docTitle), {
-      roomID: id,
+      roomID: maxId,
       roomName: docTitle,
       Members: [myInfo.uid, clickedUserInfo.uid].sort(),
       date: getDate(),

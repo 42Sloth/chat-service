@@ -32,8 +32,6 @@ const Navbar: React.FC = () => {
     });
   }, []);
 
-  console.log(myInfo);
-
   const handleSignOut = () => {
     signOut(auth);
     localStorage.removeItem('MyInfo');

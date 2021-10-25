@@ -50,8 +50,14 @@ const DM = styled.li`
   align-items: center;
   cursor: pointer;
 
-  ${(props: { selectedDM: boolean }) =>
+  ${(props: {
+    selectedDM: boolean;
+    clickedDM: boolean;
+    clickedChat: boolean;
+  }) =>
     props.selectedDM &&
+    props.clickedDM &&
+    !props.clickedChat &&
     css`
       font-weight: bolder;
     `}

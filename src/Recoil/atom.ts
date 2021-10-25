@@ -57,7 +57,17 @@ export const atomDirectRoomInfo = atom<IDirectRoomInfo[]>({
   default: [],
 });
 
-export const atomRoomCheck = atom<Boolean>({
+export const atomRoomCheck = atom<boolean>({
   key: 'RoomCheck',
   default: false,
 });
+
+export const atomClickedDirectMsg = atom<boolean>({
+  key: 'ClickedDirectMsg',
+  default: false,
+});
+
+export const atomClickedChat = atom<boolean>({
+  key: 'ClickedChat',
+  default: false,
+})

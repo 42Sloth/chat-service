@@ -7,6 +7,8 @@ import {
   atomMyInfo,
   atomMemberList,
   atomRoomCheck,
+  atomClickedDirectMsg,
+  atomClickedChat,
 } from 'Recoil/atom';
 
 import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
@@ -31,12 +33,18 @@ const DirectMessage = () => {
   const [path, setPath] = useState<string>('');
   const [toggle, setToggle] = useState<boolean>(true);
   const setIsDirect = useSetRecoilState(atomRoomCheck);
+  const [clickedDM, setClickedDM] =
+    useRecoilState<boolean>(atomClickedDirectMsg);
+  const [clickedChat, setClickedChat] =
+    useRecoilState<boolean>(atomClickedChat);
   //selected를 나중에 url에 따라서 값이 변경되는 것으로 로직 수정하자.
   const [selected, setSelected] = useState<number>(0);
 
   useEffect(() => {
     DirectMessagesRoomListener();
   }, [myInfo]);
+
+  let id = 0;
 
   const DirectMessagesRoomListener = () => {
     const q = query(collection(db, 'Direct'), orderBy('date'));
@@ -64,12 +72,14 @@ const DirectMessage = () => {
               }
             }
           }
+
           temp.push({
-            roomID: docData.roomId,
+            roomID: id,
             roomName: directRoomName,
             Members: docData.Members,
             date: docData.date,
           });
+          id = id + 1;
         }
       });
       setDmList(temp);
@@ -81,8 +91,11 @@ const DirectMessage = () => {
   };
 
   const handleEnterRoom = (data: IDirectRoomInfo) => {
-    setSelected(data.roomID);
-    setIsDirect(true);
+    
+    setSelected(data.roomID); // 선택된 roomID
+    setClickedDM(true); // dm room 클릭
+    setClickedChat(false); // chat room 클릭
+    setIsDirect(true); // fb document 구분
     const clickedPath = data.Members[0] + 'Direct' + data.Members[1];
     history.push({
       pathname: `/dm/${clickedPath}`,
@@ -102,6 +115,8 @@ const DirectMessage = () => {
             <DM
               key={data.roomID}
               selectedDM={data.roomID === selected ? true : false}
+              clickedDM={clickedDM}
+              clickedChat={clickedChat}
               onClick={() => handleEnterRoom(data)}
             >
               {/* # <img src={data.thumbnail} /> */}@ {data.roomName}

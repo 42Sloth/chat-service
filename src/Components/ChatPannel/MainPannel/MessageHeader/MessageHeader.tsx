@@ -23,7 +23,7 @@ const MessageHeader: React.FC = () => {
       const temp: IRoomInfo[] = [];
       query.forEach((doc) => {
         const docData = doc.data();
-        console.log(docData);
+
         temp.push({
           roomID: docData.roomID,
           roomName: docData.roomName,
