@@ -31,6 +31,7 @@ import { selectorMemberList } from 'Recoil/selector';
 import FollowButton from 'Components/ChatPannel/FollowButton/FollowButton';
 import MemberListLi from './MemberListLi';
 import { useLocation } from 'react-router';
+import { FaStar } from 'react-icons/fa';
 
 const MemberList = () => {
   const location = useLocation<ILocationState>();
@@ -43,6 +44,7 @@ const MemberList = () => {
   const [memberList, setMemberList] = useState<IUserInfo[]>([]);
   const roomsList = useRecoilValue(atomRoomsInfo);
   const userList = useRecoilValue(atomUserList);
+  const roomInfo = roomsList.find((room) => room.roomName === from);
 
   // const memberListListener = () => {
   //   const q = query(collection(db, 'users'));
@@ -64,7 +66,6 @@ const MemberList = () => {
   // };
 
   const memberListListener = () => {
-    const roomInfo = roomsList.find((room) => room.roomName === from);
     const temp: IUserInfo[] = [];
     if (roomInfo) {
       roomInfo.Members.forEach((member) => {
@@ -100,6 +101,9 @@ const MemberList = () => {
               photoURL={data.photoURL}
               nickname={data.nickname}
             />
+            {roomInfo && roomInfo.Owner === data.uid && (
+              <FaStar style={{ color: '#ff4545' }} />
+            )}
             <FollowButton data={data} />
           </div>
         ))}
