@@ -62,12 +62,12 @@ export const atomDirectRoomInfo = atom<IDirectRoomInfo[]>({
   default: [],
 });
 
-export const atomRoomCheck = atom<Boolean>({
+export const atomRoomCheck = atom<boolean>({
   key: 'RoomCheck',
   default: false,
 });
 
-export const atomFollowCheck = atom<Boolean>({
+export const atomFollowCheck = atom<boolean>({
   key: 'FollowCheck',
   default: false,
 });
