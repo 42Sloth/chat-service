@@ -1,15 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import {
-  arrayUnion,
-  collection,
-  doc,
-  onSnapshot,
-  orderBy,
-  query,
-  setDoc,
-  updateDoc,
-} from 'firebase/firestore';
+import { arrayUnion, doc, setDoc, updateDoc } from 'firebase/firestore';
 import { db } from 'fBase';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import {
@@ -34,7 +25,7 @@ import {
 
 const ChatRoom = () => {
   const history = useHistory();
-  const [roomsList, setRoomsList] = useRecoilState(atomRoomsInfo);
+  const roomsList = useRecoilValue(atomRoomsInfo);
   const setEnterRoom = useSetRecoilState(atomEnterRoom);
   const myInfo = useRecoilValue(atomMyInfo);
   const [toggle, setToggle] = useState<boolean>(true);
@@ -45,31 +36,8 @@ const ChatRoom = () => {
     useRecoilState<boolean>(atomClickedDirectMsg);
   const [clickedChat, setClickedChat] =
     useRecoilState<boolean>(atomClickedChat);
-  const [selected, setSelected] = useState<number>(0);
   const [selectedRoom, setSelectedRoom] =
     useRecoilState<number>(atomSelectedRoom);
-
-  // const roomsListener = () => {
-  //   const q = query(collection(db, 'Rooms'), orderBy('date'));
-  //   onSnapshot(q, (query) => {
-  //     const temp: IRoomInfo[] = [];
-  //     query.forEach((doc) => {
-  //       const docData = doc.data();
-  //       temp.push({
-  //         roomID: docData.roomID,
-  //         roomName: docData.roomName,
-  //         Owner: docData.Owner,
-  //         Members: docData.Members,
-  //         date: docData.date,
-  //       });
-  //     });
-  //     setRoomsList(temp);
-  //   });
-  // };
-
-  // useEffect(() => {
-  //   roomsListener();
-  // }, []);
 
   const handleToggle = () => {
     setToggle(!toggle);
@@ -103,18 +71,16 @@ const ChatRoom = () => {
   };
 
   const handleEnterRoom = async (data: IRoomInfo) => {
-    setSelectedRoom(data.roomID); // 선택된 roomID
-    setClickedDM(false); // dm room 클릭
-    setClickedChat(true); // chat room 클릭
-    setIsDirect(false); // fb document 구분
-    console.log(roomsList);
+    setSelectedRoom(data.roomID);
+    setClickedDM(false);
+    setClickedChat(true);
+    setIsDirect(false);
     await updateDoc(doc(db, 'Rooms', data.roomName), {
       Members: arrayUnion(myInfo.uid),
     });
     setEnterRoom(data);
     history.push({
       pathname: `/chat/${data.roomName}`,
-      // state: { from: data.roomName },
     });
   };
 
@@ -139,11 +105,7 @@ const ChatRoom = () => {
       </RoomTitleWrap>
       {add && (
         <>
-          <input
-            value={title}
-            onChange={handleRoomName}
-            // onKeyPress={handleCreateRoom}
-          />
+          <input value={title} onChange={handleRoomName} />
           <button onClick={handleCreateRoom}>등록</button>
         </>
       )}

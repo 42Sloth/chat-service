@@ -1,25 +1,20 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
 import { db } from 'fBase';
 import { useLocation } from 'react-router-dom';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { IMessage, ILocationState } from 'Types';
 import { atomRoomCheck, atomUserList } from 'Recoil/atom';
-import { atomMyInfo } from 'Recoil/atom';
 
 import { style } from './MessageFieldStyle';
-import profile_kbs from 'Assets/profile_kbs.jpg';
 
 const MessageField: React.FC = () => {
   const [messages, setMessages] = useState<IMessage[]>([]);
   const location = useLocation<ILocationState>();
   const isDirect = useRecoilValue(atomRoomCheck);
-  const myInfo = useRecoilValue(atomMyInfo);
   const userList = useRecoilValue(atomUserList);
 
   const messagesListener = () => {
-    // /chat으로가면 로비로 이동
-    // const { from } = location.state || { from: 'lobby' };
     const from = location.pathname.split('/')[2];
 
     const q = query(

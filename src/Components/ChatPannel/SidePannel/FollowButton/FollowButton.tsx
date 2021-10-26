@@ -1,17 +1,9 @@
 import { db } from 'fBase';
 import { getAuth } from 'firebase/auth';
-import {
-  collection,
-  deleteDoc,
-  doc,
-  getDoc,
-  onSnapshot,
-  query,
-  setDoc,
-} from 'firebase/firestore';
+import { deleteDoc, doc, getDoc, setDoc } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { atomFollowCheck, atomMyInfo } from 'Recoil/atom';
+import { useRecoilValue } from 'recoil';
+import { atomMyInfo } from 'Recoil/atom';
 import { IUserInfo } from 'Types';
 
 const FollowButton = (props: any) => {
@@ -49,9 +41,6 @@ const FollowButton = (props: any) => {
     if (followRef) {
       const response = await getDoc(followRef);
       if (response.exists()) {
-        // const docData = response.data();
-        // if (docData) {
-        // }
         setFollowing(true);
       }
     }

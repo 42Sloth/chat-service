@@ -19,19 +19,6 @@ const Section: React.FC = () => {
           <img src={campaign} alt="campaign" />
         </IntroImg>
       </InnerContainer>
-      {/* <InnerContainer>
-        <IntroImg>
-          <img src={campaign} alt="campaign" />
-        </IntroImg>
-        <Content>
-          <Title>Slack은 미래의 일이 이뤄지는 곳 입니다.</Title>
-          <SubTitle>
-            일을 완료하는 데 필요한 모든 사람과 모든 항목을 위해 한 곳에서
-            작업하는 방식을 바꿔보세요
-          </SubTitle>
-          <GameBtn>게임하기</GameBtn>
-        </Content>
-      </InnerContainer> */}
       <BrandLogo />
     </Container>
   );
@@ -46,6 +33,5 @@ const {
   Title,
   SubTitle,
   ChatBtn,
-  GameBtn,
   IntroImg,
 } = style;

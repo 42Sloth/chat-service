@@ -1,17 +1,13 @@
 import React from 'react';
-import { FaCaretRight } from 'react-icons/fa';
 import { MlStyle } from '../MemberList/MemberListStyle';
-import { useRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { atomMemberList } from 'Recoil/atom';
 
 const FollowList = () => {
-  const [memberList, setMemberList] = useRecoilState(atomMemberList);
+  const memberList = useRecoilValue(atomMemberList);
   return (
     <Container>
       <Title>
-        {/* <div>
-          <FaCaretRight />
-        </div> */}
         <h6>Follow List</h6>
       </Title>
       <MemberLists>

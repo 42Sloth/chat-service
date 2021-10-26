@@ -33,7 +33,6 @@ import {
 } from 'firebase/firestore';
 import { db } from 'fBase';
 import { getDate } from 'Utils/getDate';
-import { IDirectRoomInfo } from 'Types';
 import { TextInputProps } from 'Types/TextInputProps';
 
 const Profile = ({ init }: TextInputProps) => {
@@ -93,14 +92,11 @@ const Profile = ({ init }: TextInputProps) => {
 
   const handleClickDirectMsg = async () => {
     const docTitleArray: string[] = [clickedUserInfo.uid, myInfo.uid].sort();
-    // 자기자신은 방 생성 불가
     if (docTitleArray[0] === docTitleArray[1]) {
       console.log('자기자신은 방 생성 안됨');
       return;
     }
     const docTitle: string = docTitleArray[0] + 'Direct' + docTitleArray[1];
-
-    // 이미 DB에 DM 방이 있는지 검사
     const q = query(collection(db, 'Direct'), orderBy('date'));
     onSnapshot(q, (query) => {
       query.forEach((doc) => {
@@ -109,7 +105,6 @@ const Profile = ({ init }: TextInputProps) => {
           setIsDirect(true);
           history.push({
             pathname: `/dm/${docTitle}`,
-            // state: { from: docTitle },
           });
           return;
         }
@@ -132,7 +127,6 @@ const Profile = ({ init }: TextInputProps) => {
     setIsDirect(true);
     history.push({
       pathname: `/dm/${docTitle}`,
-      // state: { from: docTitle },
     });
   };
 

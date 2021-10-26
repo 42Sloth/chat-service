@@ -1,62 +1,42 @@
-import React, { useState, useEffect } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import {
   atomDirectRoomInfo,
-  atomMyInfo,
-  atomUserList,
   atomRoomCheck,
   atomClickedDirectMsg,
   atomClickedChat,
   atomSelectedRoom,
 } from 'Recoil/atom';
-
-import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
-import { db } from 'fBase';
-import { getAuth } from 'firebase/auth';
-
 import { IDirectRoomInfo } from 'Types';
 import { style } from './DirectMessageStyle';
-import {
-  FaCaretRight,
-  FaCaretDown,
-  FaHashtag,
-  FaPlusSquare,
-} from 'react-icons/fa';
+import { FaCaretRight, FaCaretDown } from 'react-icons/fa';
 
 const DirectMessage = () => {
   const history = useHistory();
-  const [dmList, setDmList] = useRecoilState(atomDirectRoomInfo);
-  const myInfo = useRecoilValue(atomMyInfo);
-  const userList = useRecoilValue(atomUserList);
+  const dmList = useRecoilValue(atomDirectRoomInfo);
   const [toggle, setToggle] = useState<boolean>(true);
   const setIsDirect = useSetRecoilState(atomRoomCheck);
   const [clickedDM, setClickedDM] =
     useRecoilState<boolean>(atomClickedDirectMsg);
   const [clickedChat, setClickedChat] =
     useRecoilState<boolean>(atomClickedChat);
-  const [selected, setSelected] = useState<number>(0);
   const [selectedRoom, setSelectedRoom] =
     useRecoilState<number>(atomSelectedRoom);
-
-  // useEffect(() => {
-  //   //DirectMessagesRoomListener();
-  // }, [myInfo]);
 
   const handleToggle = () => {
     setToggle(!toggle);
   };
 
   const handleEnterRoom = (data: IDirectRoomInfo) => {
-    setSelectedRoom(data.roomID); // 선택된 roomID
-    setClickedDM(true); // dm room 클릭
-    setClickedChat(false); // chat room 클릭
-    setIsDirect(true); // fb document 구분
+    setSelectedRoom(data.roomID);
+    setClickedDM(true);
+    setClickedChat(false);
+    setIsDirect(true);
     const clickedPath = data.Members[0] + 'Direct' + data.Members[1];
     history.push({
       pathname: `/dm/${clickedPath}`,
-      // state: { from: clickedPath },
     });
   };
 
@@ -76,7 +56,7 @@ const DirectMessage = () => {
               clickedChat={clickedChat}
               onClick={() => handleEnterRoom(data)}
             >
-              {/* # <img src={data.thumbnail} /> */}@ {data.roomName}
+              @ {data.roomName}
             </DM>
           ))}
         </DMList>

@@ -1,33 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { FaCaretRight } from 'react-icons/fa';
-import { getAuth } from 'firebase/auth';
-import {
-  doc,
-  setDoc,
-  getDocs,
-  deleteDoc,
-  collection,
-  onSnapshot,
-  query,
-} from 'firebase/firestore';
-import { db } from 'fBase';
+import React, { useEffect } from 'react';
 import { MlStyle } from './MemberListStyle';
-import {
-  useRecoilState,
-  useRecoilValue,
-  useRecoilValueLoadable,
-  useSetRecoilState,
-} from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import {
   atomMemberList,
   atomClickedUser,
-  atomEnterRoom,
-  atomFollowCheck,
   atomRoomsInfo,
   atomUserList,
 } from 'Recoil/atom';
 import { ILocationState, IUserInfo } from 'Types';
-import { selectorMemberList } from 'Recoil/selector';
 import FollowButton from 'Components/ChatPannel/SidePannel/FollowButton/FollowButton';
 import MemberListLi from './MemberListLi';
 import { useLocation } from 'react-router';
@@ -35,35 +15,12 @@ import { FaStar } from 'react-icons/fa';
 
 const MemberList = () => {
   const location = useLocation<ILocationState>();
-  // const [memberList, setMemberList] = useRecoilState(atomMemberList);
   const setClickedUser = useSetRecoilState(atomClickedUser);
-  const enterRoom = useRecoilValue(atomEnterRoom);
   const from = location.pathname.split('/')[2];
-  // const memberList = useRecoilValue(selectorMemberList);
   const [memberList, setMemberList] = useRecoilState(atomMemberList);
   const roomsList = useRecoilValue(atomRoomsInfo);
   const userList = useRecoilValue(atomUserList);
   const roomInfo = roomsList.find((room) => room.roomName === from);
-
-  // const memberListListener = () => {
-  //   const q = query(collection(db, 'users'));
-  //   onSnapshot(q, (query) => {
-  //     const temp: IUserInfo[] = [];
-  //     query.forEach((doc) => {
-  //       const docData = doc.data();
-  //       // if (enterRoom.Members.includes(docData.uid)) {
-  //       temp.push({
-  //         nickname: docData.nickname,
-  //         email: docData.email,
-  //         uid: docData.uid,
-  //         photoURL: docData.photoURL,
-  //       });
-  //       // }
-  //     });
-  //     setMemberList(temp);
-  //   });
-  // };
-  // console.log(memberList);
 
   const memberListListener = () => {
     const temp: IUserInfo[] = [];
@@ -87,9 +44,6 @@ const MemberList = () => {
   return (
     <Container>
       <Title>
-        {/* <div>
-          <FaCaretRight />
-        </div> */}
         <h6>All Member</h6>
       </Title>
       <MemberLists>

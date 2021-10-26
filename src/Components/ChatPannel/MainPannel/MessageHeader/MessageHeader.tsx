@@ -1,26 +1,16 @@
-import {
-  collection,
-  where,
-  orderBy,
-  onSnapshot,
-  query,
-  doc,
-  updateDoc,
-} from 'firebase/firestore';
-import { arrayRemove, deleteDoc } from '@firebase/firestore';
-import { db } from 'fBase';
 import React, { useEffect, useState } from 'react';
+import { doc, updateDoc, arrayRemove, deleteDoc } from 'firebase/firestore';
+import { db } from 'fBase';
 import { useHistory } from 'react-router';
 import { useLocation } from 'react-router-dom';
-import { useRecoilValue, useSetRecoilState, useRecoilState } from 'recoil';
+import { useRecoilValue, useRecoilState } from 'recoil';
 import {
-  atomEnterRoom,
   atomMyInfo,
   atomRoomsInfo,
   atomRoomCheck,
   atomDirectRoomInfo,
 } from 'Recoil/atom';
-import { ILocationState, IRoomInfo, IDirectRoomInfo } from 'Types';
+import { IDirectRoomInfo } from 'Types';
 import { style } from './MessageHeaderStyle';
 
 const MessageHeader: React.FC = () => {
@@ -69,30 +59,11 @@ const MessageHeader: React.FC = () => {
     }
     history.push({
       pathname: `/chat/lobby`,
-      // state: { from: data.roomName },
     });
   };
 
-  // const setEnterRoom = useSetRecoilState(atomEnterRoom);
-  // const enterRoom = useRecoilValue(atomEnterRoom);
-  // const [joinRooms, setJoinRooms] = useState<IRoomInfo[]>([]);
-
   return (
     <Container>
-      {/* <JoinRoomList>
-        {joinRooms.map((data) => {
-          return (
-            <JoinRoom
-              key={data.roomID}
-              onClick={() => {
-                handleEnterRoom(data);
-              }}
-            >
-              # {data.roomName}
-            </JoinRoom>
-          );
-        })}
-      </JoinRoomList> */}
       <JoinRoom> {isDirect ? `@ ${dmRoomName}` : `# ${from}`}</JoinRoom>
       <ExitRoom onClick={handleExitRoom}>Exit</ExitRoom>
     </Container>

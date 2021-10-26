@@ -62,24 +62,6 @@ const ChatBtn = styled(Link)`
   }
 `;
 
-const GameBtn = styled.div`
-  width: 160px;
-  padding: 20px 0;
-  outline: none;
-  border: none;
-  border-radius: 5px;
-  color: #fff;
-  text-align: center;
-  background-color: #611f69;
-  cursor: pointer;
-  margin-left: 250px;
-
-  &:hover {
-    background-color: #4e1954;
-    transition: all ease-in-out 0.5s;
-  }
-`;
-
 const IntroImg = styled.div`
   width: 100%;
 
@@ -95,6 +77,5 @@ export const style = {
   Title,
   SubTitle,
   ChatBtn,
-  GameBtn,
   IntroImg,
 };

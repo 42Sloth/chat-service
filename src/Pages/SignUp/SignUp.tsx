@@ -80,8 +80,6 @@ const SignUp: React.FC = () => {
             />
             {errors.email && <p>This email field is required</p>}
           </Wrap>
-          {/* <CheckBtn>중복확인</CheckBtn> */}
-
           <Wrap>
             <FormLabel htmlFor="nickname">닉네임</FormLabel>
             <TextInput
@@ -96,9 +94,7 @@ const SignUp: React.FC = () => {
             {errors.nickname && errors.nickname.type === 'maxLength' && (
               <p>Your input exceed maximum length</p>
             )}
-            {/* <CheckBtn>중복확인</CheckBtn> */}
           </Wrap>
-
           <Wrap>
             <FormLabel htmlFor="password">비밀번호</FormLabel>
             <TextInput

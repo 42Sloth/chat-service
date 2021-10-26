@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect } from 'react';
-import styled from 'styled-components';
-import { MainPannel, HeaderPannel, SidePannel } from 'Components';
+import { MainPannel, SidePannel } from 'Components';
 import {
   FollowList,
   MemberList,
@@ -14,7 +13,6 @@ import {
 } from 'recoil';
 import {
   atomClickedUser,
-  atomEnterRoom,
   atomMyInfo,
   atomRoomsInfo,
   atomUserList,
@@ -22,12 +20,17 @@ import {
   atomClickedChat,
   atomClickedDirectMsg,
   atomDirectRoomInfo,
-  atomMemberList,
 } from 'Recoil/atom';
 import { useLocation } from 'react-router-dom';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
-import { doc, deleteDoc, getDoc } from 'firebase/firestore';
+import {
+  collection,
+  onSnapshot,
+  orderBy,
+  query,
+  doc,
+  getDoc,
+} from 'firebase/firestore';
 import { db } from 'fBase';
 import { TextInputProps } from 'Types/TextInputProps';
 import { Style } from './ChatPageStyle';
@@ -37,22 +40,14 @@ const ChatPage: React.FC<TextInputProps> = ({ init }) => {
   const clickedUser = useRecoilValue(atomClickedUser);
   const [myInfo, setMyInfo] = useRecoilState(atomMyInfo);
   const myInfoReset = useResetRecoilState(atomMyInfo);
-  const [roomsList, setRoomsList] = useRecoilState(atomRoomsInfo);
-  const [enterRoom, setEnterRoom] = useRecoilState(atomEnterRoom);
+  const setRoomsList = useSetRecoilState(atomRoomsInfo);
   const [userList, setUserList] = useRecoilState(atomUserList);
-  const [dmList, setDmList] = useRecoilState(atomDirectRoomInfo);
-  const [clickedDM, setClickedDM] =
-    useRecoilState<boolean>(atomClickedDirectMsg);
-  const [clickedChat, setClickedChat] =
-    useRecoilState<boolean>(atomClickedChat);
-  const [selectedRoomId, setSelectedRoomId] =
-    useRecoilState<number>(atomSelectedRoom);
+  const setDmList = useSetRecoilState(atomDirectRoomInfo);
+  const setClickedDM = useSetRecoilState<boolean>(atomClickedDirectMsg);
+  const setClickedChat = useSetRecoilState<boolean>(atomClickedChat);
+  const setSelectedRoomId = useSetRecoilState<number>(atomSelectedRoom);
   const auth = getAuth();
   const location = useLocation<ILocationState>();
-
-  // const memberList = useRecoilValue(atomMemberList);
-
-  //console.log(myInfo, userList, roomsList, memberList);
 
   useEffect(() => {
     onAuthStateChanged(auth, async (data) => {
@@ -119,7 +114,7 @@ const ChatPage: React.FC<TextInputProps> = ({ init }) => {
             Members: docData.Members,
             date: docData.date,
           });
-          dmId = dmId + 1;
+          dmId += 1;
         }
       });
       setDmList(temp);
@@ -132,14 +127,12 @@ const ChatPage: React.FC<TextInputProps> = ({ init }) => {
       const temp: IUserInfo[] = [];
       query.forEach((doc) => {
         const docData = doc.data();
-        // if (enterRoom.Members.includes(docData.uid)) {
         temp.push({
           nickname: docData.nickname,
           email: docData.email,
           uid: docData.uid,
           photoURL: docData.photoURL,
         });
-        // }
       });
       setUserList(temp);
     });
@@ -167,16 +160,14 @@ const ChatPage: React.FC<TextInputProps> = ({ init }) => {
           Members: docData.Members,
           date: docData.date,
         });
-        chatId = chatId + 1;
+        chatId += 1;
       });
-      // setEnterRoom(temp[0]);
       setRoomsList(temp);
     });
   };
 
   return (
     <>
-      {/* <HeaderPannel /> */}
       <div style={{ display: 'flex' }}>
         <SidePannel />
         <MainPannel />
