@@ -38,7 +38,6 @@ const MemberList = () => {
   const setClickedUser = useSetRecoilState(atomClickedUser);
   const enterRoom = useRecoilValue(atomEnterRoom);
   const from = location.pathname.split('/')[2];
-  console.log(from);
   // const memberList = useRecoilValue(selectorMemberList);
   const [memberList, setMemberList] = useState<IUserInfo[]>([]);
   const roomsList = useRecoilValue(atomRoomsInfo);
@@ -72,7 +71,6 @@ const MemberList = () => {
         joinedUser && temp.push(joinedUser);
       });
     }
-    console.log(temp);
     setMemberList(temp);
   };
 
