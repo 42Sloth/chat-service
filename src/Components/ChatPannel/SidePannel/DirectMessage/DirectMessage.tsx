@@ -86,7 +86,7 @@ const DirectMessage = () => {
     const clickedPath = data.Members[0] + 'Direct' + data.Members[1];
     history.push({
       pathname: `/dm/${clickedPath}`,
-      state: { from: clickedPath },
+      // state: { from: clickedPath },
     });
   };
 

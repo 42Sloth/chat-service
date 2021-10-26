@@ -1,6 +1,6 @@
 import React from 'react';
 import { FaCaretRight } from 'react-icons/fa';
-import { MlStyle } from '../MemberList/MemberListStyle';
+import { MlStyle } from '../SidePannel/MemberList/MemberListStyle';
 import { useRecoilState } from 'recoil';
 import { atomMemberList } from 'Recoil/atom';
 
@@ -16,8 +16,8 @@ const FollowList = () => {
       </Title>
       <MemberLists>
         {memberList.map((data, idx) => (
-          <div>
-            <li key={idx}>
+          <div key={idx}>
+            <li>
               <img src={data.photoURL} alt="members" />
               {data.nickname}
             </li>
