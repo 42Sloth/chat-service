@@ -39,7 +39,7 @@ const MemberList = () => {
   const enterRoom = useRecoilValue(atomEnterRoom);
   const from = location.pathname.split('/')[2];
   // const memberList = useRecoilValue(selectorMemberList);
-  const [memberList, setMemberList] = useState<IUserInfo[]>([]);
+  const [memberList, setMemberList] = useRecoilState(atomMemberList);
   const roomsList = useRecoilValue(atomRoomsInfo);
   const userList = useRecoilValue(atomUserList);
 
@@ -61,6 +61,7 @@ const MemberList = () => {
   //     setMemberList(temp);
   //   });
   // };
+  // console.log(memberList);
 
   const memberListListener = () => {
     const roomInfo = roomsList.find((room) => room.roomName === from);
@@ -80,7 +81,7 @@ const MemberList = () => {
 
   useEffect(() => {
     memberListListener();
-  }, [from, roomsList]);
+  }, [from, roomsList, userList]);
 
   return (
     <Container>

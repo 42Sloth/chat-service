@@ -83,7 +83,7 @@ const ChatRoom = () => {
     setTitle(e.target.value);
   };
 
-  const handleEnter = async () => {
+  const handleCreateRoom = async () => {
     const temp = title;
     setAdd(false);
     let maxId = 0;
@@ -142,9 +142,9 @@ const ChatRoom = () => {
           <input
             value={title}
             onChange={handleRoomName}
-            // onKeyPress={handleEnter}
+            // onKeyPress={handleCreateRoom}
           />
-          <button onClick={handleEnter}>등록</button>
+          <button onClick={handleCreateRoom}>등록</button>
         </>
       )}
       {toggle ? (

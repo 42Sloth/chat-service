@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import styled from 'styled-components';
 import { MainPannel, HeaderPannel, SidePannel } from 'Components';
 import {
@@ -22,6 +22,7 @@ import {
   atomClickedChat,
   atomClickedDirectMsg,
   atomDirectRoomInfo,
+  atomMemberList,
 } from 'Recoil/atom';
 import { useLocation } from 'react-router-dom';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
@@ -44,10 +45,14 @@ const ChatPage: React.FC<TextInputProps> = ({ init }) => {
     useRecoilState<boolean>(atomClickedDirectMsg);
   const [clickedChat, setClickedChat] =
     useRecoilState<boolean>(atomClickedChat);
-  const [selectedRoom, setSelectedRoom] =
+  const [selectedRoomId, setSelectedRoomId] =
     useRecoilState<number>(atomSelectedRoom);
   const auth = getAuth();
   const location = useLocation<ILocationState>();
+
+  // const memberList = useRecoilValue(atomMemberList);
+
+  //console.log(myInfo, userList, roomsList, memberList);
 
   useEffect(() => {
     onAuthStateChanged(auth, async (data) => {
@@ -68,11 +73,14 @@ const ChatPage: React.FC<TextInputProps> = ({ init }) => {
     });
     roomsListener();
     userListListener();
-    directMessagesRoomListener();
   }, []);
 
-  let dmId = 0;
-  const directMessagesRoomListener = () => {
+  useEffect(() => {
+    directMessagesRoomListener();
+  }, [myInfo]);
+
+  let dmId: number = 0;
+  const directMessagesRoomListener = useCallback(() => {
     const q = query(collection(db, 'Direct'), orderBy('date'));
     const selectedRoom = location.pathname.split('/')[2];
 
@@ -100,7 +108,7 @@ const ChatPage: React.FC<TextInputProps> = ({ init }) => {
             }
           }
           if (selectedRoom === docData.roomName) {
-            setSelectedRoom(docData.roomID);
+            setSelectedRoomId(dmId);
             setClickedDM(true);
             setClickedChat(false);
           }
@@ -115,7 +123,7 @@ const ChatPage: React.FC<TextInputProps> = ({ init }) => {
       });
       setDmList(temp);
     });
-  };
+  }, [myInfo]);
 
   const userListListener = () => {
     const q = query(collection(db, 'users'));
@@ -147,9 +155,9 @@ const ChatPage: React.FC<TextInputProps> = ({ init }) => {
       query.forEach((doc) => {
         const docData = doc.data();
         if (selectedRoom === docData.roomName) {
-          setSelectedRoom(docData.roomID);
-          setClickedDM(true);
-          setClickedChat(false);
+          setSelectedRoomId(chatId);
+          setClickedDM(false);
+          setClickedChat(true);
         }
         temp.push({
           roomID: chatId,
