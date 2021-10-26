@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { NavLink as Link } from 'react-router-dom';
 
 const Container = styled.section`
   padding-top: 120px;
@@ -43,7 +44,7 @@ const SubTitle = styled.p`
   margin-bottom: 50px;
 `;
 
-const ChatBtn = styled.div`
+const ChatBtn = styled(Link)`
   width: 160px;
   padding: 20px 0;
   outline: none;
@@ -53,6 +54,7 @@ const ChatBtn = styled.div`
   text-align: center;
   background-color: #611f69;
   cursor: pointer;
+  text-decoration: none;
 
   &:hover {
     background-color: #4e1954;

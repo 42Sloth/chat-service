@@ -23,12 +23,7 @@ const MessageField: React.FC = () => {
     const from = location.pathname.split('/')[2];
 
     const q = query(
-      collection(
-        db,
-        `${isDirect === false ? 'Rooms' : 'Direct'}`,
-        from,
-        'Messages',
-      ),
+      collection(db, `${isDirect ? 'Direct' : 'Rooms'}`, from, 'Messages'),
       orderBy('date'),
     );
     onSnapshot(q, (query) => {

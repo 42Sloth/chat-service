@@ -12,7 +12,7 @@ import { db } from 'fBase';
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import { useLocation } from 'react-router-dom';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState, useRecoilState } from 'recoil';
 import {
   atomEnterRoom,
   atomMyInfo,
@@ -20,16 +20,37 @@ import {
   atomRoomCheck,
   atomDirectRoomInfo,
 } from 'Recoil/atom';
-import { ILocationState, IRoomInfo } from 'Types';
+import { ILocationState, IRoomInfo, IDirectRoomInfo } from 'Types';
 import { style } from './MessageHeaderStyle';
 
 const MessageHeader: React.FC = () => {
   const history = useHistory();
   const location = useLocation();
   const from = location.pathname.split('/')[2];
-  const isDirect = useRecoilValue(atomRoomCheck);
+  const [isDirect, setIsDirect] = useRecoilState(atomRoomCheck);
   const myInfo = useRecoilValue(atomMyInfo);
   const roomsList = useRecoilValue(atomRoomsInfo);
+  const dmList = useRecoilValue(atomDirectRoomInfo);
+  const [dmRoomName, setDmRoomName] = useState<string>('');
+
+  useEffect(() => {
+    if (location.pathname.split('/')[1] === 'dm') {
+      setIsDirect(true);
+      setDirectRoomName();
+    }
+  }, [from]);
+
+  const setDirectRoomName = () => {
+    const fromSplit: string = from.split('Direct')[0] + from.split('Direct')[1];
+
+    const currentRoom: IDirectRoomInfo | undefined = dmList.find(
+      (dmRoom) => dmRoom.Members[0] + dmRoom.Members[1] === fromSplit,
+    );
+    if (currentRoom) {
+      setDmRoomName(currentRoom.roomName);
+    }
+  };
+
   const handleExitRoom = async () => {
     const roomInfo = roomsList.find((room) => room.roomName === from);
     if (roomInfo && myInfo.uid === roomInfo.Owner) {
@@ -56,17 +77,6 @@ const MessageHeader: React.FC = () => {
   // const enterRoom = useRecoilValue(atomEnterRoom);
   // const [joinRooms, setJoinRooms] = useState<IRoomInfo[]>([]);
 
-  useEffect(() => {
-    if (isDirect) {
-      setDirectRoomName();
-    }
-  }, []);
-
-  const setDirectRoomName = () => {
-    const q = query(collection(db, 'Direct'), orderBy('date'));
-  };
-
-  console.log(isDirect);
   return (
     <Container>
       {/* <JoinRoomList>
@@ -83,7 +93,7 @@ const MessageHeader: React.FC = () => {
           );
         })}
       </JoinRoomList> */}
-      <JoinRoom># {isDirect ? '나와라잇' : from}</JoinRoom>
+      <JoinRoom> {isDirect ? `@ ${dmRoomName}` : `# ${from}`}</JoinRoom>
       <ExitRoom onClick={handleExitRoom}>Exit</ExitRoom>
     </Container>
   );
