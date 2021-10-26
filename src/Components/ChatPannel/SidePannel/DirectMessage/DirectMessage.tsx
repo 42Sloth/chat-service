@@ -5,8 +5,11 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import {
   atomDirectRoomInfo,
   atomMyInfo,
-  atomMemberList,
+  atomUserList,
   atomRoomCheck,
+  atomClickedDirectMsg,
+  atomClickedChat,
+  atomSelectedRoom,
 } from 'Recoil/atom';
 
 import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
@@ -26,63 +29,30 @@ const DirectMessage = () => {
   const history = useHistory();
   const [dmList, setDmList] = useRecoilState(atomDirectRoomInfo);
   const myInfo = useRecoilValue(atomMyInfo);
-  const memberList = useRecoilValue(atomMemberList);
-  // path도 기본값 현재 url 넣어줘야함
-  const [path, setPath] = useState<string>('');
+  const userList = useRecoilValue(atomUserList);
   const [toggle, setToggle] = useState<boolean>(true);
   const setIsDirect = useSetRecoilState(atomRoomCheck);
-  //selected를 나중에 url에 따라서 값이 변경되는 것으로 로직 수정하자.
+  const [clickedDM, setClickedDM] =
+    useRecoilState<boolean>(atomClickedDirectMsg);
+  const [clickedChat, setClickedChat] =
+    useRecoilState<boolean>(atomClickedChat);
   const [selected, setSelected] = useState<number>(0);
+  const [selectedRoom, setSelectedRoom] =
+    useRecoilState<number>(atomSelectedRoom);
 
-  useEffect(() => {
-    DirectMessagesRoomListener();
-  }, [myInfo]);
-
-  const DirectMessagesRoomListener = () => {
-    const q = query(collection(db, 'Direct'), orderBy('date'));
-    onSnapshot(q, (query) => {
-      const temp: IDirectRoomInfo[] = [];
-      query.forEach((doc) => {
-        const docData = doc.data();
-        let myDmList: boolean = false;
-        for (let i = 0; i < docData.Members.length; i++) {
-          if (myInfo.uid === docData.Members[i]) {
-            myDmList = true;
-            break;
-          }
-        }
-        if (myDmList) {
-          setPath(docData.roomName);
-          const splitUID: string[] = docData.roomName.split('Direct');
-          let directRoomName: string = '';
-          for (let i = 0; i < splitUID.length; i++) {
-            if (splitUID[i] !== myInfo.uid) {
-              for (let j = 0; j < memberList.length; j++) {
-                if (splitUID[i] === memberList[j].uid) {
-                  directRoomName += memberList[j].nickname + ' ';
-                }
-              }
-            }
-          }
-          temp.push({
-            roomID: docData.roomId,
-            roomName: directRoomName,
-            Members: docData.Members,
-            date: docData.date,
-          });
-        }
-      });
-      setDmList(temp);
-    });
-  };
+  // useEffect(() => {
+  //   //DirectMessagesRoomListener();
+  // }, [myInfo]);
 
   const handleToggle = () => {
     setToggle(!toggle);
   };
 
   const handleEnterRoom = (data: IDirectRoomInfo) => {
-    setSelected(data.roomID);
-    setIsDirect(true);
+    setSelectedRoom(data.roomID); // 선택된 roomID
+    setClickedDM(true); // dm room 클릭
+    setClickedChat(false); // chat room 클릭
+    setIsDirect(true); // fb document 구분
     const clickedPath = data.Members[0] + 'Direct' + data.Members[1];
     history.push({
       pathname: `/dm/${clickedPath}`,
@@ -101,7 +71,9 @@ const DirectMessage = () => {
           {dmList.map((data) => (
             <DM
               key={data.roomID}
-              selectedDM={data.roomID === selected ? true : false}
+              selectedDM={data.roomID === selectedRoom ? true : false}
+              clickedDM={clickedDM}
+              clickedChat={clickedChat}
               onClick={() => handleEnterRoom(data)}
             >
               {/* # <img src={data.thumbnail} /> */}@ {data.roomName}

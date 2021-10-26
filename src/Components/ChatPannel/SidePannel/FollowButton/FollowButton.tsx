@@ -4,56 +4,62 @@ import {
   collection,
   deleteDoc,
   doc,
+  getDoc,
   onSnapshot,
   query,
   setDoc,
 } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
-import { useRecoilState } from 'recoil';
-import { atomFollowCheck } from 'Recoil/atom';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { atomFollowCheck, atomMyInfo } from 'Recoil/atom';
 import { IUserInfo } from 'Types';
 
 const FollowButton = (props: any) => {
   const [following, setFollowing] = useState(false);
+  const myInfo = useRecoilValue(atomMyInfo);
+  const data = props.data;
 
   const handleFollowing = async (data: IUserInfo) => {
     const auth = getAuth();
     const uid = data.uid;
-    console.log(uid);
     if (auth.currentUser) {
       const followRef = doc(
         db,
-        'Following',
+        'users',
         `${auth.currentUser.uid}`,
-        'FollowingUser',
+        'following',
         `${uid}`,
       );
       if (following) {
         await deleteDoc(followRef);
-        setFollowing((prev) => !prev);
+        setFollowing(false);
       } else {
         await setDoc(followRef, {
           isFollowing: true,
         });
-        setFollowing((prev) => !prev);
+        setFollowing(true);
       }
     }
   };
 
-  // const addFollowingListener = () => {
-  //   const followSnapshot = query(collection(db, 'Following'));
-  //   onSnapshot(followSnapshot, (querySnapshot) => {
-  //     const isFollow: any = [];
-  //     querySnapshot.forEach((doc) => {
-  //       isFollow.push(doc.data().isFollowing);
-  //     });
-  //     setFollowing(isFollow);
-  //   });
-  // };
+  const addFollowingListener = async () => {
+    const uid = data.uid;
 
-  // useEffect(() => {
-  //   addFollowingListener();
-  // }, []);
+    const followRef = doc(db, 'users', myInfo.uid, 'following', uid);
+    if (followRef) {
+      const response = await getDoc(followRef);
+      if (response.exists()) {
+        // const docData = response.data();
+        // if (docData) {
+        // }
+        setFollowing(true);
+      }
+    }
+  };
+
+  useEffect(() => {
+    addFollowingListener();
+  }, []);
 
   return (
     <>

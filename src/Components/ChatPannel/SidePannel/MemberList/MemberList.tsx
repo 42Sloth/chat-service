@@ -28,7 +28,7 @@ import {
 } from 'Recoil/atom';
 import { ILocationState, IUserInfo } from 'Types';
 import { selectorMemberList } from 'Recoil/selector';
-import FollowButton from 'Components/ChatPannel/FollowButton/FollowButton';
+import FollowButton from 'Components/ChatPannel/SidePannel/FollowButton/FollowButton';
 import MemberListLi from './MemberListLi';
 import { useLocation } from 'react-router';
 import { FaStar } from 'react-icons/fa';
@@ -39,9 +39,8 @@ const MemberList = () => {
   const setClickedUser = useSetRecoilState(atomClickedUser);
   const enterRoom = useRecoilValue(atomEnterRoom);
   const from = location.pathname.split('/')[2];
-  console.log(from);
   // const memberList = useRecoilValue(selectorMemberList);
-  const [memberList, setMemberList] = useState<IUserInfo[]>([]);
+  const [memberList, setMemberList] = useRecoilState(atomMemberList);
   const roomsList = useRecoilValue(atomRoomsInfo);
   const userList = useRecoilValue(atomUserList);
   const roomInfo = roomsList.find((room) => room.roomName === from);
@@ -64,6 +63,7 @@ const MemberList = () => {
   //     setMemberList(temp);
   //   });
   // };
+  // console.log(memberList);
 
   const memberListListener = () => {
     const temp: IUserInfo[] = [];
@@ -73,7 +73,6 @@ const MemberList = () => {
         joinedUser && temp.push(joinedUser);
       });
     }
-    console.log(temp);
     setMemberList(temp);
   };
 
@@ -83,14 +82,14 @@ const MemberList = () => {
 
   useEffect(() => {
     memberListListener();
-  }, [from, roomsList]);
+  }, [from, roomsList, userList]);
 
   return (
     <Container>
       <Title>
-        <div>
+        {/* <div>
           <FaCaretRight />
-        </div>
+        </div> */}
         <h6>All Member</h6>
       </Title>
       <MemberLists>

@@ -17,6 +17,9 @@ import {
   atomMyInfo,
   atomRoomsInfo,
   atomRoomCheck,
+  atomClickedDirectMsg,
+  atomClickedChat,
+  atomSelectedRoom,
 } from 'Recoil/atom';
 import { IRoomInfo } from 'Types';
 
@@ -38,6 +41,13 @@ const ChatRoom = () => {
   const [add, setAdd] = useState<boolean>(false);
   const [title, setTitle] = useState<string>('');
   const setIsDirect = useSetRecoilState(atomRoomCheck);
+  const [clickedDM, setClickedDM] =
+    useRecoilState<boolean>(atomClickedDirectMsg);
+  const [clickedChat, setClickedChat] =
+    useRecoilState<boolean>(atomClickedChat);
+  const [selected, setSelected] = useState<number>(0);
+  const [selectedRoom, setSelectedRoom] =
+    useRecoilState<number>(atomSelectedRoom);
 
   // const roomsListener = () => {
   //   const q = query(collection(db, 'Rooms'), orderBy('date'));
@@ -73,12 +83,17 @@ const ChatRoom = () => {
     setTitle(e.target.value);
   };
 
-  const handleEnter = async () => {
+  const handleCreateRoom = async () => {
     const temp = title;
     setAdd(false);
+    let maxId = 0;
+    for (let i = 0; i < roomsList.length; i++) {
+      maxId = Math.max(maxId, roomsList[i].roomID);
+    }
+    maxId = maxId === 0 ? 0 : maxId + 1;
 
     await setDoc(doc(db, 'Rooms', temp), {
-      roomID: roomsList[roomsList.length - 1].roomID + 1,
+      roomID: maxId,
       roomName: temp,
       Owner: myInfo.uid,
       Members: arrayUnion(myInfo.uid),
@@ -88,11 +103,14 @@ const ChatRoom = () => {
   };
 
   const handleEnterRoom = async (data: IRoomInfo) => {
-    console.log(data.roomName);
+    setSelectedRoom(data.roomID); // 선택된 roomID
+    setClickedDM(false); // dm room 클릭
+    setClickedChat(true); // chat room 클릭
+    setIsDirect(false); // fb document 구분
+    console.log(roomsList);
     await updateDoc(doc(db, 'Rooms', data.roomName), {
       Members: arrayUnion(myInfo.uid),
     });
-    setIsDirect(false);
     setEnterRoom(data);
     history.push({
       pathname: `/chat/${data.roomName}`,
@@ -124,15 +142,21 @@ const ChatRoom = () => {
           <input
             value={title}
             onChange={handleRoomName}
-            // onKeyPress={handleEnter}
+            // onKeyPress={handleCreateRoom}
           />
-          <button onClick={handleEnter}>등록</button>
+          <button onClick={handleCreateRoom}>등록</button>
         </>
       )}
       {toggle ? (
         <RoomList>
           {roomsList.map((data) => (
-            <Room key={data.roomID} onClick={() => handleEnterRoom(data)}>
+            <Room
+              key={data.roomID}
+              onClick={() => handleEnterRoom(data)}
+              selectedDM={data.roomID === selectedRoom ? true : false}
+              clickedDM={clickedDM}
+              clickedChat={clickedChat}
+            >
               <FaHashtag />
               <p>{data.roomName}</p>
             </Room>

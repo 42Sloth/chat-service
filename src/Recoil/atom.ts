@@ -67,6 +67,21 @@ export const atomRoomCheck = atom<boolean>({
   default: false,
 });
 
+export const atomClickedDirectMsg = atom<boolean>({
+  key: 'ClickedDirectMsg',
+  default: false,
+});
+
+export const atomClickedChat = atom<boolean>({
+  key: 'ClickedChat',
+  default: false,
+});
+
+export const atomSelectedRoom = atom<number>({
+  key: 'SelectedRoom',
+  default: 0,
+});
+
 export const atomFollowCheck = atom<boolean>({
   key: 'FollowCheck',
   default: false,
