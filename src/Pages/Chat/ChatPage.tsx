@@ -80,6 +80,7 @@ const ChatPage: React.FC<TextInputProps> = ({ init }) => {
   }, [myInfo]);
 
   let dmId: number = 0;
+
   const directMessagesRoomListener = useCallback(() => {
     const q = query(collection(db, 'Direct'), orderBy('date'));
     const selectedRoom = location.pathname.split('/')[2];
@@ -175,7 +176,7 @@ const ChatPage: React.FC<TextInputProps> = ({ init }) => {
 
   return (
     <>
-      <HeaderPannel />
+      {/* <HeaderPannel /> */}
       <div style={{ display: 'flex' }}>
         <SidePannel />
         <MainPannel />

@@ -86,4 +86,3 @@ export const atomFollowCheck = atom<boolean>({
   key: 'FollowCheck',
   default: false,
 });
-

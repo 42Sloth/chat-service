@@ -9,7 +9,7 @@ const Container = styled.div`
 `;
 
 const Title = styled.div`
-  height: 49px;
+  height: 50px;
   display: flex;
   align-items: center;
   padding-left: 20px;

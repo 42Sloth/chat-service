@@ -1,6 +1,6 @@
 import React from 'react';
 import { FaCaretRight } from 'react-icons/fa';
-import { MlStyle } from '../SidePannel/MemberList/MemberListStyle';
+import { MlStyle } from '../MemberList/MemberListStyle';
 import { useRecoilState } from 'recoil';
 import { atomMemberList } from 'Recoil/atom';
 
@@ -9,9 +9,9 @@ const FollowList = () => {
   return (
     <Container>
       <Title>
-        <div>
+        {/* <div>
           <FaCaretRight />
-        </div>
+        </div> */}
         <h6>Follow List</h6>
       </Title>
       <MemberLists>

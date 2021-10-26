@@ -28,7 +28,7 @@ import {
 } from 'Recoil/atom';
 import { ILocationState, IUserInfo } from 'Types';
 import { selectorMemberList } from 'Recoil/selector';
-import FollowButton from 'Components/ChatPannel/FollowButton/FollowButton';
+import FollowButton from 'Components/ChatPannel/SidePannel/FollowButton/FollowButton';
 import MemberListLi from './MemberListLi';
 import { useLocation } from 'react-router';
 
@@ -86,9 +86,9 @@ const MemberList = () => {
   return (
     <Container>
       <Title>
-        <div>
+        {/* <div>
           <FaCaretRight />
-        </div>
+        </div> */}
         <h6>All Member</h6>
       </Title>
       <MemberLists>
