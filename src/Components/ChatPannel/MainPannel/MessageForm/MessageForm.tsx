@@ -1,18 +1,20 @@
 import { db } from 'fBase';
-import { addDoc, collection, doc, setDoc } from 'firebase/firestore';
-import React, { useEffect, useState } from 'react';
+import { addDoc, collection } from 'firebase/firestore';
+import React, { useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { atomMyInfo } from 'Recoil/atom';
+import { atomMyInfo, atomRoomCheck } from 'Recoil/atom';
 import { useLocation } from 'react-router-dom';
-import { FaPaperPlane } from 'react-icons/fa';
+import { ILocationState } from 'Types';
 
+import { FaPaperPlane } from 'react-icons/fa';
 import { style } from './MessageFormStyle';
 import { getDate } from 'Utils/getDate';
 
 const MessageForm: React.FC = () => {
   const [content, setContent] = useState('');
   const myInfo = useRecoilValue(atomMyInfo);
-  const location = useLocation();
+  const isDirect = useRecoilValue(atomRoomCheck);
+  const location = useLocation<ILocationState>();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setContent(e.target.value);
@@ -26,13 +28,22 @@ const MessageForm: React.FC = () => {
 
   const handleSubmit = () => {
     const temp = content;
+    const from = location.pathname.split('/')[2];
     setContent('');
-    addDoc(collection(db, 'Rooms', `${location.state}`, 'Messages'), {
-      content: temp,
-      from: myInfo.uid,
-      nickname: myInfo.nickname,
-      date: getDate(),
-    });
+    addDoc(
+      collection(
+        db,
+        `${isDirect === false ? 'Rooms' : 'Direct'}`,
+        from,
+        'Messages',
+      ),
+      {
+        content: temp,
+        from: myInfo.uid,
+        nickname: myInfo.nickname,
+        date: getDate(),
+      },
+    );
   };
   return (
     <Container>

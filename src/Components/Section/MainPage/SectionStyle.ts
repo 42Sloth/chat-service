@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { NavLink as Link } from 'react-router-dom';
 
 const Container = styled.section`
   padding-top: 120px;
@@ -43,7 +44,7 @@ const SubTitle = styled.p`
   margin-bottom: 50px;
 `;
 
-const ChatBtn = styled.div`
+const ChatBtn = styled(Link)`
   width: 160px;
   padding: 20px 0;
   outline: none;
@@ -53,24 +54,7 @@ const ChatBtn = styled.div`
   text-align: center;
   background-color: #611f69;
   cursor: pointer;
-
-  &:hover {
-    background-color: #4e1954;
-    transition: all ease-in-out 0.5s;
-  }
-`;
-
-const GameBtn = styled.div`
-  width: 160px;
-  padding: 20px 0;
-  outline: none;
-  border: none;
-  border-radius: 5px;
-  color: #fff;
-  text-align: center;
-  background-color: #611f69;
-  cursor: pointer;
-  margin-left: 250px;
+  text-decoration: none;
 
   &:hover {
     background-color: #4e1954;
@@ -93,6 +77,5 @@ export const style = {
   Title,
   SubTitle,
   ChatBtn,
-  GameBtn,
   IntroImg,
 };

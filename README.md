@@ -57,7 +57,7 @@
 
 ### 데모 로그인
 
-ID : `abc@naver.com`
+ID : `lyh123@naver.com`
 PW : `111111`
 
 <br/>

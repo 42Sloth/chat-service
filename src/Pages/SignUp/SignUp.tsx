@@ -1,11 +1,10 @@
 import React, { useRef } from 'react';
-
 import {
   getAuth,
   createUserWithEmailAndPassword,
   updateProfile,
 } from 'firebase/auth';
-import { collection, addDoc, setDoc, doc } from 'firebase/firestore';
+import { setDoc, doc } from 'firebase/firestore';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import { IFormInput } from 'Types';
@@ -30,18 +29,20 @@ const SignUp: React.FC = () => {
     try {
       const auth = getAuth();
       const info = data.email;
+
       await createUserWithEmailAndPassword(auth, data.email, data.password);
       if (auth.currentUser) {
-        // await updateProfile(auth.currentUser, {
-        //   // displayName: data.nickname,
-        //   // photoURL: 'https://avatars.githubusercontent.com/u/66353903?v=4',
-        // });
-        // console.log(auth.currentUser.displayName, auth.currentUser.photoURL);
-        await setDoc(doc(db, 'users', `${data.nickname}`), {
+        await updateProfile(auth.currentUser, {
+          displayName: data.nickname,
+          photoURL:
+            'https://iupac.org/wp-content/uploads/2018/05/default-avatar.png',
+        });
+        await setDoc(doc(db, 'users', `${auth.currentUser.uid}`), {
           nickname: data.nickname,
           email: data.email,
           uid: auth.currentUser.uid,
-          photoURL: '',
+          photoURL:
+            'https://iupac.org/wp-content/uploads/2018/05/default-avatar.png',
         });
         history.push({
           pathname: '/signup-success',
@@ -79,8 +80,6 @@ const SignUp: React.FC = () => {
             />
             {errors.email && <p>This email field is required</p>}
           </Wrap>
-          {/* <CheckBtn>중복확인</CheckBtn> */}
-
           <Wrap>
             <FormLabel htmlFor="nickname">닉네임</FormLabel>
             <TextInput
@@ -95,9 +94,7 @@ const SignUp: React.FC = () => {
             {errors.nickname && errors.nickname.type === 'maxLength' && (
               <p>Your input exceed maximum length</p>
             )}
-            {/* <CheckBtn>중복확인</CheckBtn> */}
           </Wrap>
-
           <Wrap>
             <FormLabel htmlFor="password">비밀번호</FormLabel>
             <TextInput
@@ -158,12 +155,6 @@ const {
   Form,
   Wrap,
   FormLabel,
-  Horizontal,
-  Hr,
-  Input,
-  SignUpText,
   Strong,
-  Or,
-  ToSignUp,
   TextInput,
 } = style;

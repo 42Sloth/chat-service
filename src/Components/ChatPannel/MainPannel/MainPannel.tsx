@@ -15,6 +15,7 @@ const MainPannel: React.FC = () => {
 export default MainPannel;
 
 const MessageContainer = styled.div`
+  height: 100vh;
   display: flex;
   flex-direction: column;
   flex: 1;

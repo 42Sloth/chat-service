@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 const RoomContainer = styled.div`
   margin-bottom: 30px;
@@ -48,10 +48,19 @@ const Room = styled.li`
     margin-left: 5px;
   }
 
-  &:active {
-    font-weight: bold;
-  }
+  ${(props: {
+    selectedDM: boolean;
+    clickedDM: boolean;
+    clickedChat: boolean;
+  }) =>
+    props.selectedDM &&
+    !props.clickedDM &&
+    props.clickedChat &&
+    css`
+      font-weight: bolder;
+    `}
 `;
+
 export const style = {
   RoomContainer,
   RoomTitle,

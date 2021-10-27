@@ -1,8 +1,6 @@
 import React from 'react';
-
 import { Headerstyle } from './HeaderPannelStyle';
 import logo from 'Assets/Chatpong_logo_trans.png';
-import profile_kbs from 'Assets/profile_kbs.jpg';
 import { useRecoilValue } from 'recoil';
 import { atomMyInfo } from 'Recoil/atom';
 
