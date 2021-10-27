@@ -5,24 +5,26 @@ const Container = styled.div`
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid rgba(29, 28, 29, 0.13);
-  height: 49px;
+  height: 50px;
   z-index: 200;
+  padding: 3px 20px;
 `;
 
-const JoinRoomList = styled.div`
-  display: flex;
-  width: auto;
-`;
-
-const JoinRoom = styled.button`
-  padding: 0px 20px 0px 16px;
+const JoinRoom = styled.div`
   font-weight: 600;
+`;
+
+const ExitRoom = styled.button`
   border: none;
-  background: transparent;
+  background-color: transparent;
+
+  &:hover {
+    font-weight: 600;
+  }
 `;
 
 export const style = {
   Container,
-  JoinRoomList,
   JoinRoom,
+  ExitRoom,
 };

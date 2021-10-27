@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 const DMContainer = styled.div``;
 
@@ -37,18 +37,30 @@ const DMList = styled.ul`
   font-size: 16px;
   padding: 0 10px 0 30px;
 
-  li {
-    margin-bottom: 5px;
-    display: flex;
-    align-items: center;
-    line-height: 25px;
-  }
-
   img {
     width: 20px;
     margin: 0 5px;
     border-radius: 5px;
   }
+`;
+
+const DM = styled.li`
+  margin-bottom: 7px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+
+  ${(props: {
+    selectedDM: boolean;
+    clickedDM: boolean;
+    clickedChat: boolean;
+  }) =>
+    props.selectedDM &&
+    props.clickedDM &&
+    !props.clickedChat &&
+    css`
+      font-weight: bolder;
+    `}
 `;
 
 export const style = {
@@ -57,4 +69,5 @@ export const style = {
   Title,
   Btn,
   DMList,
+  DM,
 };

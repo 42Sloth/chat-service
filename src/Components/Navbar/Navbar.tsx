@@ -5,30 +5,27 @@ import { style } from './NavbarStyle';
 import { useRecoilState, useResetRecoilState } from 'recoil';
 import { atomMyInfo } from 'Recoil/atom';
 import { deleteUser } from 'firebase/auth';
-import { query } from '@firebase/firestore';
-import { collection, getDocs, where } from 'firebase/firestore';
+import { doc, deleteDoc, getDoc } from 'firebase/firestore';
 import { db } from 'fBase';
 
 const Navbar: React.FC = () => {
   const [myInfo, setMyInfo] = useRecoilState(atomMyInfo);
   const myInfoReset = useResetRecoilState(atomMyInfo);
   const auth = getAuth();
-  const user = auth.currentUser;
 
   useEffect(() => {
     onAuthStateChanged(auth, async (data) => {
       if (data) {
-        const q = query(collection(db, 'users'), where('uid', '==', data.uid));
-        const querySnapshot = await getDocs(q);
-        querySnapshot.forEach((doc) => {
-          const docData = doc.data();
+        const q = await getDoc(doc(db, 'users', data.uid));
+        const docData = q.data();
+        if (docData) {
           setMyInfo({
             nickname: docData.nickname,
             email: docData.email,
             uid: docData.uid,
             photoURL: docData.photoURL,
           });
-        });
+        }
       } else {
         myInfoReset();
       }
@@ -41,7 +38,10 @@ const Navbar: React.FC = () => {
   };
 
   const handleWithdraw = () => {
+    const auth = getAuth();
+    const user = auth.currentUser;
     if (user) {
+      deleteDoc(doc(db, 'users', user.uid));
       deleteUser(user);
     }
   };
@@ -54,7 +54,7 @@ const Navbar: React.FC = () => {
         </NavLink>
         <NavMenu>
           <NavLink to="/">Home</NavLink>
-          <NavLink to="/chat">Chat</NavLink>
+          <NavLink to="/chat/lobby">Chat</NavLink>
           <NavLink to="/">Game</NavLink>
         </NavMenu>
         <NavBtn>

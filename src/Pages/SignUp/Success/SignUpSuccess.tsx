@@ -2,7 +2,6 @@ import React from 'react';
 import logo from 'Assets/Chatpong_logo_trans.png';
 import { style } from './SuccessStyle';
 import { useLocation } from 'react-router-dom';
-import { getAuth } from 'firebase/auth';
 
 const SignUpSuccess = () => {
   const location = useLocation();
