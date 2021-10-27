@@ -1,1 +1,0 @@
-export { purple } from './Colors';

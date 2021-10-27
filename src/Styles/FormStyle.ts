@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { NavLink as Link } from 'react-router-dom';
 
 const Header = styled.header`

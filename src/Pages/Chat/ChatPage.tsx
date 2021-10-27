@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react';
-import styled from 'styled-components';
-import { MainPannel, HeaderPannel, SidePannel } from 'Components';
+import React, { useCallback, useEffect } from 'react';
+import { MainPannel, SidePannel } from 'Components';
 import {
   FollowList,
   MemberList,
@@ -14,6 +13,7 @@ import {
 } from 'recoil';
 import {
   atomClickedUser,
+<<<<<<< HEAD
   atomEnterRoom,
   atomMyInfo,
   atomRoomsInfo,
@@ -25,14 +25,47 @@ import { db } from 'fBase';
 import { TextInputProps } from 'Types/TextInputProps';
 import { Style } from './ChatPageStyle';
 import { IRoomInfo } from 'Types';
+=======
+  atomMyInfo,
+  atomRoomsInfo,
+  atomUserList,
+  atomSelectedRoom,
+  atomClickedChat,
+  atomClickedDirectMsg,
+  atomDirectRoomInfo,
+} from 'Recoil/atom';
+import { useLocation } from 'react-router-dom';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import {
+  collection,
+  onSnapshot,
+  orderBy,
+  query,
+  doc,
+  getDoc,
+} from 'firebase/firestore';
+import { db } from 'fBase';
+import { TextInputProps } from 'Types/TextInputProps';
+import { Style } from './ChatPageStyle';
+import { ILocationState, IRoomInfo, IUserInfo, IDirectRoomInfo } from 'Types';
+>>>>>>> 6c28734171956966bd52421d4f2ca68bbca34a20
 
 const ChatPage: React.FC<TextInputProps> = ({ init }) => {
   const clickedUser = useRecoilValue(atomClickedUser);
   const [myInfo, setMyInfo] = useRecoilState(atomMyInfo);
   const myInfoReset = useResetRecoilState(atomMyInfo);
   const setRoomsList = useSetRecoilState(atomRoomsInfo);
+<<<<<<< HEAD
   const setEnterRoom = useSetRecoilState(atomEnterRoom);
+=======
+  const [userList, setUserList] = useRecoilState(atomUserList);
+  const setDmList = useSetRecoilState(atomDirectRoomInfo);
+  const setClickedDM = useSetRecoilState<boolean>(atomClickedDirectMsg);
+  const setClickedChat = useSetRecoilState<boolean>(atomClickedChat);
+  const setSelectedRoomId = useSetRecoilState<number>(atomSelectedRoom);
+>>>>>>> 6c28734171956966bd52421d4f2ca68bbca34a20
   const auth = getAuth();
+  const location = useLocation<ILocationState>();
 
   const roomsListener = () => {
     const q = query(collection(db, 'Rooms'), orderBy('date'));
@@ -71,11 +104,108 @@ const ChatPage: React.FC<TextInputProps> = ({ init }) => {
       }
       roomsListener();
     });
+    roomsListener();
+    userListListener();
   }, []);
+
+  useEffect(() => {
+    directMessagesRoomListener();
+  }, [myInfo]);
+
+  let dmId: number = 0;
+
+  const directMessagesRoomListener = useCallback(() => {
+    const q = query(collection(db, 'Direct'), orderBy('date'));
+    const selectedRoom = location.pathname.split('/')[2];
+
+    onSnapshot(q, (query) => {
+      const temp: IDirectRoomInfo[] = [];
+      query.forEach((doc) => {
+        const docData = doc.data();
+        let myDmList: boolean = false;
+        for (let i = 0; i < docData.Members.length; i++) {
+          if (myInfo.uid === docData.Members[i]) {
+            myDmList = true;
+            break;
+          }
+        }
+        if (myDmList) {
+          const splitUID: string[] = docData.roomName.split('Direct');
+          let directRoomName: string = '';
+          for (let i = 0; i < splitUID.length; i++) {
+            if (splitUID[i] !== myInfo.uid) {
+              for (let j = 0; j < userList.length; j++) {
+                if (splitUID[i] === userList[j].uid) {
+                  directRoomName += userList[j].nickname + ' ';
+                }
+              }
+            }
+          }
+          if (selectedRoom === docData.roomName) {
+            setSelectedRoomId(dmId);
+            setClickedDM(true);
+            setClickedChat(false);
+          }
+          temp.push({
+            roomID: dmId,
+            roomName: directRoomName,
+            Members: docData.Members,
+            date: docData.date,
+          });
+          dmId += 1;
+        }
+      });
+      setDmList(temp);
+    });
+  }, [myInfo]);
+
+  const userListListener = () => {
+    const q = query(collection(db, 'users'));
+    onSnapshot(q, (query) => {
+      const temp: IUserInfo[] = [];
+      query.forEach((doc) => {
+        const docData = doc.data();
+        temp.push({
+          nickname: docData.nickname,
+          email: docData.email,
+          uid: docData.uid,
+          photoURL: docData.photoURL,
+        });
+      });
+      setUserList(temp);
+    });
+  };
+
+  let chatId: number = 0;
+
+  const roomsListener = () => {
+    const q = query(collection(db, 'Rooms'), orderBy('date'));
+    const selectedRoom = location.pathname.split('/')[2];
+
+    onSnapshot(q, (query) => {
+      const temp: IRoomInfo[] = [];
+      query.forEach((doc) => {
+        const docData = doc.data();
+        if (selectedRoom === docData.roomName) {
+          setSelectedRoomId(chatId);
+          setClickedDM(false);
+          setClickedChat(true);
+        }
+        temp.push({
+          roomID: chatId,
+          roomName: docData.roomName,
+          Owner: docData.Owner,
+          Members: docData.Members,
+          date: docData.date,
+        });
+        chatId += 1;
+      });
+      setRoomsList(temp);
+    });
+  };
 
   return (
     <>
-      <HeaderPannel />
       <div style={{ display: 'flex' }}>
         <SidePannel />
         <MainPannel />

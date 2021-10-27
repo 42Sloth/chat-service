@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { MlStyle } from 'Components/ChatPannel/SidePannel/MemberList/MemberListStyle';
 
-const { Container, Title } = MlStyle;
+const { Title } = MlStyle;
 
 const ProfileTitle = styled(Title)`
   padding: 0 20px;

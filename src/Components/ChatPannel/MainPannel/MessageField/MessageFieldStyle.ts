@@ -3,16 +3,16 @@ import styled from 'styled-components';
 const Container = styled.div`
   display: flex;
   flex-direction: column-reverse;
-  height: 650px;
+  height: 90vh;
   padding: 20px;
+  padding-bottom: 0;
+  overflow-x: hidden;
   overflow-y: auto;
 `;
 const Content = styled.div`
   display: flex;
   margin-bottom: 10px;
-  &:last-child {
-    margin-bottom: 0;
-  }
+  word-break: break-all;
 `;
 
 const Thumbnail = styled.div`
@@ -44,6 +44,7 @@ const InnerContainer = styled.div`
   p {
     font-size: 15px;
     color: #464646;
+    white-space: normal;
   }
 `;
 

@@ -1,15 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import {
-  arrayUnion,
-  collection,
-  doc,
-  onSnapshot,
-  orderBy,
-  query,
-  setDoc,
-  updateDoc,
-} from 'firebase/firestore';
+import { arrayUnion, doc, setDoc, updateDoc } from 'firebase/firestore';
 import { db } from 'fBase';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import {
@@ -17,6 +8,9 @@ import {
   atomMyInfo,
   atomRoomsInfo,
   atomRoomCheck,
+  atomClickedDirectMsg,
+  atomClickedChat,
+  atomSelectedRoom,
 } from 'Recoil/atom';
 import { IRoomInfo } from 'Types';
 
@@ -31,13 +25,14 @@ import {
 
 const ChatRoom = () => {
   const history = useHistory();
-  const [roomsList, setRoomsList] = useRecoilState(atomRoomsInfo);
+  const roomsList = useRecoilValue(atomRoomsInfo);
   const setEnterRoom = useSetRecoilState(atomEnterRoom);
   const myInfo = useRecoilValue(atomMyInfo);
   const [toggle, setToggle] = useState<boolean>(true);
   const [add, setAdd] = useState<boolean>(false);
   const [title, setTitle] = useState<string>('');
   const setIsDirect = useSetRecoilState(atomRoomCheck);
+<<<<<<< HEAD
 
   // const roomsListener = () => {
   //   const q = query(collection(db, 'Rooms'), orderBy('date'));
@@ -60,6 +55,14 @@ const ChatRoom = () => {
   // useEffect(() => {
   //   roomsListener();
   // }, []);
+=======
+  const [clickedDM, setClickedDM] =
+    useRecoilState<boolean>(atomClickedDirectMsg);
+  const [clickedChat, setClickedChat] =
+    useRecoilState<boolean>(atomClickedChat);
+  const [selectedRoom, setSelectedRoom] =
+    useRecoilState<number>(atomSelectedRoom);
+>>>>>>> 6c28734171956966bd52421d4f2ca68bbca34a20
 
   const handleToggle = () => {
     setToggle(!toggle);
@@ -73,12 +76,17 @@ const ChatRoom = () => {
     setTitle(e.target.value);
   };
 
-  const handleEnter = async () => {
+  const handleCreateRoom = async () => {
     const temp = title;
     setAdd(false);
+    let maxId = 0;
+    for (let i = 0; i < roomsList.length; i++) {
+      maxId = Math.max(maxId, roomsList[i].roomID);
+    }
+    maxId = maxId === 0 ? 0 : maxId + 1;
 
     await setDoc(doc(db, 'Rooms', temp), {
-      roomID: roomsList[roomsList.length - 1].roomID + 1,
+      roomID: maxId,
       roomName: temp,
       Owner: myInfo.uid,
       Members: arrayUnion(myInfo.uid),
@@ -88,15 +96,20 @@ const ChatRoom = () => {
   };
 
   const handleEnterRoom = async (data: IRoomInfo) => {
-    setEnterRoom(data);
-
+    setSelectedRoom(data.roomID);
+    setClickedDM(false);
+    setClickedChat(true);
+    setIsDirect(false);
     await updateDoc(doc(db, 'Rooms', data.roomName), {
       Members: arrayUnion(myInfo.uid),
     });
-    setIsDirect(false);
+    setEnterRoom(data);
     history.push({
       pathname: `/chat/${data.roomName}`,
+<<<<<<< HEAD
       // state: { from: data.roomName },
+=======
+>>>>>>> 6c28734171956966bd52421d4f2ca68bbca34a20
     });
   };
 
@@ -121,18 +134,20 @@ const ChatRoom = () => {
       </RoomTitleWrap>
       {add && (
         <>
-          <input
-            value={title}
-            onChange={handleRoomName}
-            // onKeyPress={handleEnter}
-          />
-          <button onClick={handleEnter}>등록</button>
+          <input value={title} onChange={handleRoomName} />
+          <button onClick={handleCreateRoom}>등록</button>
         </>
       )}
       {toggle ? (
         <RoomList>
           {roomsList.map((data) => (
-            <Room key={data.roomID} onClick={() => handleEnterRoom(data)}>
+            <Room
+              key={data.roomID}
+              onClick={() => handleEnterRoom(data)}
+              selectedDM={data.roomID === selectedRoom ? true : false}
+              clickedDM={clickedDM}
+              clickedChat={clickedChat}
+            >
               <FaHashtag />
               <p>{data.roomName}</p>
             </Room>

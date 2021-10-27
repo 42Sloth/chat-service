@@ -1,76 +1,75 @@
-import { onSnapshot, query } from '@firebase/firestore';
-import { db } from 'fBase';
-import { collection, where } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
+import { doc, updateDoc, arrayRemove, deleteDoc } from 'firebase/firestore';
+import { db } from 'fBase';
 import { useHistory } from 'react-router';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { atomEnterRoom, atomMyInfo } from 'Recoil/atom';
-import { IRoomInfo } from 'Types';
+import { useLocation } from 'react-router-dom';
+import { useRecoilValue, useRecoilState } from 'recoil';
+import {
+  atomMyInfo,
+  atomRoomsInfo,
+  atomRoomCheck,
+  atomDirectRoomInfo,
+} from 'Recoil/atom';
+import { IDirectRoomInfo } from 'Types';
 import { style } from './MessageHeaderStyle';
 
 const MessageHeader: React.FC = () => {
-  // const history = useHistory();
-  // const myInfo = useRecoilValue(atomMyInfo);
-  // const setEnterRoom = useSetRecoilState(atomEnterRoom);
-  const enterRoom = useRecoilValue(atomEnterRoom);
-  // const [joinRooms, setJoinRooms] = useState<IRoomInfo[]>([]);
+  const history = useHistory();
+  const location = useLocation();
+  const from = location.pathname.split('/')[2];
+  const [isDirect, setIsDirect] = useRecoilState(atomRoomCheck);
+  const myInfo = useRecoilValue(atomMyInfo);
+  const roomsList = useRecoilValue(atomRoomsInfo);
+  const dmList = useRecoilValue(atomDirectRoomInfo);
+  const [dmRoomName, setDmRoomName] = useState<string>('');
 
-  // const joinRoomListener = () => {
-  //   const q = query(
-  //     collection(db, 'Rooms'),
-  //     where('Members', 'array-contains', myInfo.uid),
-  //   );
-  //   onSnapshot(q, (query) => {
-  //     const temp: IRoomInfo[] = [];
-  //     query.forEach((doc) => {
-  //       const docData = doc.data();
-  //       console.log(docData);
-  //       temp.push({
-  //         roomID: docData.roomID,
-  //         roomName: docData.roomName,
-  //         Owner: docData.Owner,
-  //         Members: docData.Members,
-  //         date: docData.date,
-  //       });
-  //     });
-  //     console.log(temp);
-  //     setJoinRooms(temp);
-  //   });
-  // };
+  useEffect(() => {
+    if (location.pathname.split('/')[1] === 'dm') {
+      setIsDirect(true);
+      setDirectRoomName();
+    }
+  }, [from]);
 
-  // useEffect(() => {
-  //   joinRoomListener();
-  // }, []);
+  const setDirectRoomName = () => {
+    const fromSplit: string = from.split('Direct')[0] + from.split('Direct')[1];
 
-  // const handleEnterRoom = (data: IRoomInfo) => {
-  //   setEnterRoom(data);
-  //   history.push({
-  //     pathname: `/chat/${data.roomName}`,
-  //     state: data.roomName,
-  //   });
-  // };
+    const currentRoom: IDirectRoomInfo | undefined = dmList.find(
+      (dmRoom) => dmRoom.Members[0] + dmRoom.Members[1] === fromSplit,
+    );
+    if (currentRoom) {
+      setDmRoomName(currentRoom.roomName);
+    }
+  };
+
+  const handleExitRoom = async () => {
+    const roomInfo = roomsList.find((room) => room.roomName === from);
+    if (roomInfo && myInfo.uid === roomInfo.Owner) {
+      if (roomInfo.Members.length === 1) {
+        await deleteDoc(doc(db, 'Rooms', from));
+      } else {
+        await updateDoc(doc(db, 'Rooms', from), {
+          Owner: roomInfo.Members[1],
+          Members: arrayRemove(myInfo.uid),
+        });
+      }
+    } else {
+      await updateDoc(doc(db, 'Rooms', from), {
+        Members: arrayRemove(myInfo.uid),
+      });
+    }
+    history.push({
+      pathname: `/chat/lobby`,
+    });
+  };
 
   return (
     <Container>
-      {/* <JoinRoomList>
-        {joinRooms.map((data) => {
-          return (
-            <JoinRoom
-              key={data.roomID}
-              onClick={() => {
-                handleEnterRoom(data);
-              }}
-            >
-              # {data.roomName}
-            </JoinRoom>
-          );
-        })}
-      </JoinRoomList> */}
-      <JoinRoom># {enterRoom.roomName}</JoinRoom>
+      <JoinRoom> {isDirect ? `@ ${dmRoomName}` : `# ${from}`}</JoinRoom>
+      <ExitRoom onClick={handleExitRoom}>Exit</ExitRoom>
     </Container>
   );
 };
 
 export default MessageHeader;
 
-const { Container, JoinRoomList, JoinRoom } = style;
+const { Container, JoinRoom, ExitRoom } = style;

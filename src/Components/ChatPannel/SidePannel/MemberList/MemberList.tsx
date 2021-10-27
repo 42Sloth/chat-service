@@ -1,34 +1,36 @@
 import React, { useEffect } from 'react';
-import { FaCaretRight } from 'react-icons/fa';
-import { collection, onSnapshot, query } from 'firebase/firestore';
-import { db } from 'fBase';
 import { MlStyle } from './MemberListStyle';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import { atomMemberList, atomClickedUser, atomEnterRoom } from 'Recoil/atom';
-import { IUserInfo } from 'Types';
+import {
+  atomMemberList,
+  atomClickedUser,
+  atomRoomsInfo,
+  atomUserList,
+} from 'Recoil/atom';
+import { ILocationState, IUserInfo } from 'Types';
+import FollowButton from 'Components/ChatPannel/SidePannel/FollowButton/FollowButton';
+import MemberListLi from './MemberListLi';
+import { useLocation } from 'react-router';
+import { FaStar } from 'react-icons/fa';
 
 const MemberList = () => {
-  const [memberList, setMemberList] = useRecoilState(atomMemberList);
+  const location = useLocation<ILocationState>();
   const setClickedUser = useSetRecoilState(atomClickedUser);
-  const enterRoom = useRecoilValue(atomEnterRoom);
+  const from = location.pathname.split('/')[2];
+  const [memberList, setMemberList] = useRecoilState(atomMemberList);
+  const roomsList = useRecoilValue(atomRoomsInfo);
+  const userList = useRecoilValue(atomUserList);
+  const roomInfo = roomsList.find((room) => room.roomName === from);
 
   const memberListListener = () => {
-    const q = query(collection(db, 'users'));
-    onSnapshot(q, (query) => {
-      const temp: IUserInfo[] = [];
-      query.forEach((doc) => {
-        const docData = doc.data();
-        if (enterRoom.Members.includes(docData.uid)) {
-          temp.push({
-            nickname: docData.nickname,
-            email: docData.email,
-            uid: docData.uid,
-            photoURL: docData.photoURL,
-          });
-        }
+    const temp: IUserInfo[] = [];
+    if (roomInfo) {
+      roomInfo.Members.forEach((member) => {
+        const joinedUser = userList.find((user) => user.uid === member);
+        joinedUser && temp.push(joinedUser);
       });
-      setMemberList(temp);
-    });
+    }
+    setMemberList(temp);
   };
 
   const handleClickedUser = (data: IUserInfo) => {
@@ -37,28 +39,25 @@ const MemberList = () => {
 
   useEffect(() => {
     memberListListener();
-  }, [enterRoom]);
+  }, [from, roomsList, userList]);
 
   return (
     <Container>
       <Title>
-        <div>
-          <FaCaretRight />
-        </div>
         <h6>All Member</h6>
       </Title>
       <MemberLists>
         {memberList.map((data, idx) => (
           <div key={idx}>
-            <li
-              onClick={() => {
-                handleClickedUser(data);
-              }}
-            >
-              <img src={data.photoURL} alt="members" />
-              {data.nickname}
-            </li>
-            <button>팔로우</button>
+            <MemberListLi
+              onClick={() => handleClickedUser(data)}
+              photoURL={data.photoURL}
+              nickname={data.nickname}
+            />
+            {roomInfo && roomInfo.Owner === data.uid && (
+              <FaStar style={{ color: '#ff4545' }} />
+            )}
+            <FollowButton data={data} />
           </div>
         ))}
       </MemberLists>

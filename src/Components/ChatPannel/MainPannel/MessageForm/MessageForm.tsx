@@ -1,6 +1,6 @@
 import { db } from 'fBase';
-import { addDoc, collection, doc, setDoc } from 'firebase/firestore';
-import React, { useEffect, useState } from 'react';
+import { addDoc, collection } from 'firebase/firestore';
+import React, { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { atomMyInfo, atomRoomCheck } from 'Recoil/atom';
 import { useLocation } from 'react-router-dom';
@@ -28,7 +28,6 @@ const MessageForm: React.FC = () => {
 
   const handleSubmit = () => {
     const temp = content;
-    // const { from } = location.state || { from: 'lobby' };
     const from = location.pathname.split('/')[2];
     setContent('');
     addDoc(

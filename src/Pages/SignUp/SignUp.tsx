@@ -1,5 +1,4 @@
 import React, { useRef } from 'react';
-
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -13,7 +12,6 @@ import { db } from 'fBase';
 import { FormButton } from 'Components';
 import { style } from 'Styles/FormStyle';
 import logo from 'Assets/Chatpong_logo_trans.png';
-import defaultImg from 'Assets/default_avatar.png';
 
 const SignUp: React.FC = () => {
   const history = useHistory();
@@ -82,8 +80,6 @@ const SignUp: React.FC = () => {
             />
             {errors.email && <p>This email field is required</p>}
           </Wrap>
-          {/* <CheckBtn>중복확인</CheckBtn> */}
-
           <Wrap>
             <FormLabel htmlFor="nickname">닉네임</FormLabel>
             <TextInput
@@ -98,9 +94,7 @@ const SignUp: React.FC = () => {
             {errors.nickname && errors.nickname.type === 'maxLength' && (
               <p>Your input exceed maximum length</p>
             )}
-            {/* <CheckBtn>중복확인</CheckBtn> */}
           </Wrap>
-
           <Wrap>
             <FormLabel htmlFor="password">비밀번호</FormLabel>
             <TextInput

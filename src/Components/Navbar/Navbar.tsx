@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { getAuth, onAuthStateChanged, signOut, User } from '@firebase/auth';
+import { getAuth, onAuthStateChanged, signOut } from '@firebase/auth';
 import logo from 'Assets/Chatpong_logo_trans.png';
 import { style } from './NavbarStyle';
 import { useRecoilState, useResetRecoilState } from 'recoil';
@@ -31,8 +31,6 @@ const Navbar: React.FC = () => {
       }
     });
   }, []);
-
-  console.log(myInfo);
 
   const handleSignOut = () => {
     signOut(auth);
