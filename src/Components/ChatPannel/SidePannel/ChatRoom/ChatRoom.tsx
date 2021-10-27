@@ -71,10 +71,15 @@ const ChatRoom = () => {
   };
 
   const handleEnterRoom = async (data: IRoomInfo) => {
+<<<<<<< HEAD
     setSelectedRoom(data.roomID);
     setClickedDM(false);
     setClickedChat(true);
     setIsDirect(false);
+=======
+    setEnterRoom(data);
+    console.log(data.roomName);
+>>>>>>> 2be92ef03471c675e17c3304fc37b72268df9512
     await updateDoc(doc(db, 'Rooms', data.roomName), {
       Members: arrayUnion(myInfo.uid),
     });

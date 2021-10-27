@@ -5,7 +5,7 @@ import { atomFollowList } from 'Recoil/atom';
 
 const FollowList = () => {
   const followList = useRecoilValue(atomFollowList);
-  console.log(followList);
+
   return (
     <Container>
       <Title>

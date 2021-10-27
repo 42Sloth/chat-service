@@ -39,7 +39,7 @@ const FollowButton = (props: any) => {
 
   const addFollowingListener = async () => {
     const uid = data.uid;
-    console.log(uid);
+
     const followRef = doc(db, 'users', myInfo.uid, 'following', uid);
     if (followRef) {
       const response = await getDoc(followRef);
