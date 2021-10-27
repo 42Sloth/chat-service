@@ -13,19 +13,6 @@ import {
 } from 'recoil';
 import {
   atomClickedUser,
-<<<<<<< HEAD
-  atomEnterRoom,
-  atomMyInfo,
-  atomRoomsInfo,
-} from 'Recoil/atom';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
-import { doc, deleteDoc, getDoc } from 'firebase/firestore';
-import { db } from 'fBase';
-import { TextInputProps } from 'Types/TextInputProps';
-import { Style } from './ChatPageStyle';
-import { IRoomInfo } from 'Types';
-=======
   atomMyInfo,
   atomRoomsInfo,
   atomUserList,
@@ -33,6 +20,7 @@ import { IRoomInfo } from 'Types';
   atomClickedChat,
   atomClickedDirectMsg,
   atomDirectRoomInfo,
+  atomFollowList,
 } from 'Recoil/atom';
 import { useLocation } from 'react-router-dom';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
@@ -48,43 +36,20 @@ import { db } from 'fBase';
 import { TextInputProps } from 'Types/TextInputProps';
 import { Style } from './ChatPageStyle';
 import { ILocationState, IRoomInfo, IUserInfo, IDirectRoomInfo } from 'Types';
->>>>>>> 6c28734171956966bd52421d4f2ca68bbca34a20
 
 const ChatPage: React.FC<TextInputProps> = ({ init }) => {
   const clickedUser = useRecoilValue(atomClickedUser);
   const [myInfo, setMyInfo] = useRecoilState(atomMyInfo);
   const myInfoReset = useResetRecoilState(atomMyInfo);
   const setRoomsList = useSetRecoilState(atomRoomsInfo);
-<<<<<<< HEAD
-  const setEnterRoom = useSetRecoilState(atomEnterRoom);
-=======
   const [userList, setUserList] = useRecoilState(atomUserList);
+  const [followingList, setFollowingList] = useRecoilState(atomFollowList);
   const setDmList = useSetRecoilState(atomDirectRoomInfo);
   const setClickedDM = useSetRecoilState<boolean>(atomClickedDirectMsg);
   const setClickedChat = useSetRecoilState<boolean>(atomClickedChat);
   const setSelectedRoomId = useSetRecoilState<number>(atomSelectedRoom);
->>>>>>> 6c28734171956966bd52421d4f2ca68bbca34a20
   const auth = getAuth();
   const location = useLocation<ILocationState>();
-
-  const roomsListener = () => {
-    const q = query(collection(db, 'Rooms'), orderBy('date'));
-    onSnapshot(q, (query) => {
-      const temp: IRoomInfo[] = [];
-      query.forEach((doc) => {
-        const docData = doc.data();
-        temp.push({
-          roomID: docData.roomID,
-          roomName: docData.roomName,
-          Owner: docData.Owner,
-          Members: docData.Members,
-          date: docData.date,
-        });
-      });
-      setEnterRoom(temp[0]);
-      setRoomsList(temp);
-    });
-  };
 
   useEffect(() => {
     onAuthStateChanged(auth, async (data) => {
@@ -102,7 +67,6 @@ const ChatPage: React.FC<TextInputProps> = ({ init }) => {
       } else {
         myInfoReset();
       }
-      roomsListener();
     });
     roomsListener();
     userListListener();
@@ -110,7 +74,28 @@ const ChatPage: React.FC<TextInputProps> = ({ init }) => {
 
   useEffect(() => {
     directMessagesRoomListener();
+    followingListListener();
   }, [myInfo]);
+
+  const followingListListener = () => {
+    if (myInfo.uid !== '') {
+      const q = query(collection(db, 'users', myInfo.uid, 'following'));
+
+      onSnapshot(q, (query) => {
+        const temp: IUserInfo[] = [];
+        query.forEach((doc) => {
+          const docData = doc.data();
+          temp.push({
+            nickname: docData.nickname,
+            email: docData.email,
+            uid: docData.uid,
+            photoURL: docData.photoURL,
+          });
+        });
+        setFollowingList(temp);
+      });
+    }
+  };
 
   let dmId: number = 0;
 

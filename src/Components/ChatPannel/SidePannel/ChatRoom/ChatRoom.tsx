@@ -32,37 +32,12 @@ const ChatRoom = () => {
   const [add, setAdd] = useState<boolean>(false);
   const [title, setTitle] = useState<string>('');
   const setIsDirect = useSetRecoilState(atomRoomCheck);
-<<<<<<< HEAD
-
-  // const roomsListener = () => {
-  //   const q = query(collection(db, 'Rooms'), orderBy('date'));
-  //   onSnapshot(q, (query) => {
-  //     const temp: IRoomInfo[] = [];
-  //     query.forEach((doc) => {
-  //       const docData = doc.data();
-  //       temp.push({
-  //         roomID: docData.roomID,
-  //         roomName: docData.roomName,
-  //         Owner: docData.Owner,
-  //         Members: docData.Members,
-  //         date: docData.date,
-  //       });
-  //     });
-  //     setRoomsList(temp);
-  //   });
-  // };
-
-  // useEffect(() => {
-  //   roomsListener();
-  // }, []);
-=======
   const [clickedDM, setClickedDM] =
     useRecoilState<boolean>(atomClickedDirectMsg);
   const [clickedChat, setClickedChat] =
     useRecoilState<boolean>(atomClickedChat);
   const [selectedRoom, setSelectedRoom] =
     useRecoilState<number>(atomSelectedRoom);
->>>>>>> 6c28734171956966bd52421d4f2ca68bbca34a20
 
   const handleToggle = () => {
     setToggle(!toggle);
@@ -106,10 +81,6 @@ const ChatRoom = () => {
     setEnterRoom(data);
     history.push({
       pathname: `/chat/${data.roomName}`,
-<<<<<<< HEAD
-      // state: { from: data.roomName },
-=======
->>>>>>> 6c28734171956966bd52421d4f2ca68bbca34a20
     });
   };
 
