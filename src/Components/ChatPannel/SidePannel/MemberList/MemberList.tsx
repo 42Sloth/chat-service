@@ -7,14 +7,13 @@ import {
   atomRoomsInfo,
   atomUserList,
   atomRoomCheck,
-  atomDirectRoomInfo,
+  atomFollowList,
+  atomMyInfo,
 } from 'Recoil/atom';
 import { ILocationState, IUserInfo } from 'Types';
 import FollowButton from 'Components/ChatPannel/SidePannel/FollowButton/FollowButton';
 import MemberListLi from './MemberListLi';
 import { useLocation } from 'react-router';
-import { FaStar } from 'react-icons/fa';
-import user from 'Assets/MOCK_DATA';
 
 const MemberList = () => {
   const location = useLocation<ILocationState>();
@@ -26,6 +25,8 @@ const MemberList = () => {
   const dmMembers = location.pathname.split('/')[2].split('Direct');
   const userList = useRecoilValue(atomUserList);
   const roomInfo = roomsList.find((room) => room.roomName === from);
+  const myInfo = useRecoilValue(atomMyInfo);
+  const followingList = useRecoilValue(atomFollowList);
 
   const memberListListener = () => {
     const temp: IUserInfo[] = [];
@@ -43,12 +44,15 @@ const MemberList = () => {
     setMemberList(temp);
   };
 
+  const addFollowingListener = async () => {};
+
   const handleClickedUser = (data: IUserInfo) => {
     setClickedUser(data);
   };
 
   useEffect(() => {
     memberListListener();
+    addFollowingListener();
   }, [from, roomsList, userList, isDirect]);
 
   return (
@@ -63,11 +67,19 @@ const MemberList = () => {
               onClick={() => handleClickedUser(data)}
               photoURL={data.photoURL}
               nickname={data.nickname}
+              data={data}
             />
-            {roomInfo && roomInfo.Owner === data.uid && (
-              <FaStar style={{ color: '#ff4545' }} />
+            
+            {myInfo.uid !== data.uid && (
+              <FollowButton
+                data={data}
+                isFollow={
+                  followingList.find((user) => user.uid === data.uid)
+                    ? true
+                    : false
+                }
+              />
             )}
-            <FollowButton data={data} />
           </div>
         ))}
       </MemberLists>
