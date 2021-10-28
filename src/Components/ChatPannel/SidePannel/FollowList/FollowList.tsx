@@ -1,17 +1,18 @@
 import React from 'react';
 import { MlStyle } from '../MemberList/MemberListStyle';
 import { useRecoilValue } from 'recoil';
-import { atomMemberList } from 'Recoil/atom';
+import { atomFollowList } from 'Recoil/atom';
 
 const FollowList = () => {
-  const memberList = useRecoilValue(atomMemberList);
+  const followList = useRecoilValue(atomFollowList);
+
   return (
     <Container>
       <Title>
         <h6>Follow List</h6>
       </Title>
       <MemberLists>
-        {memberList.map((data, idx) => (
+        {followList.map((data, idx) => (
           <div key={idx}>
             <li>
               <img src={data.photoURL} alt="members" />

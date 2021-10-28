@@ -16,6 +16,11 @@ export const atomMemberList = atom<IUserInfo[]>({
   default: [],
 });
 
+export const atomFollowList = atom<IUserInfo[]>({
+  key: 'FollowList',
+  default: [],
+});
+
 export const atomClickedUser = atom<IUserInfo>({
   key: 'ClickedUser',
   default: {
@@ -80,9 +85,4 @@ export const atomClickedChat = atom<boolean>({
 export const atomSelectedRoom = atom<number>({
   key: 'SelectedRoom',
   default: 0,
-});
-
-export const atomFollowCheck = atom<boolean>({
-  key: 'FollowCheck',
-  default: false,
 });

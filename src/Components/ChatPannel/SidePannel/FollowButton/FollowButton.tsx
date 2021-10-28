@@ -27,7 +27,10 @@ const FollowButton = (props: any) => {
         setFollowing(false);
       } else {
         await setDoc(followRef, {
-          isFollowing: true,
+          nickname: data.nickname,
+          email: data.email,
+          uid: data.uid,
+          photoURL: data.photoURL,
         });
         setFollowing(true);
       }

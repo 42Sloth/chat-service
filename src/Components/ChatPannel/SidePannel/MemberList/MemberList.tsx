@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { MlStyle } from './MemberListStyle';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import {
@@ -12,6 +12,8 @@ import FollowButton from 'Components/ChatPannel/SidePannel/FollowButton/FollowBu
 import MemberListLi from './MemberListLi';
 import { useLocation } from 'react-router';
 import { FaStar } from 'react-icons/fa';
+import ButtonSkeleton from 'Components/Skeleton/ButtonSkeleton';
+import Spinnner from 'Components/Spinnner/Spinnner';
 
 const MemberList = () => {
   const location = useLocation<ILocationState>();
@@ -21,6 +23,7 @@ const MemberList = () => {
   const roomsList = useRecoilValue(atomRoomsInfo);
   const userList = useRecoilValue(atomUserList);
   const roomInfo = roomsList.find((room) => room.roomName === from);
+  const [isLoad, setIsLoad] = useState(false);
 
   const memberListListener = () => {
     const temp: IUserInfo[] = [];
