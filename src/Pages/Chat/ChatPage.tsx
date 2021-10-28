@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import { MainPannel, SidePannel } from 'Components';
 import {
   FollowList,
@@ -36,6 +36,7 @@ import { db } from 'fBase';
 import { TextInputProps } from 'Types/TextInputProps';
 import { Style } from './ChatPageStyle';
 import { ILocationState, IRoomInfo, IUserInfo, IDirectRoomInfo } from 'Types';
+import Spinnner from 'Components/Spinnner/Spinnner';
 
 const ChatPage: React.FC<TextInputProps> = ({ init }) => {
   const clickedUser = useRecoilValue(atomClickedUser);
@@ -44,6 +45,7 @@ const ChatPage: React.FC<TextInputProps> = ({ init }) => {
   const setRoomsList = useSetRecoilState(atomRoomsInfo);
   const [userList, setUserList] = useRecoilState(atomUserList);
   const [followingList, setFollowingList] = useRecoilState(atomFollowList);
+  const [loading, setLoading] = useState(true);
   const setDmList = useSetRecoilState(atomDirectRoomInfo);
   const setClickedDM = useSetRecoilState<boolean>(atomClickedDirectMsg);
   const setClickedChat = useSetRecoilState<boolean>(atomClickedChat);
@@ -73,6 +75,7 @@ const ChatPage: React.FC<TextInputProps> = ({ init }) => {
   }, []);
 
   useEffect(() => {
+    setLoading(false);
     directMessagesRoomListener();
     followingListListener();
   }, [myInfo]);
@@ -191,18 +194,22 @@ const ChatPage: React.FC<TextInputProps> = ({ init }) => {
 
   return (
     <>
-      <div style={{ display: 'flex' }}>
-        <SidePannel />
-        <MainPannel />
-        {!clickedUser.uid ? (
-          <ListPannel>
-            <MemberList />
-            <FollowList />
-          </ListPannel>
-        ) : (
-          <Profile init={init} />
-        )}
-      </div>
+      {loading ? (
+        <Spinnner />
+      ) : (
+        <div style={{ display: 'flex' }}>
+          <SidePannel />
+          <MainPannel />
+          {!clickedUser.uid ? (
+            <ListPannel>
+              <MemberList />
+              <FollowList />
+            </ListPannel>
+          ) : (
+            <Profile init={init} />
+          )}
+        </div>
+      )}
     </>
   );
 };
