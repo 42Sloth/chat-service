@@ -6,14 +6,15 @@ import {
   atomClickedUser,
   atomRoomsInfo,
   atomUserList,
+  atomRoomCheck,
+  atomDirectRoomInfo,
 } from 'Recoil/atom';
 import { ILocationState, IUserInfo } from 'Types';
 import FollowButton from 'Components/ChatPannel/SidePannel/FollowButton/FollowButton';
 import MemberListLi from './MemberListLi';
 import { useLocation } from 'react-router';
 import { FaStar } from 'react-icons/fa';
-import ButtonSkeleton from 'Components/Skeleton/ButtonSkeleton';
-import Spinnner from 'Components/Spinnner/Spinnner';
+import user from 'Assets/MOCK_DATA';
 
 const MemberList = () => {
   const location = useLocation<ILocationState>();
@@ -21,14 +22,20 @@ const MemberList = () => {
   const from = location.pathname.split('/')[2];
   const [memberList, setMemberList] = useRecoilState(atomMemberList);
   const roomsList = useRecoilValue(atomRoomsInfo);
+  const isDirect = useRecoilValue(atomRoomCheck);
+  const dmMembers = location.pathname.split('/')[2].split('Direct');
   const userList = useRecoilValue(atomUserList);
   const roomInfo = roomsList.find((room) => room.roomName === from);
-  const [isLoad, setIsLoad] = useState(false);
 
   const memberListListener = () => {
     const temp: IUserInfo[] = [];
-    if (roomInfo) {
+    if (roomInfo && !isDirect) {
       roomInfo.Members.forEach((member) => {
+        const joinedUser = userList.find((user) => user.uid === member);
+        joinedUser && temp.push(joinedUser);
+      });
+    } else if (!roomInfo && isDirect) {
+      dmMembers.forEach((member) => {
         const joinedUser = userList.find((user) => user.uid === member);
         joinedUser && temp.push(joinedUser);
       });
@@ -42,7 +49,7 @@ const MemberList = () => {
 
   useEffect(() => {
     memberListListener();
-  }, [from, roomsList, userList]);
+  }, [from, roomsList, userList, isDirect]);
 
   return (
     <Container>
