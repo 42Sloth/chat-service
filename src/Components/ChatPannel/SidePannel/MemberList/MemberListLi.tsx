@@ -1,6 +1,6 @@
 import React from 'react';
 import { FaStar } from 'react-icons/fa';
-import { ILocationState, IUserInfo } from 'Types';
+import { ILocationState } from 'Types';
 import { useLocation } from 'react-router';
 import { useRecoilValue } from 'recoil';
 import { atomRoomsInfo } from 'Recoil/atom';

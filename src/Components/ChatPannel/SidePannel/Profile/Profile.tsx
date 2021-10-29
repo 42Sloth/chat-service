@@ -1,11 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import {
-  useRecoilValue,
-  useResetRecoilState,
-  useRecoilState,
-  useSetRecoilState,
-} from 'recoil';
+import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 import {
   atomClickedUser,
   atomMyInfo,
@@ -41,7 +36,7 @@ const Profile = ({ init }: TextInputProps) => {
   const auth = getAuth();
   const history = useHistory();
   const resetClickedUser = useResetRecoilState(atomClickedUser);
-  const [dmList, setDmList] = useRecoilState(atomDirectRoomInfo);
+  const dmList = useRecoilValue(atomDirectRoomInfo);
   const clickedUserInfo = useRecoilValue(atomClickedUser);
   const myInfo = useRecoilValue(atomMyInfo);
   const setIsDirect = useSetRecoilState(atomRoomCheck);
