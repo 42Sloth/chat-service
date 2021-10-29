@@ -61,27 +61,39 @@ const MemberList = () => {
         <h6>All Member</h6>
       </Title>
       <MemberLists>
-        {memberList.map((data, idx) => (
-          <div key={idx}>
-            <MemberListLi
-              onClick={() => handleClickedUser(data)}
-              photoURL={data.photoURL}
-              nickname={data.nickname}
-              data={data}
-            />
+        <div>
+          <MemberListLi
+            onClick={() => handleClickedUser(myInfo)}
+            photoURL={myInfo.photoURL}
+            nickname={myInfo.nickname}
+            data={myInfo}
+          />
+        </div>
+        {memberList.map((data, idx) => {
+          return (
+            myInfo.uid !== data.uid && (
+              <div key={idx}>
+                <MemberListLi
+                  onClick={() => handleClickedUser(data)}
+                  photoURL={data.photoURL}
+                  nickname={data.nickname}
+                  data={data}
+                />
 
-            {myInfo.uid !== data.uid && (
-              <FollowButton
-                data={data}
-                isFollow={
-                  followingList.find((user) => user.uid === data.uid)
-                    ? true
-                    : false
-                }
-              />
-            )}
-          </div>
-        ))}
+                {myInfo.uid !== data.uid && (
+                  <FollowButton
+                    data={data}
+                    isFollow={
+                      followingList.find((user) => user.uid === data.uid)
+                        ? true
+                        : false
+                    }
+                  />
+                )}
+              </div>
+            )
+          );
+        })}
       </MemberLists>
     </Container>
   );
