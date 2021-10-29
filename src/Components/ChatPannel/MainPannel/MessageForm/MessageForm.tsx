@@ -15,7 +15,7 @@ const MessageForm: React.FC = () => {
   const myInfo = useRecoilValue(atomMyInfo);
   const isDirect = useRecoilValue(atomRoomCheck);
   const location = useLocation<ILocationState>();
-  const nowTime = moment().format('YYYY-MM-DD HH:mm');
+  const nowTime = moment().format('YYYY-MM-DD HH:mm:ss');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setContent(e.target.value);

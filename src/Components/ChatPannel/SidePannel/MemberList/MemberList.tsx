@@ -58,7 +58,7 @@ const MemberList = () => {
   return (
     <Container>
       <Title>
-        <h6>All Member</h6>
+        <h6>👉🏻 Members</h6>
       </Title>
       <MemberLists>
         <div>
