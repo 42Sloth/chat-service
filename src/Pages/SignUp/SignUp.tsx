@@ -4,7 +4,7 @@ import {
   createUserWithEmailAndPassword,
   updateProfile,
 } from 'firebase/auth';
-import { setDoc, doc } from 'firebase/firestore';
+import { setDoc, doc, updateDoc, arrayUnion } from 'firebase/firestore';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import { IFormInput } from 'Types';
@@ -25,7 +25,7 @@ const SignUp: React.FC = () => {
   const password = useRef<string | null>(null);
   password.current = watch('password');
 
-  const onSubmit: SubmitHandler<IFormInput> = async (data: any) => {
+  const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     try {
       const auth = getAuth();
       const info = data.email;
@@ -43,6 +43,9 @@ const SignUp: React.FC = () => {
           uid: auth.currentUser.uid,
           photoURL:
             'https://iupac.org/wp-content/uploads/2018/05/default-avatar.png',
+        });
+        await updateDoc(doc(db, 'Rooms', 'lobby'), {
+          Members: arrayUnion(auth.currentUser.uid),
         });
         history.push({
           pathname: '/signup-success',

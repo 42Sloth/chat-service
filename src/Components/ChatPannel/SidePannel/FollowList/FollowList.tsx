@@ -1,31 +1,23 @@
 import React from 'react';
 import { MlStyle } from '../MemberList/MemberListStyle';
 import { useRecoilValue } from 'recoil';
-import { atomMemberList } from 'Recoil/atom';
+import { atomFollowList } from 'Recoil/atom';
+import FollowButton from '../FollowButton/FollowButton';
 
 const FollowList = () => {
-  const memberList = useRecoilValue(atomMemberList);
+  const followList = useRecoilValue(atomFollowList);
+
   return (
     <Container>
-      <Title>
-        <h6>Follow List</h6>
-      </Title>
+      <Title>👉🏻 Follow Members</Title>
       <MemberLists>
-        {memberList.map((data, idx) => (
+        {followList.map((data, idx) => (
           <div key={idx}>
             <li>
               <img src={data.photoURL} alt="members" />
               {data.nickname}
             </li>
-            <button
-              style={{
-                background: 'transparent',
-                color: '#611f66',
-                border: '1px solid #611f66',
-              }}
-            >
-              언팔로우
-            </button>
+            <FollowButton isFollow={true} data={data} />
           </div>
         ))}
       </MemberLists>

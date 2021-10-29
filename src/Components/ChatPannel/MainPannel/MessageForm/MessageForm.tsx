@@ -5,16 +5,17 @@ import { useRecoilValue } from 'recoil';
 import { atomMyInfo, atomRoomCheck } from 'Recoil/atom';
 import { useLocation } from 'react-router-dom';
 import { ILocationState } from 'Types';
-
 import { FaPaperPlane } from 'react-icons/fa';
 import { style } from './MessageFormStyle';
-import { getDate } from 'Utils/getDate';
+import moment from 'moment';
+import 'moment/locale/ko';
 
 const MessageForm: React.FC = () => {
   const [content, setContent] = useState('');
   const myInfo = useRecoilValue(atomMyInfo);
   const isDirect = useRecoilValue(atomRoomCheck);
   const location = useLocation<ILocationState>();
+  const nowTime = moment().format('YYYY-MM-DD HH:mm:ss');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setContent(e.target.value);
@@ -29,6 +30,7 @@ const MessageForm: React.FC = () => {
   const handleSubmit = () => {
     const temp = content;
     const from = location.pathname.split('/')[2];
+
     setContent('');
     addDoc(
       collection(
@@ -41,7 +43,7 @@ const MessageForm: React.FC = () => {
         content: temp,
         from: myInfo.uid,
         nickname: myInfo.nickname,
-        date: getDate(),
+        date: nowTime,
       },
     );
   };

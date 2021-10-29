@@ -24,6 +24,28 @@ const RoomTitleWrap = styled.div`
   align-items: center;
 `;
 
+const CreateBtn = styled.div`
+  display: flex;
+  justify-content: space-space-between;
+  align-items: center;
+  margin-left: 30px;
+  margin-bottom: 10px;
+
+  input {
+    height: 25px;
+    margin-right: 10px;
+  }
+
+  button {
+    height: 30px;
+    padding: 8px 15px 8px;
+    outline: none;
+    background: #611f66;
+    border: none;
+    color: #fff;
+  }
+`;
+
 const Btn = styled.div`
   cursor: pointer;
   font-size: 20px;
@@ -39,6 +61,7 @@ const RoomList = styled.ul`
 `;
 
 const Room = styled.li`
+  height: 25px;
   margin-bottom: 5px;
   display: flex;
   align-items: center;
@@ -46,6 +69,7 @@ const Room = styled.li`
 
   p {
     margin-left: 5px;
+    color: #333;
   }
 
   ${(props: {
@@ -57,7 +81,7 @@ const Room = styled.li`
     !props.clickedDM &&
     props.clickedChat &&
     css`
-      font-weight: bolder;
+      font-weight: bold;
     `}
 `;
 
@@ -66,6 +90,7 @@ export const style = {
   RoomTitle,
   RoomList,
   RoomTitleWrap,
+  CreateBtn,
   Btn,
   Room,
 };

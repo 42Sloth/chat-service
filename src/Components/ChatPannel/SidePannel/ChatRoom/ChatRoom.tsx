@@ -104,10 +104,10 @@ const ChatRoom = () => {
         </Btn>
       </RoomTitleWrap>
       {add && (
-        <>
+        <CreateBtn>
           <input value={title} onChange={handleRoomName} />
           <button onClick={handleCreateRoom}>등록</button>
-        </>
+        </CreateBtn>
       )}
       {toggle ? (
         <RoomList>
@@ -131,4 +131,12 @@ const ChatRoom = () => {
 
 export default ChatRoom;
 
-const { RoomContainer, RoomTitle, RoomList, RoomTitleWrap, Btn, Room } = style;
+const {
+  RoomContainer,
+  RoomTitle,
+  CreateBtn,
+  RoomList,
+  RoomTitleWrap,
+  Btn,
+  Room,
+} = style;

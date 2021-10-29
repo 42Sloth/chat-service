@@ -5,7 +5,6 @@ import { useLocation } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { IMessage, ILocationState } from 'Types';
 import { atomRoomCheck, atomUserList } from 'Recoil/atom';
-
 import { style } from './MessageFieldStyle';
 
 const MessageField: React.FC = () => {
@@ -16,11 +15,11 @@ const MessageField: React.FC = () => {
 
   const messagesListener = () => {
     const from = location.pathname.split('/')[2];
-
     const q = query(
       collection(db, `${isDirect ? 'Direct' : 'Rooms'}`, from, 'Messages'),
       orderBy('date'),
     );
+
     onSnapshot(q, (query) => {
       const temp: IMessage[] = [];
       query.forEach((doc) => {
@@ -50,18 +49,20 @@ const MessageField: React.FC = () => {
             (user) => user.uid === message.from,
           )?.photoURL;
           return (
-            <Content key={idx}>
-              <Thumbnail>
-                <img src={photoURL ? photoURL : ''} alt="profile" />
-              </Thumbnail>
-              <InnerContainer>
-                <h6>
-                  {message.nickname}
-                  <span>00:34</span>
-                </h6>
-                <p>{message.content}</p>
-              </InnerContainer>
-            </Content>
+            <>
+              <Content key={idx}>
+                <Thumbnail>
+                  <img src={photoURL ? photoURL : ''} alt="profile" />
+                </Thumbnail>
+                <InnerContainer>
+                  <h6>
+                    {message.nickname}
+                    <span>{message.date}</span>
+                  </h6>
+                  <p>{message.content}</p>
+                </InnerContainer>
+              </Content>
+            </>
           );
         })}
     </Container>

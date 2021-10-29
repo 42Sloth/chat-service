@@ -6,3 +6,4 @@ export { default as FormButton } from './FormButton/FormButton';
 export { default as MainPannel } from './ChatPannel/MainPannel/MainPannel';
 export { default as HeaderPannel } from './ChatPannel/HeaderPannel/HeaderPannel';
 export { default as SidePannel } from './ChatPannel/SidePannel/SidePannel/SidePannel';
+export { default as Spinner } from './Spinnner/Spinnner';

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import { MainPannel, SidePannel } from 'Components';
 import {
   FollowList,
@@ -20,6 +20,7 @@ import {
   atomClickedChat,
   atomClickedDirectMsg,
   atomDirectRoomInfo,
+  atomFollowList,
 } from 'Recoil/atom';
 import { useLocation } from 'react-router-dom';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
@@ -35,6 +36,7 @@ import { db } from 'fBase';
 import { TextInputProps } from 'Types/TextInputProps';
 import { Style } from './ChatPageStyle';
 import { ILocationState, IRoomInfo, IUserInfo, IDirectRoomInfo } from 'Types';
+import Spinnner from 'Components/Spinnner/Spinnner';
 
 const ChatPage: React.FC<TextInputProps> = ({ init }) => {
   const clickedUser = useRecoilValue(atomClickedUser);
@@ -42,6 +44,8 @@ const ChatPage: React.FC<TextInputProps> = ({ init }) => {
   const myInfoReset = useResetRecoilState(atomMyInfo);
   const setRoomsList = useSetRecoilState(atomRoomsInfo);
   const [userList, setUserList] = useRecoilState(atomUserList);
+  const setFollowingList = useSetRecoilState(atomFollowList);
+  const [loading, setLoading] = useState(true);
   const setDmList = useSetRecoilState(atomDirectRoomInfo);
   const setClickedDM = useSetRecoilState<boolean>(atomClickedDirectMsg);
   const setClickedChat = useSetRecoilState<boolean>(atomClickedChat);
@@ -71,8 +75,30 @@ const ChatPage: React.FC<TextInputProps> = ({ init }) => {
   }, []);
 
   useEffect(() => {
+    setLoading(false);
     directMessagesRoomListener();
+    followingListListener();
   }, [myInfo]);
+
+  const followingListListener = () => {
+    if (myInfo.uid !== '') {
+      const q = query(collection(db, 'users', myInfo.uid, 'following'));
+
+      onSnapshot(q, (query) => {
+        const temp: IUserInfo[] = [];
+        query.forEach((doc) => {
+          const docData = doc.data();
+          temp.push({
+            nickname: docData.nickname,
+            email: docData.email,
+            uid: docData.uid,
+            photoURL: docData.photoURL,
+          });
+        });
+        setFollowingList(temp);
+      });
+    }
+  };
 
   let dmId: number = 0;
 
@@ -168,18 +194,22 @@ const ChatPage: React.FC<TextInputProps> = ({ init }) => {
 
   return (
     <>
-      <div style={{ display: 'flex' }}>
-        <SidePannel />
-        <MainPannel />
-        {!clickedUser.uid ? (
-          <ListPannel>
-            <MemberList />
-            <FollowList />
-          </ListPannel>
-        ) : (
-          <Profile init={init} />
-        )}
-      </div>
+      {loading ? (
+        <Spinnner />
+      ) : (
+        <div style={{ display: 'flex' }}>
+          <SidePannel />
+          <MainPannel />
+          {!clickedUser.uid ? (
+            <ListPannel>
+              <MemberList />
+              <FollowList />
+            </ListPannel>
+          ) : (
+            <Profile init={init} />
+          )}
+        </div>
+      )}
     </>
   );
 };

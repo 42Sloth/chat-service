@@ -7,3 +7,4 @@ export type { IRoomInfo } from './IRoomInfo';
 export type { IMessage } from './IMessage';
 export type { IDirectRoomInfo } from './IDirectRoomInfo';
 export type { ILocationState } from './ILocationState';
+export type { IFollowbutton } from './IFollowButton';

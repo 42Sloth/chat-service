@@ -4,7 +4,7 @@ import { MlStyle } from 'Components/ChatPannel/SidePannel/MemberList/MemberListS
 const { Title } = MlStyle;
 
 const ProfileTitle = styled(Title)`
-  padding: 0 20px;
+  padding: 15px 20px;
   justify-content: space-between;
   div {
     cursor: pointer;
@@ -19,7 +19,14 @@ const User = styled.div`
     height: 260px;
     border-radius: 10px;
     object-fit: cover;
+  }
+
+  span {
+    font-size: 12px;
+    color: #e0e0e0;
     margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
   }
 `;
 
