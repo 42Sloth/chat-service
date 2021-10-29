@@ -7,7 +7,6 @@ import { useLocation } from 'react-router-dom';
 import { ILocationState } from 'Types';
 import { FaPaperPlane } from 'react-icons/fa';
 import { style } from './MessageFormStyle';
-import { getDate } from 'Utils/getDate';
 import moment from 'moment';
 import 'moment/locale/ko';
 
