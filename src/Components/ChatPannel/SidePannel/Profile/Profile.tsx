@@ -58,6 +58,7 @@ const Profile = ({ init }: TextInputProps) => {
   };
 
   const handleOpenImageRef = () => {
+    alert('프로필 이미지를 등록하시겠습니까?');
     inputOpenImageRef.current?.click();
   };
 
@@ -144,17 +145,21 @@ const Profile = ({ init }: TextInputProps) => {
       updateProfile(auth.currentUser, {
         displayName: text,
       });
+      try {
+        await updateDoc(editName, {
+          nickname: text,
+        });
+        setEditable(!editable);
+      } catch (error) {
+        alert(error);
+      }
     }
-    await updateDoc(editName, {
-      nickname: text,
-    });
-    setEditable(!editable);
   };
 
   return (
     <Container>
       <ProfileTitle>
-        <h6>Profile</h6>
+        Profile
         <div onClick={handleClose}>
           <FaTimes />
         </div>
@@ -165,6 +170,7 @@ const Profile = ({ init }: TextInputProps) => {
           alt="profile"
           onClick={handleOpenImageRef}
         />
+        <span>이미지를 클릭하여 프로필을 변경하세요.</span>
         <input
           onChange={handleUploadImage}
           accept="image.jpeg, image/png"

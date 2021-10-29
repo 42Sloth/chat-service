@@ -5,7 +5,6 @@ import { useLocation } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { IMessage, ILocationState } from 'Types';
 import { atomRoomCheck, atomUserList } from 'Recoil/atom';
-
 import { style } from './MessageFieldStyle';
 
 const MessageField: React.FC = () => {

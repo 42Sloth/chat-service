@@ -2,32 +2,26 @@ import styled from 'styled-components';
 
 const Container = styled.div`
   width: 300px;
-  height: 50%;
+  height: 50vh;
   display: flex;
   flex-direction: column;
   border-left: 1px solid rgba(29, 28, 29, 0.13);
 `;
 
 const Title = styled.div`
-  height: 50px;
   display: flex;
   align-items: center;
-  padding-left: 20px;
+  padding: 15px 20px;
   border-bottom: 1px solid rgba(29, 28, 29, 0.13);
   background: #fceb92;
-
-  div {
-    font-size: 20px;
-  }
-
-  h6 {
-    font-size: 16px;
-    font-weight: 600;
-  }
+  font-size: 16px;
+  font-weight: 600;
 `;
 
 const MemberLists = styled.ul`
+  height: 40vh;
   padding: 20px;
+  overflow-y: scroll;
 
   div {
     height: 36px;

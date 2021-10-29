@@ -6,12 +6,14 @@ import {
   atomClickedUser,
   atomRoomsInfo,
   atomUserList,
+  atomRoomCheck,
+  atomFollowList,
+  atomMyInfo,
 } from 'Recoil/atom';
 import { ILocationState, IUserInfo } from 'Types';
 import FollowButton from 'Components/ChatPannel/SidePannel/FollowButton/FollowButton';
 import MemberListLi from './MemberListLi';
 import { useLocation } from 'react-router';
-import { FaStar } from 'react-icons/fa';
 
 const MemberList = () => {
   const location = useLocation<ILocationState>();
@@ -19,14 +21,22 @@ const MemberList = () => {
   const from = location.pathname.split('/')[2];
   const [memberList, setMemberList] = useRecoilState(atomMemberList);
   const roomsList = useRecoilValue(atomRoomsInfo);
+  const isDirect = useRecoilValue(atomRoomCheck);
+  const dmMembers = location.pathname.split('/')[2].split('Direct');
   const userList = useRecoilValue(atomUserList);
   const roomInfo = roomsList.find((room) => room.roomName === from);
-  const [isLoad, setIsLoad] = useState(false);
+  const myInfo = useRecoilValue(atomMyInfo);
+  const followingList = useRecoilValue(atomFollowList);
 
   const memberListListener = () => {
     const temp: IUserInfo[] = [];
-    if (roomInfo) {
+    if (roomInfo && !isDirect) {
       roomInfo.Members.forEach((member) => {
+        const joinedUser = userList.find((user) => user.uid === member);
+        joinedUser && temp.push(joinedUser);
+      });
+    } else if (!roomInfo && isDirect) {
+      dmMembers.forEach((member) => {
         const joinedUser = userList.find((user) => user.uid === member);
         joinedUser && temp.push(joinedUser);
       });
@@ -34,18 +44,21 @@ const MemberList = () => {
     setMemberList(temp);
   };
 
+  const addFollowingListener = async () => {};
+
   const handleClickedUser = (data: IUserInfo) => {
     setClickedUser(data);
   };
 
   useEffect(() => {
     memberListListener();
-  }, [from, roomsList, userList]);
+    addFollowingListener();
+  }, [from, roomsList, userList, isDirect]);
 
   return (
     <Container>
       <Title>
-        <h6>All Member</h6>
+        <h6>👉🏻 Members</h6>
       </Title>
       <MemberLists>
         {memberList.map((data, idx) => (
@@ -54,11 +67,19 @@ const MemberList = () => {
               onClick={() => handleClickedUser(data)}
               photoURL={data.photoURL}
               nickname={data.nickname}
+              data={data}
             />
-            {roomInfo && roomInfo.Owner === data.uid && (
-              <FaStar style={{ color: '#ff4545' }} />
+
+            {myInfo.uid !== data.uid && (
+              <FollowButton
+                data={data}
+                isFollow={
+                  followingList.find((user) => user.uid === data.uid)
+                    ? true
+                    : false
+                }
+              />
             )}
-            <FollowButton data={data} />
           </div>
         ))}
       </MemberLists>
