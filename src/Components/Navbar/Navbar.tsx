@@ -55,7 +55,7 @@ const Navbar: React.FC = () => {
         <NavMenu>
           <NavLink to="/">Home</NavLink>
           <NavLink to="/chat/lobby">Chat</NavLink>
-          <NavLink to="/">Game</NavLink>
+          {/* <NavLink to="/">Game</NavLink> */}
         </NavMenu>
         <NavBtn>
           {!myInfo.uid ? (
