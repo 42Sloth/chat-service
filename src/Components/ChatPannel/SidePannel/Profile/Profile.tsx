@@ -61,33 +61,36 @@ const Profile = ({ init }: TextInputProps) => {
     inputOpenImageRef.current?.click();
   };
 
-  const handleUploadImage = (event: any) => {
+  const handleUploadImage = (event: React.ChangeEvent<HTMLInputElement>) => {
     const storage = getStorage();
-    const file = event.target.files[0];
-    const imageRef = ref(storage, 'images/' + file.name);
-    const metadata = {
-      contentType: 'image/jpeg',
-    };
-    const docRef = doc(db, 'users', `${clickedUserInfo.uid}`);
-    uploadBytesResumable(imageRef, file, metadata)
-      .then((snapshot) => {
-        getDownloadURL(snapshot.ref).then((url) => {
-          let downloadURL = url;
-          const auth = getAuth();
+    if (event.target.files) {
+      const file = event.target.files[0];
+      const imageRef = ref(storage, 'images/' + file.name);
+      const metadata = {
+        contentType: 'image/jpeg',
+      };
+      const docRef = doc(db, 'users', `${clickedUserInfo.uid}`);
+      uploadBytesResumable(imageRef, file, metadata)
+        .then((snapshot) => {
+          getDownloadURL(snapshot.ref).then((url) => {
+            let downloadURL = url;
+            const auth = getAuth();
 
-          if (auth.currentUser) {
-            updateProfile(auth.currentUser, {
+            if (auth.currentUser) {
+              updateProfile(auth.currentUser, {
+                photoURL: downloadURL,
+              });
+            }
+            updateDoc(docRef, {
               photoURL: downloadURL,
             });
-          }
-          updateDoc(docRef, {
-            photoURL: downloadURL,
           });
+          handleClose();
+        })
+        .catch((error) => {
+          alert(error);
         });
-      })
-      .catch((error) => {
-        alert(error);
-      });
+    }
   };
 
   const handleClickDirectMsg = async () => {
@@ -165,13 +168,15 @@ const Profile = ({ init }: TextInputProps) => {
           alt="profile"
           onClick={handleOpenImageRef}
         />
-        <input
-          onChange={handleUploadImage}
-          accept="image.jpeg, image/png"
-          type="file"
-          style={{ display: 'none' }}
-          ref={inputOpenImageRef}
-        />
+        {myInfo.uid === clickedUserInfo.uid && (
+          <input
+            onChange={handleUploadImage}
+            accept="image.jpeg, image/png"
+            type="file"
+            style={{ display: 'none' }}
+            ref={inputOpenImageRef}
+          />
+        )}
         <UserInfo>
           {editable ? (
             <div>

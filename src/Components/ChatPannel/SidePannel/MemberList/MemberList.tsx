@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { MlStyle } from './MemberListStyle';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import {
@@ -69,7 +69,7 @@ const MemberList = () => {
               nickname={data.nickname}
               data={data}
             />
-            
+
             {myInfo.uid !== data.uid && (
               <FollowButton
                 data={data}

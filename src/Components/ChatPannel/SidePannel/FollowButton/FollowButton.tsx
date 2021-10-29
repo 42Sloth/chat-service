@@ -1,12 +1,10 @@
+import React from 'react';
 import { db } from 'fBase';
 import { getAuth } from 'firebase/auth';
-import { deleteDoc, doc, getDoc, setDoc } from 'firebase/firestore';
-import React, { useEffect, useState } from 'react';
-import { useRecoilValue, useRecoilState } from 'recoil';
-import { atomMyInfo, atomFollowList } from 'Recoil/atom';
-import { IUserInfo } from 'Types';
+import { deleteDoc, doc, setDoc } from 'firebase/firestore';
+import { IFollowbutton, IUserInfo } from 'Types';
 
-const FollowButton = (props: any) => {
+const FollowButton = (props: IFollowbutton) => {
   const isFollow: boolean = props.isFollow;
 
   const handleFollowing = async (data: IUserInfo) => {
