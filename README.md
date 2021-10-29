@@ -2,7 +2,7 @@
 <a href='https://github.com/42Sloth/chat-service'><img src='https://user-images.githubusercontent.com/51367622/135373893-9db0c5a8-11d7-4cbf-a1b2-164fdc07eee3.png' width="200px;" alt="ChatPong" /></a></p>
 <p align='middle'> <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/42Sloth/chat-service?color=blueviolet"> <img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/42Sloth/chat-service"> 
 
-<h1 align='middle'><a href='https://github.com/42Sloth/chat-service'>배포링크작성</a></h1>
+<h1 align='middle'><a href='https://github.com/42Sloth/chat-service'>https://chatpong-42469.web.app/</a></h1>
 
 ---
 📚[노션 미팅 로그](https://www.notion.so/chatpong/ChatPong-f25d60c5c889458ca5bda8a5cdbe55f4)에선 더 다양한 정보와 개발 과정을 확인해보세요!
