@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const WelcomeContainer = styled.section`
@@ -31,7 +32,7 @@ const BtnContents = styled.div`
   margin: 0 auto;
 `;
 
-const SignUpBtn = styled.div`
+const SignUpBtn = styled(Link)`
   width: 120px;
   padding: 20px 40px;
   border: none;
@@ -42,9 +43,10 @@ const SignUpBtn = styled.div`
   font-size: 18px;
   font-weight: 600;
   cursor: pointer;
+  text-decoration: none;
 `;
 
-const ChatBtn = styled.div`
+const ChatBtn = styled(Link)`
   width: 120px;
   padding: 20px 40px;
   border: 1px solid #fff;
@@ -55,6 +57,7 @@ const ChatBtn = styled.div`
   font-size: 18px;
   font-weight: 600;
   cursor: pointer;
+  text-decoration: none;
 `;
 
 export const style = {

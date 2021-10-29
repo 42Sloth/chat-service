@@ -7,8 +7,8 @@ const WelcomeFooter = () => {
       <InnerContainer>
         <Title>미래의 일이 이뤄지는 곳에 오신 것을 환영합니다.</Title>
         <BtnContents>
-          <SignUpBtn>회원가입</SignUpBtn>
-          <ChatBtn>채팅 시작하기</ChatBtn>
+          <SignUpBtn to="/signup">회원가입</SignUpBtn>
+          <ChatBtn to="/chat/lobby">채팅 시작하기</ChatBtn>
         </BtnContents>
       </InnerContainer>
     </WelcomeContainer>
