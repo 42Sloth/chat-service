@@ -1,10 +1,11 @@
+import React from 'react';
 import { db } from 'fBase';
 import { getAuth } from 'firebase/auth';
 import { deleteDoc, doc, setDoc } from 'firebase/firestore';
-import React from 'react';
 import { IUserInfo } from 'Types';
+import { IFollowbutton } from 'Types/IFollowButton';
 
-const FollowButton = (props: any) => {
+const FollowButton = (props: IFollowbutton) => {
   const isFollow: boolean = props.isFollow;
 
   const handleFollowing = async (data: IUserInfo) => {

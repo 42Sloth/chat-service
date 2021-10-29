@@ -44,7 +44,7 @@ const ChatPage: React.FC<TextInputProps> = ({ init }) => {
   const myInfoReset = useResetRecoilState(atomMyInfo);
   const setRoomsList = useSetRecoilState(atomRoomsInfo);
   const [userList, setUserList] = useRecoilState(atomUserList);
-  const [followingList, setFollowingList] = useRecoilState(atomFollowList);
+  const setFollowingList = useSetRecoilState(atomFollowList);
   const [loading, setLoading] = useState(true);
   const setDmList = useSetRecoilState(atomDirectRoomInfo);
   const setClickedDM = useSetRecoilState<boolean>(atomClickedDirectMsg);
