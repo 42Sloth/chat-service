@@ -35,7 +35,6 @@ const Btn = styled.div`
 const DMList = styled.ul`
   list-style: none;
   font-size: 16px;
-  padding: 0 10px 0 30px;
 
   img {
     width: 20px;
@@ -44,12 +43,18 @@ const DMList = styled.ul`
   }
 `;
 
+const DeleteBox = styled.div`
+  visibility: hidden;
+`;
+
 const DM = styled.li`
-  margin-bottom: 7px;
   display: flex;
   align-items: center;
   cursor: pointer;
-
+  padding-left: 15px;
+  height: 28px;
+  color: rgb(147, 93, 81);
+  justify-content: space-between;
   ${(props: {
     selectedDM: boolean;
     clickedDM: boolean;
@@ -60,7 +65,23 @@ const DM = styled.li`
     !props.clickedChat &&
     css`
       font-weight: bolder;
+      background-color: #ffc806;
     `}
+
+  &:hover {
+    background-color: #fff8d4;
+
+    div {
+      margin-right: 10px;
+      visibility: visible;
+      cursor: pointer;
+      &:hover {
+        border-radius: 70%;
+        background-color: #ffc806;
+        color: black;
+      }
+    }
+  }
 `;
 
 export const style = {
@@ -70,4 +91,5 @@ export const style = {
   Btn,
   DMList,
   DM,
+  DeleteBox,
 };
