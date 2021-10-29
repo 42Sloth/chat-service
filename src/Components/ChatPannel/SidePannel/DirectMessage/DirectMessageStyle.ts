@@ -55,6 +55,7 @@ const DM = styled.li`
   height: 28px;
   color: rgb(147, 93, 81);
   justify-content: space-between;
+  margin-left: 20px;
   ${(props: {
     selectedDM: boolean;
     clickedDM: boolean;
