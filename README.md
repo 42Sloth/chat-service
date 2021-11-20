@@ -1,18 +1,21 @@
 <p align='middle'>
 <a href='https://github.com/42Sloth/chat-service'><img src='https://user-images.githubusercontent.com/51367622/135373893-9db0c5a8-11d7-4cbf-a1b2-164fdc07eee3.png' width="200px;" alt="ChatPong" /></a></p>
-<p align='middle'> <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/42Sloth/chat-service?color=blueviolet"> <img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/42Sloth/chat-service"> 
+<p align='middle'> <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/42Sloth/chat-service?color=blueviolet"> <img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/42Sloth/chat-service">
 
 <h1 align='middle'><a href='https://chatpong-42469.web.app/'>https://chatpong-42469.web.app/</a></h1>
 
 ---
+
 📚[노션 미팅 로그](https://www.notion.so/chatpong/ChatPong-f25d60c5c889458ca5bda8a5cdbe55f4)에선 더 다양한 정보와 개발 과정을 확인해보세요!
 
 ---
+
 <br/>
 
 ## 📌 프로젝트 소개
 
-###  채팅 Web App 서비스 
+### 채팅 Web App 서비스
+
 > ❕ **Slack을 벤치 마킹한 채팅 서비스입니다. **❗
 
 - `Firebase`를 활용한 `Serverless` 환경에서 프로젝트를 진행했습니다.
@@ -50,16 +53,16 @@
 
 `Direct Messages`
 
-- 1:1 채팅 서비스. 
+- 1:1 채팅 서비스.
 - 특정 유저화면에서 DM 서비스 요청.
--  Firebase Firestore DB를 사용하여 Direct 컬렉션 구성.
+- Firebase Firestore DB를 사용하여 Direct 컬렉션 구성.
 
 <br/>
 
 `Members && Follow`
 
-- Chat 화면 우측에 현재 Room에 속해있는 UserList 노출. 
-- User를 Follow하여 Follow List 관리. 
+- Chat 화면 우측에 현재 Room에 속해있는 UserList 노출.
+- User를 Follow하여 Follow List 관리.
 
 <br/>
 
